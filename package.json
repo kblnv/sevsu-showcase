@@ -1,0 +1,25 @@
+{
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "check": "npx prettier --check ./resources",
+        "write": "npx prettier --write ./resources"
+    },
+    "devDependencies": {
+        "autoprefixer": "^10.4.18",
+        "laravel-vite-plugin": "^1.0.0",
+        "postcss": "^8.4.35",
+        "prettier": "^3.2.5",
+        "prettier-plugin-blade": "^2.1.6",
+        "prettier-plugin-organize-attributes": "^1.0.0",
+        "prettier-plugin-tailwindcss": "^0.5.12",
+        "tailwindcss": "^3.4.1",
+        "vite": "^5.0.0"
+    },
+    "dependencies": {
+        "alpinejs": "^3.13.5",
+        "htmx.org": "^1.9.10"
+    }
+}
