@@ -2,6 +2,12 @@
 export default {
   content: ["./resources/**/*.blade.php", "./resources/**/*.js"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        "sevsu-white": "#ffffff",
+        "sevsu-blue": "#1d71b8",
+        "sevsu-dark-blue": "#27348b",
+      },
+    },
   },
 };

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace("_", "-", app()->getLocale()) }}">
-  <head>
+  <head lang="ru">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>СевГУ Витрина - @yield("title")</title>
