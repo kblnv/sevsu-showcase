@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    @font-face {
+        font-family: "Myriad Pro";
+        src:
+            local("Myriad Pro"),
+            url("fonts/Myriad Pro/OTF/MYRIADPRO-REGULAR.otf") format("otf"),
+            url("fonts/Myriad Pro/WOFF/MYRIADPRO-REGULAR.woff") format("woff"),
+            url("fonts/Myriad Pro/WOFF2/MYRIADPRO-REGULAR.woff2") format("woff2");
+        font-weight: normal;
+    }
+
+    html {
+        font-family: "Myriad Pro", system-ui, sans-serif;
+    }
+}
