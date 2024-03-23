@@ -16,7 +16,7 @@
           <div class="flex items-center justify-between">
             <a href="{{ route("tasks") }}">
               <img
-                class="w-[182px] h-[50px]"
+                class="w-[186px] h-[50px]"
                 src="{{ asset("images/logo/sevsu-logo-main.svg") }}"
                 alt="Логотип СевГУ"
               />
@@ -101,16 +101,70 @@
             </div>
           </div>
 
-          <button
-            class="hidden lg:flex gap-2 items-center text-black"
-            href="#"
-          >
-            Кабалинов Максим Владимирович
+          <div class="hidden lg:block relative" x-data="{ isActive: false }">
+            <div
+              class="inline-flex items-center overflow-hidden bg-sevsu-white"
+            >
+              <button
+                class="hidden lg:flex gap-2 items-center text-black"
+                href="#"
+                x-on:click="isActive = !isActive"
+              >
+                Кабалинов Максим Владимирович
 
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
-              <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-            </svg>
-        </button>
+                <svg
+                  class="size-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                  />
+                </svg>
+              </button>
+            </div>
+
+            <div
+              class="absolute end-0 z-10 mt-2 w-56 rounded-md border border-gray-100 bg-sevsu-white shadow-lg"
+              role="menu"
+              x-cloak
+              x-transition
+              x-show="isActive"
+              @click.away="isActive = false"
+              @keydown.escape.window="isActive = false"
+            >
+              <div class="p-2">
+                <a
+                  class="flex w-full items-center gap-2 rounded-lg px-4 py-2 text-sm text-red-700 hover:bg-red-50"
+                  type="submit"
+                  href="#"
+                  role="menuitem"
+                >
+                  <svg
+                    class="size-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15"
+                    />
+                  </svg>
+
+                  Выйти
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </nav>
     </header>
