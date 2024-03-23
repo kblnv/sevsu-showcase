@@ -11,19 +11,19 @@
     <header>
       <nav class="relative bg-sevsu-white shadow" x-data="{ isOpen: false }">
         <div
-          class="container px-6 py-4 mx-auto md:flex md:justify-between md:items-center"
+          class="container px-6 py-4 mx-auto lg:flex lg:justify-between lg:items-center"
         >
           <div class="flex items-center justify-between">
             <a href="{{ route("tasks") }}">
               <img
-                class="w-[200px] h-[54px]"
+                class="w-[182px] h-[50px]"
                 src="{{ asset("images/logo/sevsu-logo-main.svg") }}"
                 alt="Логотип СевГУ"
               />
             </a>
 
             <!-- Mobile menu button -->
-            <div class="flex md:hidden">
+            <div class="flex lg:hidden">
               <button
                 class="text-gray-500 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400 focus:outline-none focus:text-gray-600 dark:focus:text-gray-400"
                 type="button"
@@ -68,32 +68,32 @@
 
           <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
           <div
-            class="absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-sevsu-white md:mt-0 md:p-0 md:top-0 md:relative md:bg-transparent md:w-auto md:opacity-100 md:translate-x-0 md:flex md:items-center"
+            class="absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-sevsu-white lg:mt-0 lg:p-0 lg:top-0 lg:relative lg:bg-transparent lg:w-auto lg:opacity-100 lg:translate-x-0 lg:flex lg:items-center"
             x-cloak
             :class="[isOpen ? 'translate-x-0 opacity-100' : 'opacity-0 -translate-x-full']"
           >
-            <div class="flex flex-col md:flex-row md:mx-6">
+            <div class="flex flex-col lg:flex-row md:mx-6">
               <a
-                class="my-2 text-black transition-colors duration-300 transform hover:text-sevsu-blue md:mx-4 md:my-0"
+                class="my-2 text-black transition-colors duration-300 transform hover:text-sevsu-blue lg:mx-4 lg:my-0"
                 href="{{ route("tasks") }}"
               >
                 Банк задач
               </a>
               <a
-                class="my-2 text-black transition-colors duration-300 transform hover:text-sevsu-blue md:mx-4 md:my-0"
+                class="my-2 text-black transition-colors duration-300 transform hover:text-sevsu-blue lg:mx-4 lg:my-0"
                 href="{{ route("teams") }}"
               >
                 Команды
               </a>
               <a
-                class="my-2 text-black transition-colors duration-300 transform hover:text-sevsu-blue md:mx-4 md:my-0"
+                class="my-2 text-black transition-colors duration-300 transform hover:text-sevsu-blue lg:mx-4 lg:my-0"
                 href="{{ route("my-teams") }}"
               >
                 Мои команды
               </a>
 
               <a
-                class="my-2 text-black transition-colors duration-300 transform hover:text-sevsu-blue md:hidden"
+                class="my-2 text-black transition-colors duration-300 transform hover:text-sevsu-blue lg:hidden"
                 href="{{ route("my-teams") }}"
               >
                 Выйти
@@ -102,7 +102,7 @@
           </div>
 
           <button
-            class="hidden md:flex gap-2 items-center text-black"
+            class="hidden lg:flex gap-2 items-center text-black"
             href="#"
           >
             Кабалинов Максим Владимирович
