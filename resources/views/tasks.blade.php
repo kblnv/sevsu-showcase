@@ -1,9 +1,9 @@
 @extends("layouts.base")
 
 @section("title")
-  Welcome
+  Банк задач
 @endsection
 
 @section("content")
-  <h1 class="p-4 text-sevsu-blue">Здравствуйте!</h1>
+  <h1 class="text-xl">Банк задач</h1>
 @endsection

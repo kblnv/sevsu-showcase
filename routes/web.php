@@ -14,5 +14,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('tasks');
+})->name('tasks');
+
+Route::get('/teams', function () {
+    return view('teams');
+})->name('teams');
+
+Route::get('/my-teams', function () {
+    return view('my-teams');
+})->name('my-teams');
