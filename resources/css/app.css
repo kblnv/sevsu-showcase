@@ -4,16 +4,44 @@
 
 @layer base {
     @font-face {
-        font-family: "Myriad Pro";
+        font-family: "Myriad Pro Regular";
         src:
             local("Myriad Pro"),
             url("fonts/Myriad Pro/OTF/MYRIADPRO-REGULAR.otf") format("otf"),
             url("fonts/Myriad Pro/WOFF/MYRIADPRO-REGULAR.woff") format("woff"),
-            url("fonts/Myriad Pro/WOFF2/MYRIADPRO-REGULAR.woff2") format("woff2");
-        font-weight: normal;
+            url("fonts/Myriad Pro/WOFF2/MYRIADPRO-REGULAR.woff2")
+                format("woff2");
+    }
+
+    @font-face {
+        font-family: "Myriad Pro Light";
+        src:
+            local("Myriad Pro"),
+            url("fonts/Myriad Pro/OTF/MYRIADPRO-LIGHT.otf") format("otf"),
+            url("fonts/Myriad Pro/WOFF/MYRIADPRO-LIGHT.woff") format("woff"),
+            url("fonts/Myriad Pro/WOFF2/MYRIADPRO-LIGHT.woff2") format("woff2");
+    }
+
+    @font-face {
+        font-family: "Myriad Pro Semibold";
+        src:
+            local("Myriad Pro"),
+            url("fonts/Myriad Pro/OTF/MYRIADPRO-SEMIBOLD.otf") format("otf"),
+            url("fonts/Myriad Pro/WOFF/MYRIADPRO-SEMIBOLD.woff") format("woff"),
+            url("fonts/Myriad Pro/WOFF2/MYRIADPRO-SEMIBOLD.woff2")
+                format("woff2");
+    }
+
+    @font-face {
+        font-family: "Myriad Pro Bold";
+        src:
+            local("Myriad Pro"),
+            url("fonts/Myriad Pro/OTF/MYRIADPRO-BOLD.otf") format("otf"),
+            url("fonts/Myriad Pro/WOFF/MYRIADPRO-BOLD.woff") format("woff"),
+            url("fonts/Myriad Pro/WOFF2/MYRIADPRO-BOLD.woff2") format("woff2");
     }
 
     html {
-        font-family: "Myriad Pro", system-ui, sans-serif;
+        font-family: "Myriad Pro Regular", system-ui, sans-serif;
     }
 }
