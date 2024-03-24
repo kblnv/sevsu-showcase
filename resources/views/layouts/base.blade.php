@@ -22,17 +22,15 @@
               />
             </a>
 
-            <!-- Mobile menu button -->
             <div class="flex lg:hidden">
               <button
                 class="text-gray-500 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400 focus:outline-none focus:text-gray-600 dark:focus:text-gray-400"
                 type="button"
-                aria-label="toggle menu"
                 x-cloak
                 @click="isOpen = !isOpen"
               >
                 <svg
-                  class="w-6 h-6"
+                  class="size-6"
                   x-show="!isOpen"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -48,7 +46,7 @@
                 </svg>
 
                 <svg
-                  class="w-6 h-6"
+                  class="size-6"
                   x-show="isOpen"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -66,7 +64,6 @@
             </div>
           </div>
 
-          <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
           <div
             class="absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-sevsu-white lg:mt-0 lg:p-0 lg:top-0 lg:relative lg:bg-transparent lg:w-auto lg:opacity-100 lg:translate-x-0 lg:flex lg:items-center"
             x-cloak
@@ -107,8 +104,9 @@
             >
               <button
                 class="hidden lg:flex gap-2 items-center text-black"
+                type="button"
                 href="#"
-                x-on:click="isActive = !isActive"
+                @click="isActive = !isActive"
               >
                 Кабалинов Максим Владимирович
 
@@ -131,7 +129,6 @@
 
             <div
               class="absolute end-0 z-10 mt-2 w-56 rounded-md border border-gray-100 bg-sevsu-white shadow-lg"
-              role="menu"
               x-cloak
               x-transition
               x-show="isActive"
@@ -141,9 +138,7 @@
               <div class="p-2">
                 <a
                   class="flex w-full items-center gap-2 rounded-lg px-4 py-2 text-sm text-red-700 hover:bg-red-50"
-                  type="submit"
                   href="#"
-                  role="menuitem"
                 >
                   <svg
                     class="size-4"
@@ -176,7 +171,7 @@
     <footer class="bg-sevsu-light-gray mt-6 p-4 text-center">
       <h2>ФГАОУ ВО "Севастопольский государственный университет"</h2>
       <p>Техническая поддержка:</p>
-      <a href="#" class="text-sevsu-blue">showcase_support@sevsu.ru</a>
+      <a class="text-sevsu-blue" href="#">showcase_support@sevsu.ru</a>
     </footer>
   </body>
 </html>
