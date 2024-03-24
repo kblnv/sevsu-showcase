@@ -169,8 +169,14 @@
       </nav>
     </header>
 
-    <main class="container mx-auto mt-6 px-6">
+    <main class="container mx-auto mt-6 px-6 min-h-screen max-h-full">
       @yield("content")
     </main>
+
+    <footer class="bg-sevsu-light-gray mt-6 p-4 text-center">
+      <h2>ФГАОУ ВО "Севастопольский государственный университет"</h2>
+      <p>Техническая поддержка:</p>
+      <a href="#" class="text-sevsu-blue">showcase_support@sevsu.ru</a>
+    </footer>
   </body>
 </html>

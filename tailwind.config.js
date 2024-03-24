@@ -7,6 +7,7 @@ export default {
         "sevsu-white": "#ffffff",
         "sevsu-blue": "#1d71b8",
         "sevsu-dark-blue": "#27348b",
+        "sevsu-light-gray": "#f8f9fa",
       },
     },
   },
