@@ -65,37 +65,53 @@
           </div>
 
           <div
-            class="absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-sevsu-white lg:mt-0 lg:p-0 lg:top-0 lg:relative lg:bg-transparent lg:w-auto lg:opacity-100 lg:translate-x-0 lg:flex lg:items-center"
+            class="absolute inset-x-0 z-1 transition-all duration-300 ease-in-out shadow-md lg:shadow-none bg-sevsu-white lg:mt-0 lg:p-0 lg:top-0 lg:relative lg:bg-transparent lg:w-auto lg:opacity-100 lg:translate-x-0 lg:flex lg:items-center"
             x-cloak
             :class="[isOpen ? 'translate-x-0 opacity-100' : 'opacity-0 -translate-x-full']"
           >
-            <div class="flex flex-col lg:flex-row md:mx-6">
-              <a
-                class="my-2 text-black transition-colors duration-300 transform hover:text-sevsu-blue lg:mx-4 lg:my-0"
-                href="{{ route("tasks") }}"
+            <ul
+              class="flex flex-col lg:flex-row container mx-auto py-4 px-6 lg:py-0 lg:px-0"
+            >
+              <li
+                class="my-2 lg:my-0 lg:mx-4 lg:py-2 {{ Route::is("tasks") ? "border-b-2 border-sevsu-blue" : "" }}"
               >
-                Банк задач
-              </a>
-              <a
-                class="my-2 text-black transition-colors duration-300 transform hover:text-sevsu-blue lg:mx-4 lg:my-0"
-                href="{{ route("teams") }}"
+                <a
+                  class="transition-colors duration-300 transform hover:text-sevsu-blue"
+                  href="{{ route("tasks") }}"
+                >
+                  Банк задач
+                </a>
+              </li>
+              <li
+                class="my-2 lg:my-0 lg:mx-4 lg:py-2 {{ Route::is("teams") ? "border-b-2 border-sevsu-blue" : "" }}"
               >
-                Команды
-              </a>
-              <a
-                class="my-2 text-black transition-colors duration-300 transform hover:text-sevsu-blue lg:mx-4 lg:my-0"
-                href="{{ route("my-teams") }}"
+                <a
+                  class="transition-colors duration-300 transform hover:text-sevsu-blue"
+                  href="{{ route("teams") }}"
+                >
+                  Команды
+                </a>
+              </li>
+              <li
+                class="my-2 lg:my-0 lg:mx-4 lg:py-2 {{ Route::is("my-teams") ? "border-b-2 border-sevsu-blue" : "" }}"
               >
-                Мои команды
-              </a>
+                <a
+                  class="transition-colors duration-300 transform hover:text-sevsu-blue"
+                  href="{{ route("my-teams") }}"
+                >
+                  Мои команды
+                </a>
+              </li>
 
-              <a
-                class="my-2 text-black transition-colors duration-300 transform hover:text-sevsu-blue lg:hidden"
-                href="{{ route("my-teams") }}"
-              >
-                Выйти
-              </a>
-            </div>
+              <li class="my-2 lg:my-0 lg:hidden">
+                <a
+                  class="transition-colors duration-300 transform hover:text-sevsu-blue"
+                  href="{{ route("my-teams") }}"
+                >
+                  Выйти
+                </a>
+              </li>
+            </ul>
           </div>
 
           <div class="hidden lg:block relative" x-data="{ isActive: false }">
