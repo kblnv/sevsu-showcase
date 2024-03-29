@@ -154,8 +154,9 @@
       </div>
 
       <div
-        class="w-full transition-transform duration-300 shadow lg:hidden bg-sevsu-white"
-        x-anchor="$refs.nav"
+        class="w-full shadow lg:hidden bg-sevsu-white"
+        x-anchor.no-style="$refs.nav"
+        x-bind:style="{ position: 'absolute', top: $anchor.y+'px', left: '0px' }"
         x-cloak
         x-show="isOpen"
         x-collapse
@@ -163,9 +164,9 @@
         @keydown.escape.window="isOpen = false"
       >
         <div class="container mx-auto px-6 py-4">
-          <ul class="flex flex-col">
+          <ul>
             <li
-              class="my-2 {{ Route::is("tasks") ? "border-b-2 border-sevsu-blue" : "" }}"
+              class="{{ Route::is("tasks") ? "border-b-2 border-sevsu-blue" : "" }}"
             >
               <a
                 class="transition-colors duration-300 transform hover:text-sevsu-blue"
@@ -175,7 +176,7 @@
               </a>
             </li>
             <li
-              class="my-2 {{ Route::is("teams") ? "border-b-2 border-sevsu-blue" : "" }}"
+              class="mt-4 {{ Route::is("teams") ? "border-b-2 border-sevsu-blue" : "" }}"
             >
               <a
                 class="transition-colors duration-300 transform hover:text-sevsu-blue"
@@ -185,7 +186,7 @@
               </a>
             </li>
             <li
-              class="my-2 {{ Route::is("my-teams") ? "border-b-2 border-sevsu-blue" : "" }}"
+              class="mt-4 {{ Route::is("my-teams") ? "border-b-2 border-sevsu-blue" : "" }}"
             >
               <a
                 class="transition-colors duration-300 transform hover:text-sevsu-blue"
@@ -195,7 +196,7 @@
               </a>
             </li>
 
-            <li class="my-2">
+            <li class="mt-4">
               <a
                 class="transition-colors duration-300 transform hover:text-sevsu-blue"
                 href="#"
