@@ -1,5 +1,5 @@
 <header>
-  <nav class="relative bg-sevsu-white shadow" x-data="{ isOpen: false }" x-ref="nav">
+  <nav class="bg-sevsu-white shadow" x-data="{ isOpen: false }" x-ref="nav">
     <div
       class="container px-6 py-4 mx-auto lg:flex lg:justify-between lg:items-center"
     >
@@ -87,7 +87,11 @@
         </li>
       </ul>
 
-      <div class="hidden lg:block relative" x-data="{ isActive: false }">
+      <div
+        class="hidden lg:block"
+        x-data="{ isActive: false }"
+        x-ref="dropdown"
+      >
         <div class="inline-flex items-center overflow-hidden bg-sevsu-white">
           <button
             class="hidden lg:flex gap-2 items-center text-black"
@@ -115,7 +119,8 @@
         </div>
 
         <div
-          class="absolute end-0 z-1 mt-2 w-56 rounded-md border border-gray-100 bg-sevsu-white shadow-md"
+          class="w-56 rounded-md border border-gray-100 bg-sevsu-white shadow-md"
+          x-anchor.offset.12.bottom-end="$refs.dropdown"
           x-cloak
           x-transition
           x-show="isActive"
@@ -154,6 +159,7 @@
         x-cloak
         x-show="isOpen"
         x-collapse
+        @click.away="isOpen = false"
         @keydown.escape.window="isOpen = false"
       >
         <div class="container mx-auto px-6 py-4">
