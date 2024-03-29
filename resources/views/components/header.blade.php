@@ -1,5 +1,5 @@
 <header>
-  <nav class="relative bg-sevsu-white shadow" x-data="{ isOpen: false }">
+  <nav class="relative bg-sevsu-white shadow" x-data="{ isOpen: false }" x-ref="nav">
     <div
       class="container px-6 py-4 mx-auto lg:flex lg:justify-between lg:items-center"
     >
@@ -115,7 +115,7 @@
         </div>
 
         <div
-          class="absolute end-0 z-1 mt-2 w-56 rounded-md border border-gray-100 bg-sevsu-white shadow-lg"
+          class="absolute end-0 z-1 mt-2 w-56 rounded-md border border-gray-100 bg-sevsu-white shadow-md"
           x-cloak
           x-transition
           x-show="isActive"
@@ -149,12 +149,11 @@
       </div>
 
       <div
-        class="absolute inset-x-0 w-full transition-transform duration-300 shadow-md lg:hidden bg-sevsu-white"
+        class="w-full transition-transform duration-300 shadow lg:hidden bg-sevsu-white"
+        x-anchor="$refs.nav"
         x-cloak
         x-show="isOpen"
-        x-transition
-        x-transition:enter.duration.300ms
-        x-transition:leave.duration.125ms
+        x-collapse
         @keydown.escape.window="isOpen = false"
       >
         <div class="container mx-auto px-6 py-4">
