@@ -10,7 +10,7 @@
   <body hx-headers='{"X-CSRF-TOKEN": "{{ csrf_token() }}"}'>
     <x-header />
 
-    <main class="container mx-auto mt-6 px-6 min-h-screen max-h-full">
+    <main class="container mx-auto mt-6 max-h-full min-h-screen px-6">
       @yield("content")
     </main>
 

@@ -7,7 +7,7 @@
 @section("content")
   <label class="block" for="flow">Выберите поток</label>
   <select
-    class="mt-2 bg-sevsu-light-gray border-2 border-gray-300 rounded-lg outline-none focus:ring-sevsu-blue focus:border-sevsu-blue p-2.5"
+    class="mt-2 rounded-lg border-2 border-gray-300 bg-sevsu-light-gray p-2.5 outline-none focus:border-sevsu-blue focus:ring-sevsu-blue"
     id="flow"
   >
     <option value="" disabled>Поток</option>
@@ -19,12 +19,12 @@
   </select>
 
   <div
-    class="mt-8 p-8 overflow-hidden border bg-sevsu-white border-gray-300 rounded-lg hover:shadow-md duration-300 transition-shadow"
+    class="mt-8 overflow-hidden rounded-lg border border-gray-300 bg-sevsu-white p-8 transition-shadow duration-300 hover:shadow-md"
   >
     <div class="justify-between sm:flex">
       <div>
         <h2 class="text-xl">
-          <a class="hover:text-sevsu-blue transition-colors" href="#">
+          <a class="transition-colors hover:text-sevsu-blue" href="#">
             Витрина студенческих проектов.
           </a>
         </h2>
@@ -49,23 +49,23 @@
 
     <hr class="mt-4" />
 
-    <dl class="flex mt-6 text-sm text-slate-500">
+    <dl class="mt-6 flex text-sm text-slate-500">
       <div class="flex gap-2">
         <dt>Взять проект до:</dt>
         <dd class="font-medium">20 февраля 2024 года</dd>
       </div>
 
-      <div class="flex gap-2 ml-3 sm:ml-6">
+      <div class="ml-3 flex gap-2 sm:ml-6">
         <dt>Сдать проект до:</dt>
         <dd class="font-medium">7 июня 2024 года</dd>
       </div>
 
-      <div class="flex gap-2 ml-3 sm:ml-6">
+      <div class="ml-3 flex gap-2 sm:ml-6">
         <dt>Максимум человек в команде:</dt>
         <dd class="font-medium">4</dd>
       </div>
 
-      <div class="flex gap-2 ml-3 sm:ml-6">
+      <div class="ml-3 flex gap-2 sm:ml-6">
         <dt>Максимальное количество команд:</dt>
         <dd class="font-medium">15</dd>
       </div>
@@ -73,12 +73,12 @@
   </div>
 
   <div
-    class="mt-8 p-8 overflow-hidden border bg-sevsu-white border-gray-300 rounded-lg hover:shadow-md duration-300 transition-shadow"
+    class="mt-8 overflow-hidden rounded-lg border border-gray-300 bg-sevsu-white p-8 transition-shadow duration-300 hover:shadow-md"
   >
     <div class="justify-between sm:flex">
       <div>
         <h2 class="text-xl">
-          <a class="hover:text-sevsu-blue transition-colors" href="#">
+          <a class="transition-colors hover:text-sevsu-blue" href="#">
             Дополненная реальность в ЦГТИ.
           </a>
         </h2>
@@ -121,23 +121,23 @@
 
     <hr class="mt-4" />
 
-    <dl class="flex mt-6 text-sm text-slate-500">
+    <dl class="mt-6 flex text-sm text-slate-500">
       <div class="flex gap-2">
         <dt>Взять проект до:</dt>
         <dd class="font-medium">18 февраля 2024 года</dd>
       </div>
 
-      <div class="flex gap-2 ml-3 sm:ml-6">
+      <div class="ml-3 flex gap-2 sm:ml-6">
         <dt>Сдать проект до:</dt>
         <dd class="font-medium">3 сентября 2024 года</dd>
       </div>
 
-      <div class="flex gap-2 ml-3 sm:ml-6">
+      <div class="ml-3 flex gap-2 sm:ml-6">
         <dt>Максимум человек в команде:</dt>
         <dd class="font-medium">10</dd>
       </div>
 
-      <div class="flex gap-2 ml-3 sm:ml-6">
+      <div class="ml-3 flex gap-2 sm:ml-6">
         <dt>Максимальное количество команд:</dt>
         <dd class="font-medium">10</dd>
       </div>
