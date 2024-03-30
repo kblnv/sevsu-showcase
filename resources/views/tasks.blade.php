@@ -6,6 +6,7 @@
 
 @section("content")
   <label class="block" for="flow">Выберите дисциплину для отображения</label>
+
   <x-ui.select id="flow">
     <option value="" disabled>Поток</option>
     <option value="Веб-технологии РГР">Веб-технологии РГР</option>
@@ -15,22 +16,15 @@
     <option value="Курсовой проект">Курсовой проект</option>
   </x-ui.select>
 
-  <div
-    class="mt-8 overflow-hidden rounded-lg border border-gray-300 bg-sevsu-white p-8 transition-shadow duration-300 hover:shadow-md"
-  >
-    <div class="justify-between sm:flex">
-      <div>
-        <h2 class="text-xl">
-          <a class="transition-colors hover:text-sevsu-blue" href="#">
-            Витрина студенческих проектов.
-          </a>
-        </h2>
-        <p class="mt-1 text-xs text-slate-600">СевГУ</p>
-      </div>
-    </div>
+  <x-ui.card class="mt-8">
+    <x-ui.card.header>
+      <x-ui.card.title href="#">Витрина студенческих проектов</x-ui.card.title>
+      <x-ui.card.customer>СевГУ</x-ui.card.customer>
+      <x-slot:tag>Тэг</x-slot:tag>
+    </x-ui.card.header>
 
-    <div class="mt-4">
-      <p class="text-sm text-slate-500">
+    <x-ui.card.body>
+      <x-ui.card.description>
         Витрина должны быть реализована как web-сайт, позволяющий: -
         Аутентифицироваться через СевГУ.Аккаунт; - Публиковать задачи для
         решения студенческими командами (банк задач); - Публиковать проекты
@@ -41,50 +35,28 @@
         команд, получать сводную аналитическую информацию по проектам (по типам,
         институтам, курсам, технологиям). Витрина должна использовать фирменный
         стиль СевГУ.
-      </p>
-    </div>
+      </x-ui.card.description>
+    </x-ui.card.body>
 
-    <hr class="mt-4" />
+    <x-ui.card.divider class="mt-4" />
 
-    <dl class="mt-6 flex text-sm text-slate-500">
-      <div class="flex gap-2">
-        <dt>Взять проект до:</dt>
-        <dd class="font-medium">20 февраля 2024 года</dd>
-      </div>
+    <x-ui.card.footer>
+      <x-ui.card.param term="Взять проект до:" value="20 февраля 2024 года" />
+      <x-ui.card.param class="ml-6" term="Сдать проект до:" value="7 июня 2024 года" />
+      <x-ui.card.param class="ml-6" term="Максимум человек в команде:" value="4" />
+      <x-ui.card.param class="ml-6" term="Максимальное количество команд:" value="15" />
+    </x-ui.card.footer>
+  </x-ui.card>
 
-      <div class="ml-3 flex gap-2 sm:ml-6">
-        <dt>Сдать проект до:</dt>
-        <dd class="font-medium">7 июня 2024 года</dd>
-      </div>
+  <x-ui.card class="mt-8">
+    <x-ui.card.header>
+      <x-ui.card.title href="#"> Дополненная реальность в ЦГТИ.</x-ui.card.title>
+      <x-ui.card.customer>Литкомс - 1</x-ui.card.customer>
+      <x-slot:tag>Тэг</x-slot:tag>
+    </x-ui.card.header>
 
-      <div class="ml-3 flex gap-2 sm:ml-6">
-        <dt>Максимум человек в команде:</dt>
-        <dd class="font-medium">4</dd>
-      </div>
-
-      <div class="ml-3 flex gap-2 sm:ml-6">
-        <dt>Максимальное количество команд:</dt>
-        <dd class="font-medium">15</dd>
-      </div>
-    </dl>
-  </div>
-
-  <div
-    class="mt-8 overflow-hidden rounded-lg border border-gray-300 bg-sevsu-white p-8 transition-shadow duration-300 hover:shadow-md"
-  >
-    <div class="justify-between sm:flex">
-      <div>
-        <h2 class="text-xl">
-          <a class="transition-colors hover:text-sevsu-blue" href="#">
-            Дополненная реальность в ЦГТИ.
-          </a>
-        </h2>
-        <p class="mt-1 text-xs text-slate-600">Литкомс - 1</p>
-      </div>
-    </div>
-
-    <div class="mt-4">
-      <p class="text-sm text-slate-500">
+    <x-ui.card.body>
+      <x-ui.card.description>
         Приложение "Дополненная реальность в ЦГТИ/Литкомс" Идея заключается в
         том, чтобы в Центре гуманитанно-технической информации/ комикс-центре
         Литкомс - были добавлены в пространство элементы Дополненной реальности,
@@ -113,31 +85,16 @@
         идее должно хорошо отразиться на имиджевой составляющей начинающих
         специалистов, представляющих область деятельности "Дополненная
         реальность" и "Разработка компьютерных игр".
-      </p>
-    </div>
+      </x-ui.card.description>
+    </x-ui.card.body>
 
-    <hr class="mt-4" />
+    <x-ui.card.divider class="mt-4" />
 
-    <dl class="mt-6 flex text-sm text-slate-500">
-      <div class="flex gap-2">
-        <dt>Взять проект до:</dt>
-        <dd class="font-medium">18 февраля 2024 года</dd>
-      </div>
-
-      <div class="ml-3 flex gap-2 sm:ml-6">
-        <dt>Сдать проект до:</dt>
-        <dd class="font-medium">3 сентября 2024 года</dd>
-      </div>
-
-      <div class="ml-3 flex gap-2 sm:ml-6">
-        <dt>Максимум человек в команде:</dt>
-        <dd class="font-medium">10</dd>
-      </div>
-
-      <div class="ml-3 flex gap-2 sm:ml-6">
-        <dt>Максимальное количество команд:</dt>
-        <dd class="font-medium">10</dd>
-      </div>
-    </dl>
-  </div>
+    <x-ui.card.footer>
+      <x-ui.card.param term="Взять проект до:" value="20 февраля 2024 года" />
+      <x-ui.card.param class="ml-6" term="Сдать проект до:" value="7 июня 2024 года" />
+      <x-ui.card.param class="ml-6" term="Максимум человек в команде:" value="4" />
+      <x-ui.card.param class="ml-6" term="Максимальное количество команд:" value="15" />
+    </x-ui.card.footer>
+  </x-ui.card>
 @endsection
