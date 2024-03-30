@@ -1,10 +1,4 @@
-@extends("layouts.base")
-
-@section("title")
-  Банк задач
-@endsection
-
-@section("content")
+<x-layouts.base title="Банк задач">
   <x-ui.select id="flow" label="Выберите дисциплину для отображения:">
     <option value="" disabled>Поток</option>
     <option value="Веб-технологии РГР">Веб-технологии РГР</option>
@@ -95,4 +89,5 @@
       <x-ui.card.param class="ml-6" term="Максимальное количество команд:" value="15" />
     </x-ui.card.footer>
   </x-ui.card>
-@endsection
+</x-layouts.base>
+
