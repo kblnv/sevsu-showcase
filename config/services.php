@@ -31,4 +31,10 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'moodle' => [
+        'client_id' => env('MOODLE_CLIENT_ID'),
+        'client_secret' => env('MOODLE_CLIENT_SECRET'),
+        'redirect' => env('MOODLE_REDIRECT_URL'),
+    ],
+
 ];

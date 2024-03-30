@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +25,11 @@ Route::get('/teams', function () {
 Route::get('/my-teams', function () {
     return view('my-teams');
 })->name('my-teams');
+
+Route::get('/auth/redirect', function () {
+    return Socialite::driver('moodle')->redirect();
+});
+
+Route::get('/auth/callback', function () {
+    $user = Socialite::driver('moodle')->user();
+});
