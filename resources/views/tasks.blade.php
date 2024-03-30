@@ -5,18 +5,15 @@
 @endsection
 
 @section("content")
-  <label class="block" for="flow">Выберите поток</label>
-  <select
-    class="mt-2 rounded-lg border-2 border-gray-300 bg-sevsu-light-gray p-2.5 outline-none focus:border-sevsu-blue focus:ring-sevsu-blue"
-    id="flow"
-  >
+  <label class="block" for="flow">Выберите дисциплину для отображения</label>
+  <x-ui.select id="flow">
     <option value="" disabled>Поток</option>
     <option value="Веб-технологии РГР">Веб-технологии РГР</option>
     <option value="Проектирование в профессиональной сфере">
       Проектирование в профессиональной сфере
     </option>
     <option value="Курсовой проект">Курсовой проект</option>
-  </select>
+  </x-ui.select>
 
   <div
     class="mt-8 overflow-hidden rounded-lg border border-gray-300 bg-sevsu-white p-8 transition-shadow duration-300 hover:shadow-md"
