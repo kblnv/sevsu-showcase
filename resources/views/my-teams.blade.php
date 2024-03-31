@@ -1,9 +1,3 @@
-@extends("layouts.base")
-
-@section("title")
-  Мои команды
-@endsection
-
-@section("content")
+<x-layouts.base title="Мои команды">
   <h1 class="text-xl">Мои команды</h1>
-@endsection
+</x-layouts.base>
