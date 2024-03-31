@@ -1,4 +1,4 @@
-@props(['tags' => []])
+@props(["tags" => []])
 
 <div class="flex flex-col gap-2 sm:flex-row">
   @foreach ($tags as $tag)
