@@ -1,10 +1,8 @@
 @props(["tags" => []])
 
 <x-shared.card {{ $attributes }}>
-  <x-shared.card.header class="flex flex-col gap-2 sm:flex-row">
-    @foreach ($tags as $tag)
-      <x-shared.tag>{{ $tag }}</x-shared.tag>
-    @endforeach
+  <x-shared.card.header>
+    <x-shared.card.tags :tags="$tags" />
   </x-shared.card.header>
 
   <x-shared.card.body>
