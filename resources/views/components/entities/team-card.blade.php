@@ -1,4 +1,4 @@
-@props(["tags" => [], "persons" => []])
+@props(["tags" => [], "persons" => [], 'flow' => ''])
 
 <x-shared.card {{ $attributes }}>
   <x-shared.card.header>
@@ -6,9 +6,15 @@
   </x-shared.card.header>
 
   <x-shared.card.body>
-    <x-shared.card.title href="#">
-      {{ $title }}
-    </x-shared.card.title>
+    <div class="flex justify-between items-center">
+      <x-shared.card.title href="#">
+        {{ $title }}
+      </x-shared.card.title>
+
+      @if ($flow)
+        <span class="text-sm text-slate-600">{{ $flow }}</span>
+      @endif
+    </div>
 
     <x-shared.card.subtitle>
       {{ $project }}
