@@ -1,10 +1,8 @@
-@props(['tags' => []])
+@props(["tags" => []])
 
 <x-shared.card {{ $attributes }}>
-  <x-shared.card.header class="flex flex-col gap-2 sm:flex-row">
-    @foreach ($tags as $tag)
-      <x-shared.tag>{{ $tag }}</x-shared.tag>
-    @endforeach
+  <x-shared.card.header>
+    <x-shared.card.tags :tags="$tags" />
   </x-shared.card.header>
 
   <x-shared.card.body>
@@ -21,7 +19,7 @@
   </x-shared.card.body>
 
   <x-shared.card.footer>
-    <dl class="grid gap-2 md:grid-cols-2 lg:grid-cols-4">
+    <dl class="grid gap-2 text-xs md:grid-cols-2 lg:grid-cols-4">
       <x-entities.project-card.param
         value="{{ $takeBefore }}"
         term="Взять проект до:"
