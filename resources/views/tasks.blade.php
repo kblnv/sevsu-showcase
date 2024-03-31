@@ -1,6 +1,6 @@
 <x-layouts.base title="Банк задач">
   <x-shared.select id="flow" label="Выберите дисциплину для отображения:">
-    <option value="" disabled>Поток</option>
+    <option value="" disabled>Дисциплина</option>
     <option value="Веб-технологии РГР">Веб-технологии РГР</option>
     <option value="Проектирование в профессиональной сфере">
       Проектирование в профессиональной сфере
