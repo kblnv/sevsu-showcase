@@ -8,7 +8,7 @@
     <option value="Курсовой проект">Курсовой проект</option>
   </x-shared.select>
 
-  <div class="mt-8 space-y-6">
+  <div class="mt-8 space-y-8">
     <x-entities.project-card
       :tags="['Веб-программирование', 'Профессиональный трек']"
     >
