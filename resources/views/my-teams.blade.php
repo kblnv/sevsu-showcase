@@ -24,7 +24,8 @@
 @endphp
 
 <x-layouts.base title="Мои команды">
-  <div class="mt-8 space-y-8">
+  <h1 class="text-2xl">Все команды, в которых Вы состоите:</h1>
+  <div class="mt-4 space-y-8">
     <x-entities.team-card
       :tags="['Веб-программирование', 'Профессиональный трек']"
       :persons="$persons"
