@@ -33,7 +33,9 @@
     <option value="Курсовой проект">Курсовой проект</option>
   </x-shared.select>
 
-  <div class="mt-8 space-y-8">
+  <h1 class="text-2xl mt-8">Все команды по выбранной дисциплине:</h1>
+
+  <div class="mt-4 space-y-8">
     <x-entities.team-card
       :tags="['Веб-программирование', 'Профессиональный трек']"
       :persons="$persons"
