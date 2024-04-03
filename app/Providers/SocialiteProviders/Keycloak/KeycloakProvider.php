@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Providers\SocialiteProviders\Moodle;
+namespace App\Providers\SocialiteProviders\Keycloak;
 
 use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
-class MoodleProvider extends AbstractProvider
+class KeycloakProvider extends AbstractProvider
 {
-    const IDENTIFIER = 'MOODLE';
+    const IDENTIFIER = 'KEYCLOAK';
 
     /**
      * {@inheritdoc}
@@ -53,11 +53,12 @@ class MoodleProvider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        dd($user);
         return (new User)->setRaw($user)->map([
-            'id'       => $user['id'],
-            'name'     => $user['name'],
-            'email'    => $user['email'],
+            'id'       => $user['mapping_id'],
+            'first_name'     => $user['first_name'],
+            'second_name'    => $user['family_name'],
+            'last_name'    => $user['middle_name'],
+            'group' => $user['syncable_cohorts'],
         ]);
     }
 }

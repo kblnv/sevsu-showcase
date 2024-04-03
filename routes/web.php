@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\SocialController;
 use Illuminate\Support\Facades\Route;
-use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,10 +26,9 @@ Route::get('/my-teams', function () {
     return view('my-teams');
 })->name('my-teams');
 
-Route::get('/auth/redirect', function () {
-    return Socialite::driver('moodle')->redirect();
+Route::prefix('auth')->group(function () {
+    Route::get('/{provider}/redirect', [SocialController::class, 'redirectToProvider'])->name('social.login');
+    Route::get('/{provider}/callback', [SocialController::class, 'handleProviderCallback']);
 });
 
-Route::get('/auth/callback', function () {
-    $user = Socialite::driver('moodle')->user();
-});
+Route::get('/{provider}/logout', [SocialController::class, 'logout'])->name('logout');
