@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Providers\SocialiteProviders\Moodle;
+namespace App\Providers\SocialiteProviders\Keycloak;
 
 use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
-class MoodleProvider extends AbstractProvider
+class KeycloakProvider extends AbstractProvider
 {
-    const IDENTIFIER = 'MOODLE';
+    const IDENTIFIER = 'KEYCLOAK';
 
     /**
      * {@inheritdoc}

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Providers\SocialiteProviders\Moodle;
+namespace App\Providers\SocialiteProviders\Keycloak;
 
 use SocialiteProviders\Manager\SocialiteWasCalled;
 
-class MoodleExtendSocialite
+class KeycloakExtendSocialite
 {
     /**
      * Register the provider.
@@ -14,6 +14,6 @@ class MoodleExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('keycloak', MoodleProvider::class);
+        $socialiteWasCalled->extendSocialite('keycloak', KeycloakProvider::class);
     }
 }
