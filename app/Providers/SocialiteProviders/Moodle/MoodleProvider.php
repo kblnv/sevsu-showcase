@@ -53,11 +53,12 @@ class MoodleProvider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        dd($user);
         return (new User)->setRaw($user)->map([
-            'id'       => $user['id'],
-            'name'     => $user['name'],
-            'email'    => $user['email'],
+            'id'       => $user['mapping_id'],
+            'first_name'     => $user['first_name'],
+            'second_name'    => $user['family_name'],
+            'last_name'    => $user['middle_name'],
+            'group' => $user['syncable_cohorts'],
         ]);
     }
 }
