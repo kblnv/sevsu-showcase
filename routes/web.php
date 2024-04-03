@@ -31,4 +31,4 @@ Route::prefix('auth')->group(function () {
     Route::get('/{provider}/callback', [SocialController::class, 'handleProviderCallback']);
 });
 
-Route::get('/logout', [SocialController::class, 'logout'])->name('logout');
+Route::get('/{provider}/logout', [SocialController::class, 'logout'])->name('logout');

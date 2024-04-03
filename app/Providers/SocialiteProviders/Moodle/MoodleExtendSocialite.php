@@ -14,6 +14,6 @@ class MoodleExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('moodle', MoodleProvider::class);
+        $socialiteWasCalled->extendSocialite('keycloak', MoodleProvider::class);
     }
 }

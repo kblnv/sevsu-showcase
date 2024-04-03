@@ -22,8 +22,8 @@ class SocialController extends Controller
         return $this->checkUser($user);
     }
 
-    public function logout()
+    public function logout(Request $request, $provider)
     {
-        return $this->userLogout();
+        return $this->userLogout($provider);
     }
 }

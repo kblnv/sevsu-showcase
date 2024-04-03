@@ -31,10 +31,10 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
-    'moodle' => [
-        'client_id' => env('MOODLE_CLIENT_ID'),
-        'client_secret' => env('MOODLE_CLIENT_SECRET'),
-        'redirect' => env('MOODLE_REDIRECT_URL'),
+    'keycloak' => [
+        'client_id' => env('KEYCLOAK_CLIENT_ID'),
+        'client_secret' => env('KEYCLOAK_CLIENT_SECRET'),
+        'redirect' => env('KEYCLOAK_REDIRECT_URI'),
     ],
 
 ];

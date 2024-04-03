@@ -33,12 +33,13 @@ trait SocialUsers
         }
     }
 
-    public function userLogout()
+    public function userLogout($provider)
     {
-        session()->flush();
         Auth::logout();
 
-        return redirect('/');
+        $logoutUrl = env(strtoupper($provider) . '_LOGOUT_URI');
+
+        return redirect($logoutUrl);
     }
 
     private function checkGroup($groupName)
