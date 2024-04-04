@@ -99,8 +99,9 @@
             href="#"
             @click="isActive = !isActive"
           >
-            Кабалинов Максим Владимирович
-
+            {{ auth()->user()->second_name }}
+            {{ auth()->user()->first_name }}
+            {{ auth()->user()->last_name }}
             <svg
               class="size-4"
               xmlns="http://www.w3.org/2000/svg"
@@ -129,7 +130,7 @@
           <div class="p-2">
             <a
               class="flex w-full items-center gap-2 rounded-lg px-4 py-2 text-sm text-red-700 hover:bg-red-50"
-              href="#"
+              href="{{ route("logout", "keycloak") }}"
             >
               <svg
                 class="size-4"
@@ -197,7 +198,7 @@
             <li class="mt-4">
               <a
                 class="transform transition-colors duration-300 hover:text-sevsu-blue"
-                href="#"
+                href="{{ route("logout", "keycloak") }}"
               >
                 Выйти
               </a>
