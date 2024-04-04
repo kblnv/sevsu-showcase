@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Vacancy extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'user_id',
+        'vacancy_name',
+        'team_id',
+    ];
 }
