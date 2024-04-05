@@ -10,6 +10,6 @@ class TeamsPage extends Component
     #[Title('Команды')]
     public function render()
     {
-        return view('livewire.teams-page');
+        return view('teams-page');
     }
 }

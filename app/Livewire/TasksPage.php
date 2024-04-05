@@ -10,6 +10,6 @@ class TasksPage extends Component
     #[Title('Банк задач')]
     public function render()
     {
-        return view('livewire.tasks-page');
+        return view('tasks-page');
     }
 }

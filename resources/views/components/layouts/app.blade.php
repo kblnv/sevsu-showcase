@@ -10,19 +10,16 @@
       <title>СевГУ Витрина</title>
     @endif
 
-    @livewireStyles
     @vite(["resources/css/app.css", "resources/js/app.js"])
   </head>
 
   <body>
-    <x-widgets.header />
+    @livewire(Header::class)
 
     <main class="container mx-auto max-h-full min-h-screen px-6 py-8">
       {{ $slot }}
     </main>
 
-    <x-widgets.footer />
-
-    @livewireScripts
+    @livewire(Footer::class)
   </body>
 </html>
