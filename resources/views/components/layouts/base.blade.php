@@ -15,7 +15,7 @@
     @vite(["resources/css/app.css", "resources/js/app.js"])
   </head>
 
-  <body hx-headers='{"X-CSRF-TOKEN": "{{ csrf_token() }}"}'>
+  <body>
     <x-widgets.header />
 
     <main class="container mx-auto max-h-full min-h-screen px-6 py-8">
