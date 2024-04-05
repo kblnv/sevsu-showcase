@@ -1,4 +1,4 @@
-@props(["tags" => [], "persons" => [], 'flow' => ''])
+@props(["tags" => [], "persons" => [], "flow" => ""])
 
 <x-shared.card {{ $attributes }}>
   <x-shared.card.header>
@@ -6,7 +6,7 @@
   </x-shared.card.header>
 
   <x-shared.card.body>
-    <div class="flex justify-between items-center">
+    <div class="flex items-center justify-between">
       <x-shared.card.title href="#">
         {{ $title }}
       </x-shared.card.title>

@@ -23,7 +23,7 @@
   ]
 @endphp
 
-<x-layouts.base title="Команды">
+<div>
   <x-shared.select id="flow" label="Выберите дисциплину для отображения:">
     <option value="" disabled>Дисциплина</option>
     <option value="Веб-технологии РГР">Веб-технологии РГР</option>
@@ -33,7 +33,7 @@
     <option value="Курсовой проект">Курсовой проект</option>
   </x-shared.select>
 
-  <h1 class="text-2xl mt-8">Все команды по выбранной дисциплине:</h1>
+  <h1 class="mt-8 text-2xl">Все команды по выбранной дисциплине:</h1>
 
   <div class="mt-4 space-y-8">
     <x-entities.team-card
@@ -52,4 +52,4 @@
       <x-slot:maxTeamMembers>10</x-slot>
     </x-entities.team-card>
   </div>
-</x-layouts.base>
+</div>

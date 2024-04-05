@@ -1,5 +1,3 @@
-@props(["title" => ""])
-
 <!DOCTYPE html>
 <html lang="ru">
   <head>
@@ -15,13 +13,13 @@
     @vite(["resources/css/app.css", "resources/js/app.js"])
   </head>
 
-  <body hx-headers='{"X-CSRF-TOKEN": "{{ csrf_token() }}"}'>
-    <x-widgets.header />
+  <body>
+    @livewire(Header::class)
 
     <main class="container mx-auto max-h-full min-h-screen px-6 py-8">
       {{ $slot }}
     </main>
 
-    <x-widgets.footer />
+    @livewire(Footer::class)
   </body>
 </html>

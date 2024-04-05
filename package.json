@@ -20,8 +20,6 @@
     },
     "dependencies": {
         "@alpinejs/anchor": "^3.13.7",
-        "@alpinejs/collapse": "^3.13.7",
-        "alpinejs": "^3.13.5",
-        "htmx.org": "^1.9.10"
+        "@alpinejs/collapse": "^3.13.7"
     }
 }

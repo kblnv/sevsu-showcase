@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\SocialController;
+use App\Livewire\MyTeamsPage;
+use App\Livewire\TasksPage;
+use App\Livewire\TeamsPage;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,15 +19,19 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth')->group(function () {
-    Route::get('/', [MainController::class, 'index'])->name('tasks');
+    // Route::get('/', [MainController::class, 'index'])->name('tasks');
 
-    Route::get('/teams', function () {
-        return view('teams');
-    })->name('teams');
+    // Route::get('/teams', function () {
+    //     return view('teams');
+    // })->name('teams');
 
-    Route::get('/my-teams', function () {
-        return view('my-teams');
-    })->name('my-teams');
+    // Route::get('/my-teams', function () {
+    //     return view('my-teams');
+    // })->name('my-teams');
+
+    Route::get('/', TasksPage::class)->name("tasks");
+    Route::get('/teams', TeamsPage::class)->name("teams");
+    Route::get('/my-teams', MyTeamsPage::class)->name("my-teams");
 
     Route::get('/{provider}/logout', [SocialController::class, 'logout'])->name('logout');
 });

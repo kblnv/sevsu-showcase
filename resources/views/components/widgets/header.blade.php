@@ -4,7 +4,7 @@
       class="container mx-auto px-6 py-4 lg:flex lg:items-center lg:justify-between"
     >
       <div class="flex items-center justify-between">
-        <a href="{{ route("tasks") }}">
+        <a href="{{ route("tasks") }} wire:navigate">
           <img
             class="h-[50px] w-[186px]"
             src="{{ asset("images/logo/sevsu-logo-main.svg") }}"
@@ -61,6 +61,7 @@
           <a
             class="transform transition-colors duration-300 hover:text-sevsu-blue"
             href="{{ route("tasks") }}"
+            wire:navigate
           >
             Банк задач
           </a>
@@ -71,6 +72,7 @@
           <a
             class="transform transition-colors duration-300 hover:text-sevsu-blue"
             href="{{ route("teams") }}"
+            wire:navigate
           >
             Команды
           </a>
@@ -81,6 +83,7 @@
           <a
             class="transform transition-colors duration-300 hover:text-sevsu-blue"
             href="{{ route("my-teams") }}"
+            wire:navigate
           >
             Мои команды
           </a>
@@ -170,6 +173,7 @@
               <a
                 class="transform transition-colors duration-300 hover:text-sevsu-blue"
                 href="{{ route("tasks") }}"
+                wire:navigate
               >
                 Банк задач
               </a>
@@ -180,6 +184,7 @@
               <a
                 class="transform transition-colors duration-300 hover:text-sevsu-blue"
                 href="{{ route("teams") }}"
+                wire:navigate
               >
                 Команды
               </a>
@@ -190,6 +195,7 @@
               <a
                 class="transform transition-colors duration-300 hover:text-sevsu-blue"
                 href="{{ route("my-teams") }}"
+                wire:navigate
               >
                 Мои команды
               </a>
