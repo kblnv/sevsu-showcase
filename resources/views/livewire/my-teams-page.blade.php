@@ -23,7 +23,7 @@
   ]
 @endphp
 
-<x-layouts.base title="Мои команды">
+<div>
   <h1 class="text-2xl">Все команды, в которых Вы состоите:</h1>
   <div class="mt-4 space-y-8">
     <x-entities.team-card
@@ -77,4 +77,4 @@
       <x-slot:maxTeamMembers>10</x-slot>
     </x-entities.team-card>
   </div>
-</x-layouts.base>
+</div>

@@ -1,5 +1,3 @@
-@props(["title" => ""])
-
 <!DOCTYPE html>
 <html lang="ru">
   <head>
@@ -12,6 +10,7 @@
       <title>СевГУ Витрина</title>
     @endif
 
+    @livewireStyles
     @vite(["resources/css/app.css", "resources/js/app.js"])
   </head>
 
@@ -23,5 +22,7 @@
     </main>
 
     <x-widgets.footer />
+
+    @livewireScripts
   </body>
 </html>
