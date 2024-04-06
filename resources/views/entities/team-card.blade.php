@@ -12,7 +12,7 @@
       </x-shared.card.title>
 
       @if ($flow)
-        <span class="text-sm text-slate-600">{{ $flow }}</span>
+        <span class="text-sm text-slate-600 font-main-semibold">{{ $flow }}</span>
       @endif
     </div>
 
@@ -28,14 +28,14 @@
   </x-shared.card.body>
 
   <x-shared.card.footer class="border-t-2">
-    <div class="mt-2 overflow-x-auto rounded-lg border border-gray-200 text-sm">
+    <div class="overflow-x-auto rounded-lg border border-gray-200 text-sm">
       <table class="min-w-full divide-y-2 divide-gray-200 bg-white">
         <thead>
           <tr>
-            <td class="px-4 py-2 font-bold text-black">№</td>
-            <td class="px-4 py-2 font-bold text-black">ФИО</td>
-            <td class="px-4 py-2 font-bold text-black">Роль</td>
-            <td class="px-4 py-2 font-bold text-black">Статус</td>
+            <td class="px-4 py-2 font-main-bold">№</td>
+            <td class="px-4 py-2 font-main-bold">ФИО</td>
+            <td class="px-4 py-2 font-main-bold">Роль</td>
+            <td class="px-4 py-2 font-main-bold">Статус</td>
           </tr>
         </thead>
 
@@ -51,7 +51,9 @@
         </tbody>
       </table>
 
-      <div class="rounded-b-lg border-t border-gray-200 px-4 py-2 text-slate-600">
+      <div
+        class="rounded-b-lg border-t border-gray-200 px-4 py-2"
+      >
         Участников: {{ count($persons) }}/{{ $maxTeamMembers }}
       </div>
     </div>
