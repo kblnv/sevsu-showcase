@@ -12,7 +12,9 @@
       </x-shared.card.title>
 
       @if ($flow)
-        <span class="text-sm text-slate-600 font-main-semibold">{{ $flow }}</span>
+        <span class="font-main-semibold text-sm text-slate-600">
+          {{ $flow }}
+        </span>
       @endif
     </div>
 
@@ -51,9 +53,7 @@
         </tbody>
       </table>
 
-      <div
-        class="rounded-b-lg border-t border-gray-200 px-4 py-2"
-      >
+      <div class="rounded-b-lg border-t border-gray-200 px-4 py-2">
         Участников: {{ count($persons) }}/{{ $maxTeamMembers }}
       </div>
     </div>
