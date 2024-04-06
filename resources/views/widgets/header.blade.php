@@ -4,7 +4,7 @@
       class="container mx-auto px-6 py-4 lg:flex lg:items-center lg:justify-between"
     >
       <div class="flex items-center justify-between">
-        <a href="{{ route("tasks") }} wire:navigate">
+        <a href="{{ route("tasks") }}" wire:navigate>
           <img
             class="h-[50px] w-[186px]"
             src="{{ asset("images/logo/sevsu-logo-main.svg") }}"

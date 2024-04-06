@@ -1,4 +1,4 @@
-@props(["tags" => [], "persons" => [], "flow" => ""])
+@props(["title" => "", "project" => "", "description" => "", "maxTeamMembers" => "", "flow" => "", "persons" => [], "tags" => []])
 
 <x-shared.card {{ $attributes }}>
   <x-shared.card.header>
@@ -28,14 +28,14 @@
   </x-shared.card.body>
 
   <x-shared.card.footer class="border-t-2">
-    <div class="overflow-x-auto rounded-lg border border-gray-200 text-sm">
+    <div class="mt-2 overflow-x-auto rounded-lg border border-gray-200 text-sm">
       <table class="min-w-full divide-y-2 divide-gray-200 bg-white">
         <thead>
           <tr>
-            <td class="px-4 py-2 font-bold">№</td>
-            <td class="px-4 py-2 font-bold">ФИО</td>
-            <td class="px-4 py-2 font-bold">Роль</td>
-            <td class="px-4 py-2 font-bold">Статус</td>
+            <td class="px-4 py-2 font-bold text-black">№</td>
+            <td class="px-4 py-2 font-bold text-black">ФИО</td>
+            <td class="px-4 py-2 font-bold text-black">Роль</td>
+            <td class="px-4 py-2 font-bold text-black">Статус</td>
           </tr>
         </thead>
 
@@ -51,7 +51,7 @@
         </tbody>
       </table>
 
-      <div class="rounded-b-lg border-t border-gray-200 px-4 py-2">
+      <div class="rounded-b-lg border-t border-gray-200 px-4 py-2 text-slate-600">
         Участников: {{ count($persons) }}/{{ $maxTeamMembers }}
       </div>
     </div>

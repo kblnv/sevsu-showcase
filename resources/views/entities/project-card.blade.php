@@ -1,4 +1,4 @@
-@props(["tags" => []])
+@props(["title" => "", "customer" => "", "description" => "", "takeBefore" => "", "finishBefore" => "", "maxTeamMembers" => "", "maxTeams" => "", "tags" => []])
 
 <x-shared.card {{ $attributes }}>
   <x-shared.card.header>
@@ -9,7 +9,9 @@
     <x-shared.card.title href="#">
       {{ $title }}
     </x-shared.card.title>
-    <x-shared.card.subtitle>{{ $customer }}</x-shared.card.subtitle>
+    <x-shared.card.subtitle>
+      {{ $customer }}
+    </x-shared.card.subtitle>
 
     <div class="mt-4">
       <x-shared.card.text>
