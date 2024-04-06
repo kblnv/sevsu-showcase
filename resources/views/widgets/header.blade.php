@@ -1,10 +1,12 @@
-<header>
-  <nav class="bg-sevsu-white shadow" x-data="{ isOpen: false }" x-ref="nav">
-    <div
-      class="container mx-auto px-6 py-4 lg:flex lg:items-center lg:justify-between"
-    >
-      <div class="flex items-center justify-between">
-        <a href="{{ route("tasks") }} wire:navigate">
+<header class="h-[68px]">
+  <nav
+    class="h-full bg-sevsu-white shadow"
+    x-data="{ isOpen: false }"
+    x-ref="nav"
+  >
+    <div class="container mx-auto h-full px-6 lg:flex lg:justify-between">
+      <div class="flex h-full items-center justify-between">
+        <a href="{{ route("tasks") }}" wire:navigate>
           <img
             class="h-[50px] w-[186px]"
             src="{{ asset("images/logo/sevsu-logo-main.svg") }}"
@@ -54,9 +56,9 @@
         </div>
       </div>
 
-      <ul class="hidden lg:flex">
+      <ul class="hidden space-x-8 lg:flex">
         <li
-          class="{{ Route::is("tasks") ? "border-b-2 border-sevsu-blue" : "" }} py-2"
+          class="{{ Route::is("tasks") ? "after:content-[''] after:h-[2px] after:absolute after:inset-x-0 after:bottom-0 after:bg-sevsu-blue" : "" }} relative flex items-center"
         >
           <a
             class="transform transition-colors duration-300 hover:text-sevsu-blue"
@@ -67,7 +69,7 @@
           </a>
         </li>
         <li
-          class="{{ Route::is("teams") ? "border-b-2 border-sevsu-blue" : "" }} ml-8 py-2"
+          class="{{ Route::is("teams") ? "after:content-[''] after:h-[2px] after:absolute after:inset-x-0 after:bottom-0 after:bg-sevsu-blue" : "" }} relative flex items-center"
         >
           <a
             class="transform transition-colors duration-300 hover:text-sevsu-blue"
@@ -78,7 +80,7 @@
           </a>
         </li>
         <li
-          class="{{ Route::is("my-teams") ? "border-b-2 border-sevsu-blue" : "" }} ml-8 py-2"
+          class="{{ Route::is("my-teams") ? "after:content-[''] after:h-[2px] after:absolute after:inset-x-0 after:bottom-0 after:bg-sevsu-blue" : "" }} relative flex items-center"
         >
           <a
             class="transform transition-colors duration-300 hover:text-sevsu-blue"
@@ -91,11 +93,13 @@
       </ul>
 
       <div
-        class="hidden lg:block"
+        class="hidden lg:flex lg:items-center"
         x-data="{ isActive: false }"
-        x-ref="dropdown"
       >
-        <div class="inline-flex items-center overflow-hidden bg-sevsu-white">
+        <div
+          class="inline-flex items-center overflow-hidden bg-sevsu-white"
+          x-ref="dropdown"
+        >
           <button
             class="hidden items-center gap-2 text-black lg:flex"
             type="button"
@@ -124,7 +128,7 @@
 
         <div
           class="w-56 rounded-md border border-gray-100 bg-sevsu-white shadow-md"
-          x-anchor.offset.12.bottom-end="$refs.dropdown"
+          x-anchor.offset.6.bottom-end="$refs.dropdown"
           x-cloak
           x-transition
           x-show="isActive"
@@ -166,9 +170,9 @@
         @click.away="isOpen = false"
       >
         <div class="container mx-auto px-6 py-4">
-          <ul>
+          <ul class="space-y-4">
             <li
-              class="{{ Route::is("tasks") ? "border-b-2 border-sevsu-blue" : "" }}"
+              class="{{ Route::is("tasks") ? "border-b-2 border-sevsu-blue" : "" }} relative"
             >
               <a
                 class="transform transition-colors duration-300 hover:text-sevsu-blue"
@@ -179,7 +183,7 @@
               </a>
             </li>
             <li
-              class="{{ Route::is("teams") ? "border-b-2 border-sevsu-blue" : "" }} mt-4"
+              class="{{ Route::is("teams") ? "border-b-2 border-sevsu-blue" : "" }} relative"
             >
               <a
                 class="transform transition-colors duration-300 hover:text-sevsu-blue"
@@ -190,7 +194,7 @@
               </a>
             </li>
             <li
-              class="{{ Route::is("my-teams") ? "border-b-2 border-sevsu-blue" : "" }} mt-4"
+              class="{{ Route::is("my-teams") ? "border-b-2 border-sevsu-blue" : "" }} relative"
             >
               <a
                 class="transform transition-colors duration-300 hover:text-sevsu-blue"
@@ -201,7 +205,7 @@
               </a>
             </li>
 
-            <li class="mt-4">
+            <li>
               <a
                 class="transform transition-colors duration-300 hover:text-sevsu-blue"
                 href="{{ route("logout", "keycloak") }}"

@@ -1,6 +1,6 @@
 @props(["index" => "", "fullName" => "", "role" => "", "position" => ""])
 
-<tr>
+<tr {{ $attributes }}>
   <td class="px-4 py-2">{{ $index }}</td>
   <td class="px-4 py-2">{{ $fullName }}</td>
   <td class="px-4 py-2">{{ $role }}</td>

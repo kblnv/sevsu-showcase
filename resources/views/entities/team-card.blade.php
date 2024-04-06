@@ -1,4 +1,4 @@
-@props(["tags" => [], "persons" => [], "flow" => ""])
+@props(["title" => "", "project" => "", "description" => "", "maxTeamMembers" => "", "flow" => "", "persons" => [], "tags" => []])
 
 <x-shared.card {{ $attributes }}>
   <x-shared.card.header>
@@ -12,7 +12,9 @@
       </x-shared.card.title>
 
       @if ($flow)
-        <span class="text-sm text-slate-600">{{ $flow }}</span>
+        <span class="font-main-semibold text-sm text-slate-600">
+          {{ $flow }}
+        </span>
       @endif
     </div>
 
@@ -32,10 +34,10 @@
       <table class="min-w-full divide-y-2 divide-gray-200 bg-white">
         <thead>
           <tr>
-            <td class="px-4 py-2 font-bold">№</td>
-            <td class="px-4 py-2 font-bold">ФИО</td>
-            <td class="px-4 py-2 font-bold">Роль</td>
-            <td class="px-4 py-2 font-bold">Статус</td>
+            <td class="px-4 py-2 font-main-bold">№</td>
+            <td class="px-4 py-2 font-main-bold">ФИО</td>
+            <td class="px-4 py-2 font-main-bold">Роль</td>
+            <td class="px-4 py-2 font-main-bold">Статус</td>
           </tr>
         </thead>
 
