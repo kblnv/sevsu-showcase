@@ -6,7 +6,11 @@
   >
     <option value="" disabled>Дисциплина</option>
     @foreach ($flowsNames as $flowName)
-      <option value="{{ $flowName }}">{{ $flowName }}</option>
+      @if ($flowName == $selectedFlow)
+        <option value="{{ $flowName }}" selected>{{ $flowName }}</option>
+      @else
+        <option value="{{ $flowName }}">{{ $flowName }}</option>
+      @endif
     @endforeach
   </x-shared.select>
 

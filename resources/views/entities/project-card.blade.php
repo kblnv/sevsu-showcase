@@ -19,7 +19,7 @@
       </x-shared.card.text>
     </div>
 
-    <dl class="mt-2 grid gap-2 text-sm md:grid-cols-2 lg:grid-cols-4">
+    <dl class="mt-4 grid gap-2 text-sm md:grid-cols-2 lg:grid-cols-4">
       <x-entities.project-card.param
         value="{{ $takeBefore }}"
         term="Взять проект до:"
