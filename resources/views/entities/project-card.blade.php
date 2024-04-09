@@ -1,9 +1,9 @@
 @props(["title" => "", "customer" => "", "description" => "", "takeBefore" => "", "finishBefore" => "", "maxTeamMembers" => "", "maxTeams" => "", "tags" => []])
 
 <x-shared.card {{ $attributes }}>
-  <x-shared.card.header>
+  <div class="border-b-2 p-2">
     <x-shared.card.tags :tags="$tags" />
-  </x-shared.card.header>
+  </div>
 
   <x-shared.card.body>
     <x-shared.card.title href="#">
@@ -18,10 +18,8 @@
         {{ $description }}
       </x-shared.card.text>
     </div>
-  </x-shared.card.body>
 
-  <x-shared.card.footer>
-    <dl class="grid gap-2 text-xs md:grid-cols-2 lg:grid-cols-4">
+    <dl class="mt-4 grid gap-2 text-sm md:grid-cols-2 lg:grid-cols-4">
       <x-entities.project-card.param
         value="{{ $takeBefore }}"
         term="Взять проект до:"
@@ -39,5 +37,5 @@
         term="Максимальное количество команд:"
       />
     </dl>
-  </x-shared.card.footer>
+  </x-shared.card.body>
 </x-shared.card>
