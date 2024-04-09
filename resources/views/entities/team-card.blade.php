@@ -1,9 +1,9 @@
 @props(["title" => "", "project" => "", "description" => "", "maxTeamMembers" => "", "flow" => "", "persons" => [], "tags" => []])
 
 <x-shared.card {{ $attributes }}>
-  <x-shared.card.header>
+  <div class="border-b-2 p-2">
     <x-shared.card.tags :tags="$tags" />
-  </x-shared.card.header>
+  </div>
 
   <x-shared.card.body>
     <div class="flex items-center justify-between">
@@ -12,7 +12,7 @@
       </x-shared.card.title>
 
       @if ($flow)
-        <span class="font-main-semibold text-sm text-slate-600">
+        <span class="font-myriad-semibold text-sm text-slate-600">
           {{ $flow }}
         </span>
       @endif
@@ -29,15 +29,15 @@
     </div>
   </x-shared.card.body>
 
-  <x-shared.card.footer class="border-t-2">
+  <div class="border-t-2 p-4">
     <div class="overflow-x-auto rounded-lg border border-gray-200 text-sm">
       <table class="min-w-full divide-y-2 divide-gray-200 bg-white">
         <thead>
           <tr>
-            <td class="px-4 py-2 font-main-bold">№</td>
-            <td class="px-4 py-2 font-main-bold">ФИО</td>
-            <td class="px-4 py-2 font-main-bold">Роль</td>
-            <td class="px-4 py-2 font-main-bold">Статус</td>
+            <td class="px-4 py-2 font-myriad-bold">№</td>
+            <td class="px-4 py-2 font-myriad-bold">ФИО</td>
+            <td class="px-4 py-2 font-myriad-bold">Роль</td>
+            <td class="px-4 py-2 font-myriad-bold">Статус</td>
           </tr>
         </thead>
 
@@ -57,5 +57,5 @@
         Участников: {{ count($persons) }}/{{ $maxTeamMembers }}
       </div>
     </div>
-  </x-shared.card.footer>
+  </div>
 </x-shared.card>
