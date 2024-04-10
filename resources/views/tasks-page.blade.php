@@ -26,7 +26,6 @@
         finishBefore="{{ $this->flows[$selectedFlow]['finishBefore'] }}"
         maxTeamMembers="{{ $this->flows[$selectedFlow]['maxTeamMembers'] }}"
         maxTeams="{{ $task['maxTeams'] }}"
-        :tags="$task['tags']"
       />
     @endforeach
   </div>
