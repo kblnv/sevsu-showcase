@@ -67,7 +67,7 @@ class TasksPage extends Component
     public function mount()
     {
         if ($this->selectedFlow == "" || !array_key_exists($this->selectedFlow, $this->flows)) {
-            $this->selectedFlow = array_keys($this->flows)[0] ?? null;
+            $this->selectedFlow = array_keys($this->flows)[0] ?? "";
         }
     }
 

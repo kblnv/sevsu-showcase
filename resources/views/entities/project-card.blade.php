@@ -1,17 +1,22 @@
 @props(["title" => "", "customer" => "", "description" => "", "takeBefore" => "", "finishBefore" => "", "maxTeamMembers" => "", "maxTeams" => "", "tags" => []])
 
 <x-shared.card {{ $attributes }}>
-  <div class="border-b-2 p-2">
-    <x-shared.card.tags :tags="$tags" />
-  </div>
+  @if (count($tags) != 0)
+    <div class="border-b-2 p-2">
+      <x-shared.card.tags :tags="$tags" />
+    </div>
+  @endif
 
   <x-shared.card.body>
     <x-shared.card.title href="#">
       {{ $title }}
     </x-shared.card.title>
-    <x-shared.card.subtitle>
-      {{ $customer }}
-    </x-shared.card.subtitle>
+
+    @if ($customer != "")
+      <x-shared.card.subtitle>
+        {{ $customer }}
+      </x-shared.card.subtitle>
+    @endif
 
     <div class="mt-4">
       <x-shared.card.text>

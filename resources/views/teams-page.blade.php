@@ -33,7 +33,7 @@
     <option value="Курсовой проект">Курсовой проект</option>
   </x-shared.select>
 
-  <h1 class="mt-8 text-2xl">Все команды по выбранной дисциплине:</h1>
+  <x-shared.page-heading class="mt-8">Все команды по выбранной дисциплине:</x-shared.page-heading>
 
   <div class="mt-4 space-y-8">
     <x-entities.team-card
