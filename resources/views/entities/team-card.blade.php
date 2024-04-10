@@ -1,9 +1,11 @@
 @props(["title" => "", "task" => "", "description" => "", "maxTeamMembers" => "", "flow" => "", "members" => [], "tags" => []])
 
 <x-shared.card {{ $attributes }}>
-  <div class="border-b-2 p-2">
-    <x-shared.card.tags :tags="$tags" />
-  </div>
+  @if (count($tags) != 0)
+    <div class="border-b-2 p-2">
+      <x-shared.card.tags :tags="$tags" />
+    </div>
+  @endif
 
   <x-shared.card.body>
     <div class="flex items-center justify-between">
@@ -22,9 +24,11 @@
       {{ $task }}
     </x-shared.card.subtitle>
 
-    <x-shared.card.text class="mt-4">
-      {{ $description }}
-    </x-shared.card.text>
+    @if ($description != "")
+      <x-shared.card.text class="mt-4">
+        {{ $description }}
+      </x-shared.card.text>
+    @endif
   </x-shared.card.body>
 
   <div class="border-t-2 p-4">
@@ -34,8 +38,8 @@
           <tr>
             <td class="px-4 py-2 font-myriad-bold">№</td>
             <td class="px-4 py-2 font-myriad-bold">ФИО</td>
+            <td class="px-4 py-2 font-myriad-bold">Вакансия</td>
             <td class="px-4 py-2 font-myriad-bold">Роль</td>
-            <td class="px-4 py-2 font-myriad-bold">Статус</td>
           </tr>
         </thead>
 
