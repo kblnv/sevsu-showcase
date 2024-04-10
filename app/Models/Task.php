@@ -11,9 +11,9 @@ class Task extends Model
 
     protected $fillable = [
         'task_name',
-        'description',
+        'task_description',
         'customer',
-        'max_project',
+        'max_projects',
         'flow_id',
     ];
 }

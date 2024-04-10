@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('flows', function (Blueprint $table) {
             $table->id();
             $table->string('flow_name');
-            $table->date('start_team');
-            $table->date('end_team');
-            $table->integer('team_size');
+            $table->date('take_before');
+            $table->date('finish_before');
+            $table->integer('max_team_size');
             $table->boolean('can_create_task');
             $table->timestamps();
         });

@@ -21,14 +21,14 @@ class TasksPage extends Component
 
         $tasks = Task::select(
                 'flows.flow_name',
-                'flows.start_team',
-                'flows.end_team',
-                'flows.team_size',
+                'flows.take_before',
+                'flows.finish_before',
+                'flows.max_team_size',
                 'flows.can_create_task',
                 'tasks.task_name',
-                'tasks.description',
+                'tasks.task_description',
                 'tasks.customer',
-                'tasks.max_project'
+                'tasks.max_projects'
             )
             ->join('flows', 'tasks.flow_id', '=', 'flows.id')
             ->join('groups_flows', 'flows.id', '=', 'groups_flows.flow_id')
@@ -44,9 +44,9 @@ class TasksPage extends Component
             foreach ($tasks as $task) {
                 if (empty($data[$task->flow_name])) {
                     $data[$task->flow_name] = [
-                        'takeBefore' => $task->start_team,
-                        'finishBefore' => $task->end_team,
-                        'maxTeamMembers' => $task->team_size,
+                        'takeBefore' => $task->take_before,
+                        'finishBefore' => $task->finish_before,
+                        'maxTeamMembers' => $task->max_team_size,
                         'canCreateTask' => $task->can_create_task,
                         'tasks' => [],
                     ];
@@ -54,9 +54,9 @@ class TasksPage extends Component
 
                 $data[$task->flow_name]['tasks'][] = [
                     'title' => $task->task_name,
-                    'description' => $task->description,
+                    'description' => $task->task_description,
                     'customer' => $task->customer,
-                    'maxTeams' => $task->max_project,
+                    'maxTeams' => $task->max_projects,
                 ];
             }
         }
@@ -67,7 +67,7 @@ class TasksPage extends Component
     public function mount()
     {
         if ($this->selectedFlow == "" || !array_key_exists($this->selectedFlow, $this->flows)) {
-            $this->selectedFlow = array_keys($this->flows)[0];
+            $this->selectedFlow = array_keys($this->flows)[0] ?? null;
         }
     }
 

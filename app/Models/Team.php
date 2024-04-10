@@ -10,8 +10,8 @@ class Team extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'description',
+        'team_name',
+        'team_description',
         'password',
         'task_id',
     ];
