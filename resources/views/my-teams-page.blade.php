@@ -1,77 +1,27 @@
-@php
-  $persons = [
-    [
-      "fullName" => "Кабалинов Максим Владимирович",
-      "role" => "Front-end разработчик",
-      "position" => "Создатель команды",
-    ],
-    [
-      "fullName" => "Аракелян Сурен Рубенович",
-      "role" => "Back-end разработчик",
-      "position" => "Участник команды",
-    ],
-    [
-      "fullName" => "Семенов Валентин Андреевич",
-      "role" => "Back-end разработчик",
-      "position" => "Участник команды",
-    ],
-    [
-      "fullName" => "Остапович Андрей Викторович",
-      "role" => "Front-end разработчик",
-      "position" => "Участник команды",
-    ],
-  ]
-@endphp
-
 <div>
-  <h1 class="text-2xl">Все команды, в которых Вы состоите:</h1>
-  <div class="mt-4 space-y-8">
-    <x-entities.team-card
-      title="Шенген"
-      project="Витрина студенческих проектов"
-      description='Команда "Шенген" занимается разработкой веб-ориентированных
-    информационных систем. На данный момент является одной из лучших на
-    потоке. Нам может дать бой разве что Слава.'
-      maxTeamMembers="10"
-      flow="Проектирование в профессиональной сфере"
-      :tags="['Веб-программирование', 'Профессиональный трек']"
-      :persons="$persons"
-    />
+  @if (count($this->flows) == 0 || !$this->hasTeams())
+    <x-shared.page-heading>
+      Вы не состоите ни в одной команде
+    </x-shared.page-heading>
+  @else
+    <x-shared.page-heading>
+      Все команды, в которых Вы состоите:
+    </x-shared.page-heading>
 
-    <x-entities.team-card
-      title="Шенген"
-      project="Витрина студенческих проектов"
-      description='Команда "Шенген" занимается разработкой веб-ориентированных
-    информационных систем. На данный момент является одной из лучших на
-    потоке. Нам может дать бой разве что Слава.'
-      maxTeamMembers="10"
-      flow="Проектирование в профессиональной сфере"
-      :tags="['Веб-программирование', 'Профессиональный трек']"
-      :persons="$persons"
-    />
-
-    <x-entities.team-card
-      title="Шенген"
-      project="Витрина студенческих проектов"
-      description='Команда "Шенген" занимается разработкой веб-ориентированных
-    информационных систем. На данный момент является одной из лучших на
-    потоке. Нам может дать бой разве что Слава.'
-      maxTeamMembers="10"
-      flow="Курсовой проект УД"
-      :tags="['Веб-программирование', 'Профессиональный трек']"
-      :persons="$persons"
-    />
-
-    <x-entities.team-card
-      title="Шенген"
-      project="Витрина студенческих проектов"
-      description='Команда "Шенген" занимается разработкой веб-ориентированных
-    информационных систем. На данный момент является одной из лучших на
-    потоке. Нам может дать бой разве что Слава.'
-      maxTeamMembers="10"
-      flow="Проектирование в профессиональной сфере"
-      :tags="['Веб-программирование', 'Профессиональный трек']"
-      :persons="$persons"
-    />
-  </div>
+    <div class="mt-4 space-y-8">
+      @foreach ($this->flows as $flow => $params)
+        @if (! empty($params))
+          <x-entities.team-card
+            :title="$params['team']['title']"
+            :task="$params['team']['task']"
+            :flow="$flow"
+            :description="$params['team']['description']"
+            :maxTeamMembers="$params['maxTeamMembers']"
+            :tags="$params['team']['tags']"
+            :members="$params['team']['members']"
+          />
+        @endif
+      @endforeach
+    </div>
+  @endif
 </div>
