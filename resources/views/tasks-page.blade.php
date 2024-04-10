@@ -1,6 +1,8 @@
 <div>
   @if ($selectedFlow == "")
-    <x-shared.page-heading>Вы не прикреплены ни к одной дисциплине</x-shared.page-heading>
+    <x-shared.page-heading>
+      Вы не прикреплены ни к одной дисциплине
+    </x-shared.page-heading>
   @else
     <x-shared.select
       id="flow"
@@ -18,20 +20,24 @@
     </x-shared.select>
 
     @if (count($this->flows[$selectedFlow]["tasks"]) == 0)
-      <x-shared.page-heading class="mt-8">Нет задач по выбранной дисциплине</x-shared.page-heading>
+      <x-shared.page-heading class="mt-8">
+        Нет задач по выбранной дисциплине
+      </x-shared.page-heading>
     @else
-      <x-shared.page-heading class="mt-8">Банк задач по выбранной дисциплине:</x-shared.page-heading>
+      <x-shared.page-heading class="mt-8">
+        Банк задач по выбранной дисциплине:
+      </x-shared.page-heading>
 
       <div class="mt-4 space-y-8">
         @foreach ($this->flows[$selectedFlow]["tasks"] as $task)
-          <x-entities.project-card
-            title="{{ $task['title'] }}"
-            customer="{{ $task['customer'] }}"
-            description="{{ $task['description'] }}"
-            takeBefore="{{ $this->flows[$selectedFlow]['takeBefore'] }}"
-            finishBefore="{{ $this->flows[$selectedFlow]['finishBefore'] }}"
-            maxTeamMembers="{{ $this->flows[$selectedFlow]['maxTeamMembers'] }}"
-            maxTeams="{{ $task['maxTeams'] }}"
+          <x-entities.task-card
+            :title="$task['title']"
+            :customer="$task['customer']"
+            :description="$task['description']"
+            :takeBefore="$this->flows[$selectedFlow]['takeBefore']"
+            :finishBefore="$this->flows[$selectedFlow]['finishBefore']"
+            :maxTeamMembers="$this->flows[$selectedFlow]['maxTeamMembers']"
+            :maxTeams="$task['maxTeams']"
             :tags="$task['tags']"
           />
         @endforeach

@@ -24,7 +24,9 @@
 @endphp
 
 <div>
-  <x-shared.page-heading>Все команды, в которых Вы состоите:</x-shared.page-heading>
+  <x-shared.page-heading>
+    Все команды, в которых Вы состоите:
+  </x-shared.page-heading>
   <div class="mt-4 space-y-8">
     <x-entities.team-card
       title="Шенген"

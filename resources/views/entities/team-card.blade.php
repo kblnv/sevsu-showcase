@@ -1,4 +1,4 @@
-@props(["title" => "", "project" => "", "description" => "", "maxTeamMembers" => "", "flow" => "", "persons" => [], "tags" => []])
+@props(["title" => "", "task" => "", "description" => "", "maxTeamMembers" => "", "flow" => "", "members" => [], "tags" => []])
 
 <x-shared.card {{ $attributes }}>
   <div class="border-b-2 p-2">
@@ -19,14 +19,12 @@
     </div>
 
     <x-shared.card.subtitle>
-      {{ $project }}
+      {{ $task }}
     </x-shared.card.subtitle>
 
-    <div class="mt-4">
-      <x-shared.card.text>
-        {{ $description }}
-      </x-shared.card.text>
-    </div>
+    <x-shared.card.text class="mt-4">
+      {{ $description }}
+    </x-shared.card.text>
   </x-shared.card.body>
 
   <div class="border-t-2 p-4">
@@ -42,19 +40,19 @@
         </thead>
 
         <tbody class="divide-y divide-gray-200">
-          @foreach ($persons as $person)
-            <x-entities.team-card.person
+          @foreach ($members as $member)
+            <x-entities.team-card.member
               :index="$loop->index + 1"
-              :fullName="$person['fullName']"
-              :role="$person['role']"
-              :position="$person['position']"
+              :fullName="$member['fullName']"
+              :vacancy="$member['vacancy']"
+              :isModerator="$member['isModerator']"
             />
           @endforeach
         </tbody>
       </table>
 
       <div class="rounded-b-lg border-t border-gray-200 px-4 py-2">
-        Участников: {{ count($persons) }}/{{ $maxTeamMembers }}
+        Участников: {{ count($members) }}/{{ $maxTeamMembers }}
       </div>
     </div>
   </div>
