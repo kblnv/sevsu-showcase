@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->string('task_name');
-            $table->string('description');
+            $table->string('task_description');
             $table->string('customer')->nullable();
-            $table->integer('max_project')->nullable();
+            $table->integer('max_projects')->nullable();
             $table->unsignedBigInteger('flow_id');
             $table->foreign('flow_id')->references('id')->on('flows');
             $table->timestamps();

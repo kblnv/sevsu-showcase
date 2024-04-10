@@ -17,17 +17,18 @@
   <h1 class="mt-8 text-2xl">Банк задач по выбранной дисциплине:</h1>
 
   <div class="mt-4 space-y-8">
-    @foreach ($this->flows[$selectedFlow]["tasks"] as $task)
-      <x-entities.project-card
-        title="{{ $task['title'] }}"
-        customer="{{ $task['customer'] }}"
-        description="{{ $task['description'] }}"
-        takeBefore="{{ $this->flows[$selectedFlow]['takeBefore'] }}"
-        finishBefore="{{ $this->flows[$selectedFlow]['finishBefore'] }}"
-        maxTeamMembers="{{ $this->flows[$selectedFlow]['maxTeamMembers'] }}"
-        maxTeams="{{ $task['maxTeams'] }}"
-        :tags="$task['tags']"
-      />
-    @endforeach
+    @if ($selectedFlow != '')
+      @foreach ($this->flows[$selectedFlow]["tasks"] as $task)
+        <x-entities.project-card
+          title="{{ $task['title'] }}"
+          customer="{{ $task['customer'] }}"
+          description="{{ $task['description'] }}"
+          takeBefore="{{ $this->flows[$selectedFlow]['takeBefore'] }}"
+          finishBefore="{{ $this->flows[$selectedFlow]['finishBefore'] }}"
+          maxTeamMembers="{{ $this->flows[$selectedFlow]['maxTeamMembers'] }}"
+          maxTeams="{{ $task['maxTeams'] }}"
+        />
+      @endforeach
+    @endif
   </div>
 </div>

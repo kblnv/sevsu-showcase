@@ -11,9 +11,9 @@ class Flow extends Model
 
     protected $fillable = [
         'flow_name',
-        'start_team',
-        'end_team',
-        'team_size',
+        'take_before',
+        'finish_before',
+        'max_team_size',
         'can_create_task',
     ];
 }
