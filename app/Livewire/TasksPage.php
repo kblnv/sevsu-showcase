@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\TagTask;
 use App\Models\Task;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Title;
@@ -25,6 +26,7 @@ class TasksPage extends Component
                 'flows.finish_before',
                 'flows.max_team_size',
                 'flows.can_create_task',
+                'tasks.id',
                 'tasks.task_name',
                 'tasks.task_description',
                 'tasks.customer',
@@ -52,11 +54,18 @@ class TasksPage extends Component
                     ];
                 }
 
+                $tags = TagTask::select('tags.tag_name')
+                    ->join('tags', 'tags_tasks.tag_id', '=', 'tags.id')
+                    ->where('tags_tasks.task_id', '=', $task->id)
+                    ->pluck('tag_name')
+                    ->toArray();
+
                 $data[$task->flow_name]['tasks'][] = [
                     'title' => $task->task_name,
                     'description' => $task->task_description,
                     'customer' => $task->customer,
                     'maxTeams' => $task->max_projects,
+                    'tags' => $tags,
                 ];
             }
         }
