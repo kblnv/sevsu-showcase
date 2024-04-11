@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('id')->primary();
             $table->string('first_name');
             $table->string('second_name');
-            $table->string('last_name');
+            $table->string('last_name')->nullable();
             $table->unsignedBigInteger('group_id');
             $table->foreign('group_id')->references('id')->on('groups');
             $table->timestamps();

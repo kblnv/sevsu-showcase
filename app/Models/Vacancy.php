@@ -9,9 +9,10 @@ class Vacancy extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
     protected $fillable = [
         'user_id',
-        'vacancy_name',
         'team_id',
+        'vacancy_name',
     ];
 }

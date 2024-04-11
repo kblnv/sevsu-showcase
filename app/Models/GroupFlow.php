@@ -9,6 +9,8 @@ class GroupFlow extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+    protected $table = "groups_flows";
     protected $fillable = [
         'flow_id',
         'group_id',
