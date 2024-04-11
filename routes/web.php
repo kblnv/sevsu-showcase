@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\MainController;
 use App\Http\Controllers\SocialController;
 use App\Livewire\MyTeamsPage;
 use App\Livewire\TasksPage;
