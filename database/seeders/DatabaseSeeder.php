@@ -7,6 +7,8 @@ namespace Database\Seeders;
 use App\Models\Flow;
 use App\Models\Group;
 use App\Models\GroupFlow;
+use App\Models\Tag;
+use App\Models\TagTask;
 use App\Models\Task;
 use App\Models\Team;
 use App\Models\User;
@@ -100,6 +102,30 @@ class DatabaseSeeder extends Seeder
                         'max_projects' => rand(1, 15),
                     ]
                 );
+            }
+        }
+
+        for ($i = 1; $i <= 3; $i++) {
+            Tag::firstOrCreate([
+                'tag_name' => 'Тэг ' . $i,
+            ]);
+        }
+
+        $tasks = Task::all();
+        foreach ($tasks as $task) {
+            for ($i = 1; $i < rand(2, 3); $i++) {
+                $tagId = Tag::pluck('id')->random();
+
+                $existingTagTask = TagTask::where('task_id', $task->id)
+                    ->where('tag_id', $tagId)
+                    ->exists();
+
+                if (!$existingTagTask) {
+                    TagTask::create([
+                        'task_id' => $task->id,
+                        'tag_id' => $tagId,
+                    ]);
+                }
             }
         }
 
