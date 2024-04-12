@@ -2,330 +2,99 @@
 
 namespace App\Livewire;
 
+use App\Models\Flow;
+use App\Models\TagTask;
+use App\Models\Team;
+use App\Models\UserTeam;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 #[Title('Команды')]
 class TeamsPage extends Component
 {
+    use WithPagination;
+
     #[Url]
     public $selectedFlow = "";
 
     #[Computed(persist: true, seconds: 300)]
     public function flows()
     {
-        return [
-            "Дисциплина 1" => [
-                "maxTeamMembers" => "10",
-                "teams" => [
-                    [
-                        "title" => "Задача 1 дисциплины 1",
-                        "task" => "Проект дисциплины 1",
-                        "description" => "Описание 1 дисциплины 1",
-                        "tags" => ['Веб-программирование', 'Профессиональный трек'],
-                        "members" => [
-                            [
-                                "fullName" => "Кабалинов Максим Владимирович",
-                                "vacancy" => "Front-end разработчик",
-                                "isModerator" => true
-                            ],
-                            [
-                                "fullName" => "Аракелян Сурен Рубенович",
-                                "vacancy" => "Back-end разработчик",
-                                "isModerator" => false
-                            ],
-                            [
-                                "fullName" => "Семенов Валентин Андреевич",
-                                "vacancy" => "Back-end разработчик",
-                                "isModerator" => false
-                            ],
-                            [
-                                "fullName" => "Остапович Андрей Викторович",
-                                "vacancy" => "Front-end разработчик",
-                                "isModerator" => false
-                            ],
-                        ]
-                    ],
-                    [
-                        "title" => "Задача 2 дисциплины 1",
-                        "task" => "Заказчик 2 дисциплины 1",
-                        "description" => "Описание 2 дисциплины 1",
-                        "maxTeams" => "5",
-                        "tags" => ['Веб-программирование', 'Профессиональный трек'],
-                        "members" => [
-                            [
-                                "fullName" => "Кабалинов Максим Владимирович",
-                                "vacancy" => "Front-end разработчик",
-                                "isModerator" => true
-                            ],
-                            [
-                                "fullName" => "Аракелян Сурен Рубенович",
-                                "vacancy" => "Back-end разработчик",
-                                "isModerator" => false
-                            ],
-                            [
-                                "fullName" => "Семенов Валентин Андреевич",
-                                "vacancy" => "Back-end разработчик",
-                                "isModerator" => false
-                            ],
-                            [
-                                "fullName" => "Остапович Андрей Викторович",
-                                "vacancy" => "Front-end разработчик",
-                                "isModerator" => false
-                            ],
-                        ]
-                    ],
-                    [
-                        "title" => "Задача 3 дисциплины 1",
-                        "task" => "Заказчик 3 дисциплины 1",
-                        "description" => "Описание 3 дисциплины 1",
-                        "maxTeams" => "5",
-                        "tags" => ['Веб-программирование', 'Профессиональный трек'],
-                        "members" => [
-                            [
-                                "fullName" => "Кабалинов Максим Владимирович",
-                                "vacancy" => "Front-end разработчик",
-                                "isModerator" => true
-                            ],
-                            [
-                                "fullName" => "Аракелян Сурен Рубенович",
-                                "vacancy" => "Back-end разработчик",
-                                "isModerator" => false
-                            ],
-                            [
-                                "fullName" => "Семенов Валентин Андреевич",
-                                "vacancy" => "Back-end разработчик",
-                                "isModerator" => false
-                            ],
-                            [
-                                "fullName" => "Остапович Андрей Викторович",
-                                "vacancy" => "Front-end разработчик",
-                                "isModerator" => false
-                            ],
-                        ]
-                    ],
-                ]
-            ],
-            "Дисциплина 2" => [
-                "maxTeamMembers" => "10",
-                "teams" => [
-                    [
-                        "title" => "Задача 1 дисциплины 2",
-                        "task" => "Проект дисциплины 1",
-                        "description" => "Описание 1 дисциплины 1",
-                        "tags" => ['Веб-программирование', 'Профессиональный трек'],
-                        "members" => [
-                            [
-                                "fullName" => "Кабалинов Максим Владимирович",
-                                "vacancy" => "Front-end разработчик",
-                                "isModerator" => true
-                            ],
-                            [
-                                "fullName" => "Аракелян Сурен Рубенович",
-                                "vacancy" => "Back-end разработчик",
-                                "isModerator" => false
-                            ],
-                            [
-                                "fullName" => "Семенов Валентин Андреевич",
-                                "vacancy" => "Back-end разработчик",
-                                "isModerator" => false
-                            ],
-                            [
-                                "fullName" => "Остапович Андрей Викторович",
-                                "vacancy" => "Front-end разработчик",
-                                "isModerator" => false
-                            ],
-                        ]
-                    ],
-                    [
-                        "title" => "Задача 2 дисциплины 2",
-                        "task" => "Заказчик 2 дисциплины 1",
-                        "description" => "Описание 2 дисциплины 1",
-                        "maxTeams" => "5",
-                        "tags" => ['Веб-программирование', 'Профессиональный трек'],
-                        "members" => [
-                            [
-                                "fullName" => "Кабалинов Максим Владимирович",
-                                "vacancy" => "Front-end разработчик",
-                                "isModerator" => true
-                            ],
-                            [
-                                "fullName" => "Аракелян Сурен Рубенович",
-                                "vacancy" => "Back-end разработчик",
-                                "isModerator" => false
-                            ],
-                            [
-                                "fullName" => "Семенов Валентин Андреевич",
-                                "vacancy" => "Back-end разработчик",
-                                "isModerator" => false
-                            ],
-                            [
-                                "fullName" => "Остапович Андрей Викторович",
-                                "vacancy" => "Front-end разработчик",
-                                "isModerator" => false
-                            ],
-                        ]
-                    ],
-                    [
-                        "title" => "Задача 3 дисциплины 2",
-                        "task" => "Заказчик 3 дисциплины 1",
-                        "description" => "Описание 3 дисциплины 1",
-                        "maxTeams" => "5",
-                        "tags" => ['Веб-программирование', 'Профессиональный трек'],
-                        "members" => [
-                            [
-                                "fullName" => "Кабалинов Максим Владимирович",
-                                "vacancy" => "Front-end разработчик",
-                                "isModerator" => true
-                            ],
-                            [
-                                "fullName" => "Аракелян Сурен Рубенович",
-                                "vacancy" => "Back-end разработчик",
-                                "isModerator" => false
-                            ],
-                            [
-                                "fullName" => "Семенов Валентин Андреевич",
-                                "vacancy" => "Back-end разработчик",
-                                "isModerator" => false
-                            ],
-                            [
-                                "fullName" => "Остапович Андрей Викторович",
-                                "vacancy" => "Front-end разработчик",
-                                "isModerator" => false
-                            ],
-                        ],
-                        "members" => [
-                            [
-                                "fullName" => "Кабалинов Максим Владимирович",
-                                "vacancy" => "Front-end разработчик",
-                                "isModerator" => true
-                            ],
-                            [
-                                "fullName" => "Аракелян Сурен Рубенович",
-                                "vacancy" => "Back-end разработчик",
-                                "isModerator" => false
-                            ],
-                            [
-                                "fullName" => "Семенов Валентин Андреевич",
-                                "vacancy" => "Back-end разработчик",
-                                "isModerator" => false
-                            ],
-                            [
-                                "fullName" => "Остапович Андрей Викторович",
-                                "vacancy" => "Front-end разработчик",
-                                "isModerator" => false
-                            ],
-                        ]
-                    ],
-                ]
-            ],
-            "Дисциплина 3" => [
-                "maxTeamMembers" => "10",
-                "teams" => [
-                    [
-                        "title" => "Задача 1 дисциплины 3",
-                        "task" => "Проект дисциплины 3",
-                        "description" => "Описание 1 дисциплины 3",
-                        "tags" => ['Веб-программирование', 'Профессиональный трек'],
-                        "members" => [
-                            [
-                                "fullName" => "Кабалинов Максим Владимирович",
-                                "vacancy" => "Front-end разработчик",
-                                "isModerator" => true
-                            ],
-                            [
-                                "fullName" => "Аракелян Сурен Рубенович",
-                                "vacancy" => "Back-end разработчик",
-                                "isModerator" => false
-                            ],
-                            [
-                                "fullName" => "Семенов Валентин Андреевич",
-                                "vacancy" => "Back-end разработчик",
-                                "isModerator" => false
-                            ],
-                            [
-                                "fullName" => "Остапович Андрей Викторович",
-                                "vacancy" => "Front-end разработчик",
-                                "isModerator" => false
-                            ],
-                        ]
-                    ],
-                    [
-                        "title" => "Задача 2 дисциплины 3",
-                        "task" => "Заказчик 2 дисциплины 3",
-                        "description" => "Описание 2 дисциплины 3",
-                        "maxTeams" => "5",
-                        "tags" => ['Веб-программирование', 'Профессиональный трек'],
-                        "members" => [
-                            [
-                                "fullName" => "Кабалинов Максим Владимирович",
-                                "vacancy" => "Front-end разработчик",
-                                "isModerator" => true
-                            ],
-                            [
-                                "fullName" => "Аракелян Сурен Рубенович",
-                                "vacancy" => "Back-end разработчик",
-                                "isModerator" => false
-                            ],
-                            [
-                                "fullName" => "Семенов Валентин Андреевич",
-                                "vacancy" => "Back-end разработчик",
-                                "isModerator" => false
-                            ],
-                            [
-                                "fullName" => "Остапович Андрей Викторович",
-                                "vacancy" => "Front-end разработчик",
-                                "isModerator" => false
-                            ],
-                        ]
-                    ],
-                    [
-                        "title" => "Задача 3 дисциплины 3",
-                        "task" => "Заказчик 3 дисциплины 3",
-                        "description" => "Описание 3 дисциплины 3",
-                        "maxTeams" => "5",
-                        "tags" => ['Веб-программирование', 'Профессиональный трек'],
-                        "members" => [
-                            [
-                                "fullName" => "Кабалинов Максим Владимирович",
-                                "vacancy" => "Front-end разработчик",
-                                "isModerator" => true
-                            ],
-                            [
-                                "fullName" => "Аракелян Сурен Рубенович",
-                                "vacancy" => "Back-end разработчик",
-                                "isModerator" => false
-                            ],
-                            [
-                                "fullName" => "Семенов Валентин Андреевич",
-                                "vacancy" => "Back-end разработчик",
-                                "isModerator" => false
-                            ],
-                            [
-                                "fullName" => "Остапович Андрей Викторович",
-                                "vacancy" => "Front-end разработчик",
-                                "isModerator" => false
-                            ],
-                        ]
-                    ],
-                ]
-            ],
-        ];
+        $user = auth()->user();
+
+        $flows = Flow::select(
+                'flows.id',
+                'flows.flow_name',
+                'flows.max_team_size',
+            )
+            ->join('groups_flows', 'flows.id', '=', 'groups_flows.flow_id')
+            ->where('groups_flows.group_id', $user->group_id)
+            ->get();
+
+        return $flows;
+    }
+
+    public function teams()
+    {
+        $user = auth()->user();
+
+        $teams = Team::select(
+                'teams.id',
+                'teams.team_name',
+                'teams.team_description',
+                'tasks.id',
+                'tasks.task_name',
+                'tasks.task_description',
+            )
+            ->join('tasks', 'teams.task_id', '=', 'tasks.id')
+            ->join('flows', 'tasks.flow_id', '=', 'flows.id')
+            ->where('flows.flow_name', '=', $this->selectedFlow)
+            ->paginate(10);
+
+        return $teams;
+    }
+
+    public function members($teamId)
+    {
+        $members = UserTeam::select(
+            'users.first_name',
+            'users.second_name',
+            'users.last_name',
+            'users_teams.is_moderator',
+        )
+        ->join('users', 'users_teams.user_id', '=', 'users.id')
+        ->join('teams', 'teams.id', '=', 'users_teams.team_id')
+        ->where('teams.id', '=', $teamId)
+        ->join('vacancies', 'users.id', '=', 'vacancies.user_id')
+        ->where('vacancies.team_id', '=', $teamId)
+        ->get();
+
+        return $members;
+    }
+
+    public function tags($taskId)
+    {
+        $tags = TagTask::select('tags.tag_name')
+            ->join('tags', 'tags_tasks.tag_id', '=', 'tags.id')
+            ->where('tags_tasks.task_id', '=', $taskId)
+            ->pluck('tag_name')
+            ->toArray();
+
+        return $tags;
     }
 
     public function mount()
     {
-        if ($this->selectedFlow == "" || !array_key_exists($this->selectedFlow, $this->flows)) {
-            $this->selectedFlow = array_keys($this->flows)[0] ?? "";
+        if ($this->selectedFlow == "" || !$this->flows()->firstWhere('flow_name', $this->selectedFlow)) {
+            $this->selectedFlow = $this->flows()->first()->flow_name ?? '';
         }
     }
 
     public function render()
     {
-        return view('teams-page', [
-            "flowsNames" => array_keys($this->flows)
-        ]);
+        return view('teams-page');
     }
 }
