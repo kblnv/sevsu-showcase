@@ -20,7 +20,7 @@
       @endforeach
     </x-shared.select>
 
-    @if ($this->flows->count() == 0)
+    @if ($this->tasks()->count() == 0)
       <x-shared.page-heading class="mt-8">
         Нет задач по выбранной дисциплине
       </x-shared.page-heading>
