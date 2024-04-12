@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users_teams', function (Blueprint $table) {
-            $table->string('user_id');
-            $table->unsignedBigInteger('team_id');
+            $table->uuid('user_id');
+            $table->uuid('team_id');
             $table->boolean('is_moderator');
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('team_id')->references('id')->on('teams');

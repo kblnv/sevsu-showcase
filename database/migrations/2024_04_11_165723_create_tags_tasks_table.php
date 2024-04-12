@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tags_tasks', function (Blueprint $table) {
-            $table->unsignedBigInteger('task_id');
+            $table->uuid('task_id');
             $table->unsignedBigInteger('tag_id');
             $table->primary(['task_id', 'tag_id']);
             $table->foreign('task_id')->references('id')->on('tasks');

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('groups_flows', function (Blueprint $table) {
-            $table->unsignedBigInteger('flow_id');
+            $table->uuid('flow_id');
             $table->unsignedBigInteger('group_id');
             $table->primary(['flow_id', 'group_id']);
             $table->foreign('flow_id')->references('id')->on('flows');

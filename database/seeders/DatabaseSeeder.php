@@ -71,19 +71,21 @@ class DatabaseSeeder extends Seeder
             );
         }
 
+        $flowsId = Flow::all('id')->pluck('id')->toArray();
+
         for ($i = 1; $i < 4; $i++) {
             switch ($i) {
                 case 1:
-                    GroupFlow::firstOrCreate(['flow_id' => 1, 'group_id' => $i]);
-                    GroupFlow::firstOrCreate(['flow_id' => 2, 'group_id' => $i]);
-                    GroupFlow::firstOrCreate(['flow_id' => 3, 'group_id' => $i]);
+                    GroupFlow::firstOrCreate(['flow_id' => $flowsId[0], 'group_id' => $i]);
+                    GroupFlow::firstOrCreate(['flow_id' => $flowsId[1], 'group_id' => $i]);
+                    GroupFlow::firstOrCreate(['flow_id' => $flowsId[2], 'group_id' => $i]);
                     break;
                 case 2:
-                    GroupFlow::firstOrCreate(['flow_id' => 2, 'group_id' => $i]);
-                    GroupFlow::firstOrCreate(['flow_id' => 3, 'group_id' => $i]);
+                    GroupFlow::firstOrCreate(['flow_id' => $flowsId[1], 'group_id' => $i]);
+                    GroupFlow::firstOrCreate(['flow_id' => $flowsId[2], 'group_id' => $i]);
                     break;
                 case 3:
-                    GroupFlow::firstOrCreate(['flow_id' => 3, 'group_id' => $i]);
+                    GroupFlow::firstOrCreate(['flow_id' => $flowsId[2], 'group_id' => $i]);
                     break;
             }
         }

@@ -2,30 +2,28 @@
 
 namespace App\Livewire;
 
+use App\Models\Flow;
 use App\Models\TagTask;
 use App\Models\Task;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 #[Title('Банк задач')]
 class TasksPage extends Component
 {
+    use WithPagination;
+
     #[Url]
     public $selectedFlow = "";
 
-    #[Computed(persist: true, seconds: 300)]
-    public function flows()
+    public function tasks()
     {
         $user = auth()->user();
 
         $tasks = Task::select(
-                'flows.flow_name',
-                'flows.take_before',
-                'flows.finish_before',
-                'flows.max_team_size',
-                'flows.can_create_task',
                 'tasks.id',
                 'tasks.task_name',
                 'tasks.task_description',
@@ -33,57 +31,57 @@ class TasksPage extends Component
                 'tasks.max_projects'
             )
             ->join('flows', 'tasks.flow_id', '=', 'flows.id')
+            ->where('flows.flow_name', '=', $this->selectedFlow)
             ->join('groups_flows', 'flows.id', '=', 'groups_flows.flow_id')
             ->where('groups_flows.group_id', $user->group_id)
             ->join('groups', 'groups_flows.group_id', '=', 'groups.id')
             ->join('users', 'groups.id', '=', 'users.group_id')
             ->where('users.id', $user->id)
+            ->paginate(10);
+
+        return $tasks;
+    }
+
+    #[Computed(persist: true, seconds: 300)]
+    public function flows()
+    {
+        $user = auth()->user();
+
+        $flows = Flow::select(
+                'flows.id',
+                'flows.flow_name',
+                'flows.take_before',
+                'flows.finish_before',
+                'flows.max_team_size',
+                'flows.can_create_task',
+            )
+            ->join('groups_flows', 'flows.id', '=', 'groups_flows.flow_id')
+            ->where('groups_flows.group_id', $user->group_id)
             ->get();
 
-        $data = [];
+        return $flows;
+    }
 
-        if ($tasks->isNotEmpty()) {
-            foreach ($tasks as $task) {
-                if (empty($data[$task->flow_name])) {
-                    $data[$task->flow_name] = [
-                        'takeBefore' => $task->take_before,
-                        'finishBefore' => $task->finish_before,
-                        'maxTeamMembers' => $task->max_team_size,
-                        'canCreateTask' => $task->can_create_task,
-                        'tasks' => [],
-                    ];
-                }
+    public function tags($taskId)
+    {
+        $tags = TagTask::select('tags.tag_name')
+            ->join('tags', 'tags_tasks.tag_id', '=', 'tags.id')
+            ->where('tags_tasks.task_id', '=', $taskId)
+            ->pluck('tag_name')
+            ->toArray();
 
-                $tags = TagTask::select('tags.tag_name')
-                    ->join('tags', 'tags_tasks.tag_id', '=', 'tags.id')
-                    ->where('tags_tasks.task_id', '=', $task->id)
-                    ->pluck('tag_name')
-                    ->toArray();
-
-                $data[$task->flow_name]['tasks'][] = [
-                    'title' => $task->task_name,
-                    'description' => $task->task_description,
-                    'customer' => $task->customer,
-                    'maxTeams' => $task->max_projects,
-                    'tags' => $tags,
-                ];
-            }
-        }
-
-        return $data;
+        return $tags;
     }
 
     public function mount()
     {
-        if ($this->selectedFlow == "" || !array_key_exists($this->selectedFlow, $this->flows)) {
-            $this->selectedFlow = array_keys($this->flows)[0] ?? "";
+        if ($this->selectedFlow == "" || !$this->flows()->firstWhere('flow_name', $this->selectedFlow)) {
+            $this->selectedFlow = $this->flows()->first()->flow_name ?? '';
         }
     }
 
     public function render()
     {
-        return view('tasks-page', [
-            "flowsNames" => array_keys($this->flows)
-        ]);
+        return view('tasks-page');
     }
 }
