@@ -1,10 +1,8 @@
 <?php
 
 use App\Http\Controllers\SocialController;
-use App\Livewire\MyTeamsPage;
-use App\Livewire\TasksPage;
-use App\Livewire\TeamsPage;
 use Illuminate\Support\Facades\Route;
+use Livewire\Volt\Volt;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +16,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth')->group(function () {
-    Route::get('/', TasksPage::class)->name("tasks");
-    Route::get('/teams', TeamsPage::class)->name("teams");
-    Route::get('/my-teams', MyTeamsPage::class)->name("my-teams");
+    Volt::route('/', 'tasks.index')->name("tasks.index");
+    Volt::route('/teams', 'teams.index')->name("teams.index");
+    Volt::route('/my-teams', 'my-teams.index')->name("my-teams.index");
 
     Route::get('/{provider}/logout', [SocialController::class, 'logout'])->name('logout');
 });
@@ -29,3 +27,4 @@ Route::prefix('auth')->group(function () {
     Route::get('/{provider}/redirect', [SocialController::class, 'redirectToProvider'])->name('login');
     Route::get('/{provider}/callback', [SocialController::class, 'handleProviderCallback']);
 });
+
