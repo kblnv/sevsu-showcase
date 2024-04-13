@@ -90,6 +90,11 @@ class extends Component {
             $this->selectedFlow = $this->flows()->first()->flow_name ?? '';
         }
     }
+
+    public function paginationView()
+    {
+        return 'components.widgets.pagination';
+    }
 }; ?>
 
 <div>
@@ -139,6 +144,9 @@ class extends Component {
             </div>
         @endif
 
-        {{ $this->teams()->links() }}
+        <div class="mt-4">
+            {{ $this->teams()->links() }}
+        </div>
     @endif
 </div>
+
