@@ -26,7 +26,10 @@ class extends Component {
         $flows = Flow::select(
                 'flows.id',
                 'flows.flow_name',
+                'flows.take_before',
+                'flows.finish_before',
                 'flows.max_team_size',
+                'flows.can_create_task',
             )
             ->join('groups_flows', 'flows.id', '=', 'groups_flows.flow_id')
             ->where('groups_flows.group_id', $user->group_id)
@@ -37,15 +40,14 @@ class extends Component {
 
     public function teams()
     {
-        $user = auth()->user();
-
         $teams = Team::select(
                 'teams.id',
                 'teams.team_name',
                 'teams.team_description',
-                'tasks.id',
+                'teams.task_id',
                 'tasks.task_name',
                 'tasks.task_description',
+                'tasks.max_projects'
             )
             ->join('tasks', 'teams.task_id', '=', 'tasks.id')
             ->join('flows', 'tasks.flow_id', '=', 'flows.id')
@@ -62,13 +64,15 @@ class extends Component {
             'users.second_name',
             'users.last_name',
             'users_teams.is_moderator',
+            'vacancies.vacancy_name'
         )
         ->join('users', 'users_teams.user_id', '=', 'users.id')
         ->join('teams', 'teams.id', '=', 'users_teams.team_id')
         ->where('teams.id', '=', $teamId)
         ->join('vacancies', 'users.id', '=', 'vacancies.user_id')
         ->where('vacancies.team_id', '=', $teamId)
-        ->get();
+        ->get()
+        ->toArray();
 
         return $members;
     }
@@ -125,20 +129,25 @@ class extends Component {
 
         @if ($this->flows->count() == 0)
             <x-shared.page-heading class="mt-8">
-                Нет задач по выбранной дисциплине
+                Нет команд по выбранной дисциплине
             </x-shared.page-heading>
         @else
             <x-shared.page-heading class="mt-8">
-                Банк задач по выбранной дисциплине:
+                Команды по выбранной дисциплине:
             </x-shared.page-heading>
 
             <div class="mt-4 space-y-8">
                 @foreach ($this->teams()->items() as $team)
-                    <x-entities.task-card
+                    <x-entities.team-card
                         :title="$team['team_name']"
+                        :task="$team['task_name']"
                         :description="$team['team_description']"
+                        :takeBefore="$this->flows->firstWhere('flow_name', $selectedFlow)->take_before"
+                        :finishBefore="$this->flows->firstWhere('flow_name', $selectedFlow)->finish_before"
                         :maxTeamMembers="$this->flows->firstWhere('flow_name', $selectedFlow)->max_team_size"
-                        :tags="$this->tags($team['tasks_id'])"
+                        :maxTeams="$team['max_projects']"
+                        :tags="$this->tags($team['task_id'])"
+                        :members="$this->members($team['id'])"
                     />
                 @endforeach
             </div>

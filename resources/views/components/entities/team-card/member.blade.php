@@ -5,6 +5,6 @@
   <td class="px-4 py-2">{{ $fullName }}</td>
   <td class="px-4 py-2">{{ $vacancy }}</td>
   <td class="px-4 py-2">
-    {{ $isModerator ? "Создатель команды" : "Участник команды" }}
+    {{ $isModerator ? "Модератор команды" : "Участник команды" }}
   </td>
 </tr>
