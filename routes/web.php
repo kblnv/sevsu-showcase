@@ -16,9 +16,9 @@ use Livewire\Volt\Volt;
 */
 
 Route::middleware('auth')->group(function () {
-    Volt::route('/', 'tasks-page')->name("tasks");
-    Volt::route('/teams', 'teams-page')->name("teams");
-    Volt::route('/my-teams', 'my-teams-page')->name("my-teams");
+    Volt::route('/', 'tasks.index')->name("tasks.index");
+    Volt::route('/teams', 'teams.index')->name("teams.index");
+    Volt::route('/my-teams', 'my-teams.index')->name("my-teams.index");
 
     Route::get('/{provider}/logout', [SocialController::class, 'logout'])->name('logout');
 });

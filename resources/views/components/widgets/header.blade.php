@@ -1,12 +1,12 @@
 <header class="h-[68px]">
   <nav
-    class="h-full bg-sevsu-white shadow"
+    class="h-full shadow bg-sevsu-white"
     x-data="{ isOpen: false }"
     x-ref="nav"
   >
-    <div class="container mx-auto h-full px-6 lg:flex lg:justify-between">
-      <div class="flex h-full items-center justify-between">
-        <a href="{{ route("tasks") }}" wire:navigate>
+    <div class="container h-full px-6 mx-auto lg:flex lg:justify-between">
+      <div class="flex items-center justify-between h-full">
+        <a href="{{ route("tasks.index") }}" wire:navigate>
           <img
             class="h-[50px] w-[186px]"
             src="{{ asset("images/logo/sevsu-logo-main.svg") }}"
@@ -58,33 +58,33 @@
 
       <ul class="hidden space-x-8 lg:flex">
         <li
-          class="{{ Route::is("tasks") ? "after:content-[''] after:h-[2px] after:absolute after:inset-x-0 after:bottom-0 after:bg-sevsu-blue" : "" }} relative flex items-center"
+          class="{{ Route::is("tasks.index") ? "after:content-[''] after:h-[2px] after:absolute after:inset-x-0 after:bottom-0 after:bg-sevsu-blue" : "" }} relative flex items-center"
         >
           <a
-            class="transform transition-colors duration-300 hover:text-sevsu-blue"
-            href="{{ route("tasks") }}"
+            class="transition-colors duration-300 transform hover:text-sevsu-blue"
+            href="{{ route("tasks.index") }}"
             wire:navigate
           >
             Банк задач
           </a>
         </li>
         <li
-          class="{{ Route::is("teams") ? "after:content-[''] after:h-[2px] after:absolute after:inset-x-0 after:bottom-0 after:bg-sevsu-blue" : "" }} relative flex items-center"
+          class="{{ Route::is("teams.index") ? "after:content-[''] after:h-[2px] after:absolute after:inset-x-0 after:bottom-0 after:bg-sevsu-blue" : "" }} relative flex items-center"
         >
           <a
-            class="transform transition-colors duration-300 hover:text-sevsu-blue"
-            href="{{ route("teams") }}"
+            class="transition-colors duration-300 transform hover:text-sevsu-blue"
+            href="{{ route("teams.index") }}"
             wire:navigate
           >
             Команды
           </a>
         </li>
         <li
-          class="{{ Route::is("my-teams") ? "after:content-[''] after:h-[2px] after:absolute after:inset-x-0 after:bottom-0 after:bg-sevsu-blue" : "" }} relative flex items-center"
+          class="{{ Route::is("my-teams.index") ? "after:content-[''] after:h-[2px] after:absolute after:inset-x-0 after:bottom-0 after:bg-sevsu-blue" : "" }} relative flex items-center"
         >
           <a
-            class="transform transition-colors duration-300 hover:text-sevsu-blue"
-            href="{{ route("my-teams") }}"
+            class="transition-colors duration-300 transform hover:text-sevsu-blue"
+            href="{{ route("my-teams.index") }}"
             wire:navigate
           >
             Мои команды
@@ -101,7 +101,7 @@
           x-ref="dropdown"
         >
           <button
-            class="hidden items-center gap-2 text-black lg:flex"
+            class="items-center hidden gap-2 text-black lg:flex"
             type="button"
             href="#"
             @click="isActive = !isActive"
@@ -127,7 +127,7 @@
         </div>
 
         <div
-          class="w-56 rounded-md border border-gray-100 bg-sevsu-white shadow-md"
+          class="w-56 border border-gray-100 rounded-md shadow-md bg-sevsu-white"
           x-anchor.offset.6.bottom-end="$refs.dropdown"
           x-cloak
           x-transition
@@ -136,7 +136,7 @@
         >
           <div class="p-2">
             <a
-              class="flex w-full items-center gap-2 rounded-lg px-4 py-2 text-sm text-red-700 hover:bg-red-50"
+              class="flex items-center w-full gap-2 px-4 py-2 text-sm text-red-700 rounded-lg hover:bg-red-50"
               href="{{ route("logout", "keycloak") }}"
             >
               <svg
@@ -161,7 +161,7 @@
       </div>
 
       <div
-        class="w-full bg-sevsu-white shadow lg:hidden"
+        class="w-full shadow bg-sevsu-white lg:hidden"
         :style="{ position: 'absolute', top: $anchor.y+'px', left: '0px' }"
         x-cloak
         x-collapse
@@ -169,36 +169,36 @@
         x-anchor.no-style="$refs.nav"
         @click.away="isOpen = false"
       >
-        <div class="container mx-auto px-6 py-4">
+        <div class="container px-6 py-4 mx-auto">
           <ul class="space-y-4">
             <li
-              class="{{ Route::is("tasks") ? "border-b-2 border-sevsu-blue" : "" }} relative"
+              class="{{ Route::is("tasks.index") ? "border-b-2 border-sevsu-blue" : "" }} relative"
             >
               <a
-                class="transform transition-colors duration-300 hover:text-sevsu-blue"
-                href="{{ route("tasks") }}"
+                class="transition-colors duration-300 transform hover:text-sevsu-blue"
+                href="{{ route("tasks.index") }}"
                 wire:navigate
               >
                 Банк задач
               </a>
             </li>
             <li
-              class="{{ Route::is("teams") ? "border-b-2 border-sevsu-blue" : "" }} relative"
+              class="{{ Route::is("teams.index") ? "border-b-2 border-sevsu-blue" : "" }} relative"
             >
               <a
-                class="transform transition-colors duration-300 hover:text-sevsu-blue"
-                href="{{ route("teams") }}"
+                class="transition-colors duration-300 transform hover:text-sevsu-blue"
+                href="{{ route("teams.index") }}"
                 wire:navigate
               >
                 Команды
               </a>
             </li>
             <li
-              class="{{ Route::is("my-teams") ? "border-b-2 border-sevsu-blue" : "" }} relative"
+              class="{{ Route::is("my-teams.index") ? "border-b-2 border-sevsu-blue" : "" }} relative"
             >
               <a
-                class="transform transition-colors duration-300 hover:text-sevsu-blue"
-                href="{{ route("my-teams") }}"
+                class="transition-colors duration-300 transform hover:text-sevsu-blue"
+                href="{{ route("my-teams.index") }}"
                 wire:navigate
               >
                 Мои команды
@@ -207,7 +207,7 @@
 
             <li>
               <a
-                class="transform transition-colors duration-300 hover:text-sevsu-blue"
+                class="transition-colors duration-300 transform hover:text-sevsu-blue"
                 href="{{ route("logout", "keycloak") }}"
               >
                 Выйти
