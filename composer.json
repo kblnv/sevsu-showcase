@@ -15,6 +15,7 @@
         "laravel/socialite": "^5.12",
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^3.4",
+        "livewire/volt": "^1.6",
         "socialiteproviders/manager": "^4.5"
     },
     "require-dev": {
