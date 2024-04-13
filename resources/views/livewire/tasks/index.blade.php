@@ -131,6 +131,8 @@ class extends Component {
             </div>
         @endif
 
-        {{ $this->tasks()->links() }}
+        <div class="mt-4">
+            {{ $this->tasks()->links() }}
+        </div>
     @endif
 </div>
