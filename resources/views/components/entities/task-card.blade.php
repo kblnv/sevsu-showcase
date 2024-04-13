@@ -2,7 +2,7 @@
 
 <x-shared.card {{ $attributes }}>
   @if (count($tags) != 0)
-    <div class="border-b-2 p-2">
+    <div class="p-2 border-b border-gray-300">
       <x-shared.card.tags :tags="$tags" />
     </div>
   @endif
@@ -22,7 +22,7 @@
       {{ $description }}
     </x-shared.card.text>
 
-    <dl class="mt-4 grid gap-2 text-sm md:grid-cols-2 lg:grid-cols-4">
+    <dl class="grid gap-2 mt-4 text-sm md:grid-cols-2 lg:grid-cols-4">
       <x-entities.task-card.param
         :value="$takeBefore"
         term="Взять проект до:"
