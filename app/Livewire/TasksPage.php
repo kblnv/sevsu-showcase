@@ -82,6 +82,6 @@ class TasksPage extends Component
 
     public function render()
     {
-        return view('tasks-page');
+        return view('livewire.tasks-page');
     }
 }

@@ -95,6 +95,6 @@ class TeamsPage extends Component
 
     public function render()
     {
-        return view('teams-page');
+        return view('livewire.teams-page');
     }
 }

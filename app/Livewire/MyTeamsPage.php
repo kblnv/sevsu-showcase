@@ -122,6 +122,6 @@ class MyTeamsPage extends Component
 
     public function render()
     {
-        return view('my-teams-page');
+        return view('livewire.my-teams-page');
     }
 }
