@@ -2,7 +2,7 @@
 
 <x-shared.card {{ $attributes }}>
   @if (count($tags) != 0)
-    <div class="p-2 border-b-2">
+    <div class="p-2 border-b border-gray-300">
       <x-shared.card.tags :tags="$tags" />
     </div>
   @endif
@@ -31,9 +31,9 @@
     @endif
   </x-shared.card.body>
 
-  <div class="p-4 border-t-2">
-    <div class="overflow-x-auto text-sm border border-gray-200 rounded-lg">
-      <table class="min-w-full bg-white divide-y-2 divide-gray-200">
+  <div class="p-8 border-t border-gray-300">
+    <div class="overflow-x-auto text-sm border border-gray-300 rounded-lg shadow shadow-gray-300">
+      <table class="min-w-full bg-white divide-y-2 divide-gray-300">
         <thead>
           <tr>
             <td class="px-4 py-2 font-myriad-bold">№</td>
@@ -43,7 +43,7 @@
           </tr>
         </thead>
 
-        <tbody class="divide-y divide-gray-200">
+        <tbody class="divide-y divide-gray-300">
           @foreach ($members as $member)
            @php($fullName = "{$member['second_name']} {$member['first_name']} {$member['last_name']}")
             <x-entities.team-card.member
@@ -55,8 +55,7 @@
           @endforeach
         </tbody>
       </table>
-
-      <div class="px-4 py-2 border-t border-gray-200 rounded-b-lg">
+      <div class="px-4 py-2 border-t border-gray-300">
         Участников: {{ count($members) }}/{{ $maxTeamMembers }}
       </div>
     </div>
