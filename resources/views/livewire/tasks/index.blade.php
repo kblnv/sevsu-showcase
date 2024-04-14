@@ -31,8 +31,6 @@ new #[Title("Банк задач")] class extends Component {
             ->join("groups_flows", "flows.id", "=", "groups_flows.flow_id")
             ->where("groups_flows.group_id", $user->group_id)
             ->join("groups", "groups_flows.group_id", "=", "groups.id")
-            ->join("users", "groups.id", "=", "users.group_id")
-            ->where("users.id", $user->id)
             ->paginate(10);
 
         return $tasks;
