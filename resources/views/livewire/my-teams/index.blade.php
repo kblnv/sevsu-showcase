@@ -2,6 +2,7 @@
 
 use App\Models\TagTask;
 use App\Models\Team;
+use App\Models\User;
 use App\Models\UserTeam;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Title;
@@ -17,7 +18,7 @@ new #[Title("Мои команды")] class extends Component {
         $user = auth()->user();
 
         $teams = Team::select(
-            "flows.id",
+            "tasks.flow_id",
             "flows.flow_name",
             "flows.max_team_size",
             "teams.id",
@@ -26,13 +27,12 @@ new #[Title("Мои команды")] class extends Component {
             "teams.task_id",
             "tasks.task_name",
             "tasks.task_description",
-            "tasks.max_projects",
         )
+            ->join("users_teams", "teams.id", "=", "users_teams.team_id")
+            ->join("users", "users_teams.user_id", "=", "users.id")
+            ->where("users.id", "=", $user->id)
             ->join("tasks", "teams.task_id", "=", "tasks.id")
             ->join("flows", "tasks.flow_id", "=", "flows.id")
-            ->join("groups_flows", "flows.id", "=", "groups_flows.flow_id")
-            ->join("users", "users.group_id", "=", "groups_flows.group_id")
-            ->where("users.id", $user->id)
             ->paginate(10);
 
         return $teams;
@@ -50,8 +50,10 @@ new #[Title("Мои команды")] class extends Component {
             ->join("users", "users_teams.user_id", "=", "users.id")
             ->join("teams", "teams.id", "=", "users_teams.team_id")
             ->where("teams.id", "=", $teamId)
-            ->join("vacancies", "users.id", "=", "vacancies.user_id")
-            ->where("vacancies.team_id", "=", $teamId)
+            ->leftJoin("vacancies", function ($join) use ($teamId) {
+                $join->on("users.id", "=", "vacancies.user_id")
+                    ->where("vacancies.team_id", "=", $teamId);
+            })
             ->get()
             ->toArray();
 

@@ -172,7 +172,8 @@ class DatabaseSeeder extends Seeder
                 foreach ($users as $user) {
                     UserTeam::firstOrCreate([
                         'user_id' => $user->id,
-                        'team_id' => $team->id,
+                        'team_id' => $team->id
+                    ], [
                         'is_moderator' => rand(0, 1),
                     ]);
                 }
@@ -181,7 +182,8 @@ class DatabaseSeeder extends Seeder
                 for ($i = 0; $teamSize != 0; $teamSize--, $i++) {
                     UserTeam::firstOrCreate([
                         'user_id' => $users[$i]->id,
-                        'team_id' => $team->id,
+                        'team_id' => $team->id
+                    ], [
                         'is_moderator' => rand(0, 1),
                     ]);
                 }
