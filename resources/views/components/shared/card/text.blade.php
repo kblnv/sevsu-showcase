@@ -1,5 +1,5 @@
 <p
-  {{ $attributes->merge(["class" => "text-balance text-sm leading-6"]) }}
+    {{ $attributes->merge(["class" => "text-balance text-sm leading-6"]) }}
 >
-  {{ $slot }}
+    {{ $slot }}
 </p>
