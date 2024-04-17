@@ -1,13 +1,11 @@
 <?php
 
-use App\Models\TagTask;
-use App\Models\Team;
-use App\Models\User;
-use App\Models\UserTeam;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
+use App\Facades\Teams;
+use App\Facades\Tags;
 
 new #[Title("Мои команды")] class extends Component {
     use WithPagination;
@@ -15,67 +13,25 @@ new #[Title("Мои команды")] class extends Component {
     #[Computed(persist: true, seconds: 300)]
     public function teams()
     {
-        $user = auth()->user();
-
-        $teams = Team::select(
-            "tasks.flow_id",
-            "flows.flow_name",
-            "flows.max_team_size",
-            "teams.id",
-            "teams.team_name",
-            "teams.team_description",
-            "teams.task_id",
-            "tasks.task_name",
-            "tasks.task_description",
-        )
-            ->join("users_teams", "teams.id", "=", "users_teams.team_id")
-            ->join("users", "users_teams.user_id", "=", "users.id")
-            ->where("users.id", "=", $user->id)
-            ->join("tasks", "teams.task_id", "=", "tasks.id")
-            ->join("flows", "tasks.flow_id", "=", "flows.id")
-            ->paginate(10);
-
-        return $teams;
+        return Teams::getUserTeamsByUserId(auth()->user()->id);
     }
 
     public function members($teamId)
     {
-        $members = UserTeam::select(
-            "users.first_name",
-            "users.second_name",
-            "users.last_name",
-            "users_teams.is_moderator",
-            "vacancies.vacancy_name",
-        )
-            ->join("users", "users_teams.user_id", "=", "users.id")
-            ->join("teams", "teams.id", "=", "users_teams.team_id")
-            ->where("teams.id", "=", $teamId)
-            ->leftJoin("vacancies", function ($join) use ($teamId) {
-                $join->on("users.id", "=", "vacancies.user_id")
-                    ->where("vacancies.team_id", "=", $teamId);
-            })
-            ->get()
-            ->toArray();
-
-        return $members;
+        return Teams::getMembersByTeamId($teamId);
     }
 
     public function tags($taskId)
     {
-        $tags = TagTask::select("tags.tag_name")
-            ->join("tags", "tags_tasks.tag_id", "=", "tags.id")
-            ->where("tags_tasks.task_id", "=", $taskId)
-            ->pluck("tag_name")
-            ->toArray();
-
-        return $tags;
+        return Tags::getTags($taskId);
     }
 
     public function paginationView()
     {
         return "components.widgets.pagination";
     }
-}; ?>
+};
+?>
 
 <div>
     @if ($this->teams()->count() == 0)

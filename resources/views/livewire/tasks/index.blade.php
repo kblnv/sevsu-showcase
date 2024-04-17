@@ -1,13 +1,13 @@
 <?php
 
 use Livewire\Volt\Component;
-use App\Models\Flow;
-use App\Models\TagTask;
-use App\Models\Task;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
+use App\Facades\Flows;
+use App\Facades\Tasks;
+use App\Facades\Tags;
 
 new #[Title("Банк задач")] class extends Component {
     use WithPagination;
@@ -17,54 +17,18 @@ new #[Title("Банк задач")] class extends Component {
 
     public function tasks()
     {
-        $user = auth()->user();
-
-        $tasks = Task::select(
-            "tasks.id",
-            "tasks.task_name",
-            "tasks.task_description",
-            "tasks.customer",
-            "tasks.max_projects",
-        )
-            ->join("flows", "tasks.flow_id", "=", "flows.id")
-            ->where("flows.flow_name", "=", $this->selectedFlow)
-            ->join("groups_flows", "flows.id", "=", "groups_flows.flow_id")
-            ->where("groups_flows.group_id", $user->group_id)
-            ->join("groups", "groups_flows.group_id", "=", "groups.id")
-            ->paginate(10);
-
-        return $tasks;
+        return Tasks::getFlowTasksByGroupId($this->selectedFlow, auth()->user()->group_id, 10);
     }
 
     #[Computed(persist: true, seconds: 300)]
     public function flows()
     {
-        $user = auth()->user();
-
-        $flows = Flow::select(
-            "flows.id",
-            "flows.flow_name",
-            "flows.take_before",
-            "flows.finish_before",
-            "flows.max_team_size",
-            "flows.can_create_task",
-        )
-            ->join("groups_flows", "flows.id", "=", "groups_flows.flow_id")
-            ->where("groups_flows.group_id", $user->group_id)
-            ->get();
-
-        return $flows;
+        return Flows::getFlowsByGroupId(auth()->user()->group_id);
     }
 
     public function tags($taskId)
     {
-        $tags = TagTask::select("tags.tag_name")
-            ->join("tags", "tags_tasks.tag_id", "=", "tags.id")
-            ->where("tags_tasks.task_id", "=", $taskId)
-            ->pluck("tag_name")
-            ->toArray();
-
-        return $tags;
+        return Tags::getTags($taskId);
     }
 
     public function mount()
@@ -81,7 +45,8 @@ new #[Title("Банк задач")] class extends Component {
     {
         return "components.widgets.pagination";
     }
-}; ?>
+};
+?>
 
 <div>
     @if ($selectedFlow == "")
