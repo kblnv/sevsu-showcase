@@ -1,12 +1,14 @@
 <?php
 
 namespace App\Services;
+
 use App\Contracts\TeamContract;
 use App\Models\UserTeam;
 use App\Models\Team;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class TeamService implements TeamContract {
-    public function getUserTeamsByUser($userId, $paginateCount = 10)
+    public function getUserTeamsByUser(string $userId, int $paginateCount = 10): LengthAwarePaginator
     {
         return Team::select(
             "tasks.flow_id",
@@ -27,7 +29,7 @@ class TeamService implements TeamContract {
             ->paginate($paginateCount);
     }
 
-    public function getTeamsByFlow($selectedFlow, $paginateCount = 10)
+    public function getTeamsByFlow(string $selectedFlow, int $paginateCount = 10): LengthAwarePaginator
     {
         return Team::select(
             "teams.id",
@@ -43,7 +45,7 @@ class TeamService implements TeamContract {
             ->paginate($paginateCount);
     }
 
-    public function getMembersByTeam($teamId)
+    public function getMembersByTeam(string $teamId): array
     {
         return UserTeam::select(
             "users.first_name",
@@ -63,7 +65,7 @@ class TeamService implements TeamContract {
             ->toArray();
     }
 
-    public function getTeamsByTask($taskId)
+    public function getTeamsByTask(string $taskId): array
     {
         return Team::select(
             "teams.id",

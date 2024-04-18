@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Services;
+
 use App\Models\Flow;
 use App\Contracts\FlowContract;
+use Illuminate\Database\Eloquent\Collection;
 
 class FlowService implements FlowContract {
-    public function getFlowsByGroup($groupId)
+    public function getFlowsByGroup(string $groupId): Collection
     {
         return Flow::select(
             "flows.id",

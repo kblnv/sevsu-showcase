@@ -2,7 +2,10 @@
 
 namespace App\Contracts;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
+
 interface TaskContract {
-    public function getTasksByFlow($selectedFlow, $groupId, $paginateCount);
-    public function getTaskByFlow($taskId, $flowId);
+    public function getTasksByFlow(string $selectedFlow, string $groupId, int $paginateCount): LengthAwarePaginator;
+    public function getTaskByFlow(string $taskId, string $flowId): Collection;
 }
