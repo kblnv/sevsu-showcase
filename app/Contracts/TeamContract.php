@@ -2,9 +2,11 @@
 
 namespace App\Contracts;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+
 interface TeamContract {
-    public function getUserTeamsByUser($userId, $paginateCount);
-    public function getTeamsByFlow($selectedFlow, $paginateCount);
-    public function getMembersByTeam($teamId);
-    public function getTeamsByTask($taskId);
+    public function getUserTeamsByUser(string $userId, int $paginateCount): LengthAwarePaginator;
+    public function getTeamsByFlow(string $selectedFlow, int $paginateCount): LengthAwarePaginator;
+    public function getMembersByTeam(string $teamId): array;
+    public function getTeamsByTask(string $taskId): array;
 }

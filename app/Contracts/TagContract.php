@@ -3,5 +3,5 @@
 namespace App\Contracts;
 
 interface TagContract {
-    public function getTags($taskId);
+    public function getTags(string $taskId): array;
 }

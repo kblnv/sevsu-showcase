@@ -1,11 +1,14 @@
 <?php
 
 namespace App\Services;
+
 use App\Contracts\TaskContract;
 use App\Models\Task;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 
 class TaskService implements TaskContract {
-    public function getTasksByFlow($selectedFlow, $groupId, $paginateCount = 10)
+    public function getTasksByFlow(string $selectedFlow, string $groupId, int $paginateCount = 10): LengthAwarePaginator
     {
         return Task::select(
             "tasks.id",
@@ -22,7 +25,7 @@ class TaskService implements TaskContract {
             ->paginate($paginateCount);
     }
 
-    public function getTaskByFlow($taskId, $flowId)
+    public function getTaskByFlow(string $taskId, string $flowId): Collection
     {
         return Task::select(
             "tasks.id",
