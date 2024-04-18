@@ -13,12 +13,12 @@ new #[Title("Мои команды")] class extends Component {
     #[Computed(persist: true, seconds: 300)]
     public function teams()
     {
-        return Teams::getUserTeamsByUserId(auth()->user()->id);
+        return Teams::getUserTeamsByUser(auth()->user()->id);
     }
 
     public function members($teamId)
     {
-        return Teams::getMembersByTeamId($teamId);
+        return Teams::getMembersByTeam($teamId);
     }
 
     public function tags($taskId)

@@ -17,13 +17,13 @@ new #[Title("Банк задач")] class extends Component {
 
     public function tasks()
     {
-        return Tasks::getFlowTasksByGroupId($this->selectedFlow, auth()->user()->group_id, 10);
+        return Tasks::getTasksByFlow($this->selectedFlow, auth()->user()->group_id, 10);
     }
 
     #[Computed(persist: true, seconds: 300)]
     public function flows()
     {
-        return Flows::getFlowsByGroupId(auth()->user()->group_id);
+        return Flows::getFlowsByGroup(auth()->user()->group_id);
     }
 
     public function tags($taskId)
