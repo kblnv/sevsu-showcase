@@ -5,7 +5,7 @@ use App\Contracts\TaskContract;
 use App\Models\Task;
 
 class TaskService implements TaskContract {
-    public function getFlowTasksByGroupId($selectedFlow, $groupId, $paginateCount = 10)
+    public function getTasksByFlow($selectedFlow, $groupId, $paginateCount = 10)
     {
         return Task::select(
             "tasks.id",
@@ -20,5 +20,23 @@ class TaskService implements TaskContract {
             ->where("groups_flows.group_id", $groupId)
             ->join("groups", "groups_flows.group_id", "=", "groups.id")
             ->paginate($paginateCount);
+    }
+
+    public function getTaskByFlow($taskId, $flowId)
+    {
+        return Task::select(
+            "tasks.id",
+            "tasks.task_name",
+            "tasks.task_description",
+            "tasks.customer",
+            "tasks.max_projects",
+            "flows.take_before",
+            "flows.finish_before",
+            "flows.max_team_size"
+        )
+            ->join("flows", "tasks.flow_id", "=", "flows.id")
+            ->where("flows.id", "=", $flowId)
+            ->where("tasks.id", "=", $taskId)
+            ->get();
     }
 }

@@ -5,7 +5,7 @@ use App\Models\Flow;
 use App\Contracts\FlowContract;
 
 class FlowService implements FlowContract {
-    public function getFlowsByGroupId($groupId)
+    public function getFlowsByGroup($groupId)
     {
         return Flow::select(
             "flows.id",

@@ -3,5 +3,6 @@
 namespace App\Contracts;
 
 interface TaskContract {
-    public function getFlowTasksByGroupId($selectedFlow, $groupId, $paginateCount);
+    public function getTasksByFlow($selectedFlow, $groupId, $paginateCount);
+    public function getTaskByFlow($taskId, $flowId);
 }

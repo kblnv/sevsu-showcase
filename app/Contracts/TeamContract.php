@@ -3,8 +3,8 @@
 namespace App\Contracts;
 
 interface TeamContract {
-    public function getUserTeamsByUserId($userId, $paginateCount);
+    public function getUserTeamsByUser($userId, $paginateCount);
     public function getTeamsByFlow($selectedFlow, $paginateCount);
-    public function getMembersWithVacancyByTeamId($teamId);
-    public function getMembersByTeamId($teamId);
+    public function getMembersByTeam($teamId);
+    public function getTeamsByTask($taskId);
 }

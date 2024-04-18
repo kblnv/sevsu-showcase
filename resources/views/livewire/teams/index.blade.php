@@ -18,7 +18,7 @@ new #[Title("Команды")] class extends Component {
     #[Computed(persist: true, seconds: 300)]
     public function flows()
     {
-        return Flows::getFlowsByGroupId(auth()->user()->group_id);
+        return Flows::getFlowsByGroup(auth()->user()->group_id);
     }
 
     public function teams()
@@ -28,7 +28,7 @@ new #[Title("Команды")] class extends Component {
 
     public function members($teamId)
     {
-        return Teams::getMembersWithVacancyByTeamId($teamId);
+        return Teams::getMembersByTeam($teamId);
     }
 
     public function tags($taskId)

@@ -3,5 +3,5 @@
 namespace App\Contracts;
 
 interface FlowContract {
-    public function getFlowsByGroupId($groupId);
+    public function getFlowsByGroup($groupId);
 }
