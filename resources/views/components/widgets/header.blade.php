@@ -58,7 +58,7 @@
 
             <ul class="hidden space-x-8 lg:flex">
                 <li
-                    class="{{ Route::is("tasks.index") ? "after:content-[''] after:h-[2px] after:absolute after:inset-x-0 after:bottom-0 after:bg-sevsu-blue" : "" }} relative flex items-center"
+                    class="{{ Route::is("tasks*") ? "after:content-[''] after:h-[2px] after:absolute after:inset-x-0 after:bottom-0 after:bg-sevsu-blue" : "" }} relative flex items-center"
                 >
                     <a
                         class="transform transition-colors duration-300 hover:text-sevsu-blue"
@@ -69,7 +69,7 @@
                     </a>
                 </li>
                 <li
-                    class="{{ Route::is("teams.index") ? "after:content-[''] after:h-[2px] after:absolute after:inset-x-0 after:bottom-0 after:bg-sevsu-blue" : "" }} relative flex items-center"
+                    class="{{ Route::is("teams*") ? "after:content-[''] after:h-[2px] after:absolute after:inset-x-0 after:bottom-0 after:bg-sevsu-blue" : "" }} relative flex items-center"
                 >
                     <a
                         class="transform transition-colors duration-300 hover:text-sevsu-blue"
@@ -80,7 +80,7 @@
                     </a>
                 </li>
                 <li
-                    class="{{ Route::is("my-teams.index") ? "after:content-[''] after:h-[2px] after:absolute after:inset-x-0 after:bottom-0 after:bg-sevsu-blue" : "" }} relative flex items-center"
+                    class="{{ Route::is("my-teams*") ? "after:content-[''] after:h-[2px] after:absolute after:inset-x-0 after:bottom-0 after:bg-sevsu-blue" : "" }} relative flex items-center"
                 >
                     <a
                         class="transform transition-colors duration-300 hover:text-sevsu-blue"
@@ -103,26 +103,13 @@
                     <button
                         class="hidden items-center gap-2 text-black lg:flex"
                         type="button"
-                        href="#"
                         @click="isActive = !isActive"
                     >
                         {{ auth()->user()->second_name }}
                         {{ auth()->user()->first_name }}
                         {{ auth()->user()->last_name }}
-                        <svg
-                            class="size-4"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="m19.5 8.25-7.5 7.5-7.5-7.5"
-                            />
-                        </svg>
+
+                        <x-shared.arrow-down />
                     </button>
                 </div>
 
