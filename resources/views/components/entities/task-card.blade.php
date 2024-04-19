@@ -1,4 +1,4 @@
-@props(["title" => "", "customer" => "", "description" => "", "takeBefore" => "", "finishBefore" => "", "maxTeamMembers" => "", "maxTeams" => "", "tags" => []])
+@props(["title" => "", "customer" => "", "description" => "", "flowId" => "", "taskId" => "", "takeBefore" => "", "finishBefore" => "", "maxTeamSize" => "", "maxProjects" => "", "tags" => []])
 
 <x-shared.card {{ $attributes }}>
     @if (count($tags) != 0)
@@ -8,7 +8,10 @@
     @endif
 
     <x-shared.card.body>
-        <x-shared.card.title href="#">
+        <x-shared.card.title
+            href="{{ route('tasks.show', ['flow' => $flowId, 'task' => $taskId]) }}"
+            wire:navigate
+        >
             {{ $title }}
         </x-shared.card.title>
 
@@ -32,11 +35,11 @@
                 term="Сдать проект до:"
             />
             <x-entities.task-card.param
-                :value="$maxTeamMembers"
+                :value="$maxTeamSize"
                 term="Максимум человек в команде:"
             />
             <x-entities.task-card.param
-                :value="$maxTeams"
+                :value="$maxProjects"
                 term="Максимальное количество команд:"
             />
         </dl>

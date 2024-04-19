@@ -16,10 +16,10 @@ use Livewire\Volt\Volt;
 */
 
 Route::middleware('auth')->group(function () {
-    Volt::route('/', 'tasks.index')->name("tasks.index");
-    Volt::route('/teams', 'teams.index')->name("teams.index");
-    Volt::route('/my-teams', 'my-teams.index')->name("my-teams.index");
-    Volt::route("/flows/{flow}/tasks/{task}", "tasks.show")->name("tasks.show");
+    Volt::route('/', 'tasks.index')->name('tasks.index');
+    Volt::route('/teams', 'teams.index')->name('teams.index');
+    Volt::route('/my-teams', 'my-teams.index')->name('my-teams.index');
+    Volt::route('/flows/{flow}/tasks/{task}', 'tasks.show')->name('tasks.show');
 
     Route::get('/{provider}/logout', [SocialController::class, 'logout'])->name('logout');
 });
@@ -28,4 +28,3 @@ Route::prefix('auth')->group(function () {
     Route::get('/{provider}/redirect', [SocialController::class, 'redirectToProvider'])->name('login');
     Route::get('/{provider}/callback', [SocialController::class, 'handleProviderCallback']);
 });
-

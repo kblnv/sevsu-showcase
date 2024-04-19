@@ -17,7 +17,11 @@ new #[Title("Банк задач")] class extends Component {
 
     public function tasks()
     {
-        return Tasks::getTasksByFlow($this->selectedFlow, auth()->user()->group_id, 10);
+        return Tasks::getTasksByFlow(
+            $this->selectedFlow,
+            auth()->user()->group_id,
+            10,
+        );
     }
 
     #[Computed(persist: true, seconds: 300)]
@@ -89,10 +93,12 @@ new #[Title("Банк задач")] class extends Component {
                         :title="$task['task_name']"
                         :customer="$task['customer']"
                         :description="$task['task_description']"
+                        :flowId="$this->flows->firstWhere('flow_name', $selectedFlow)['id']"
+                        :taskId="$task['id']"
                         :takeBefore="$this->flows->firstWhere('flow_name', $selectedFlow)['take_before']"
                         :finishBefore="$this->flows->firstWhere('flow_name', $selectedFlow)['finish_before']"
-                        :maxTeamMembers="$this->flows->firstWhere('flow_name', $selectedFlow)['max_team_size']"
-                        :maxTeams="$task['max_projects']"
+                        :maxTeamSize="$this->flows->firstWhere('flow_name', $selectedFlow)['max_team_size']"
+                        :maxProjects="$task['max_projects']"
                         :tags="$this->tags($task['id'])"
                     />
                 @endforeach
