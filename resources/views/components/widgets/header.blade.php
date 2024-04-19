@@ -58,7 +58,7 @@
 
             <ul class="hidden space-x-8 lg:flex">
                 <li
-                    class="{{ Route::is("tasks.index") ? "after:content-[''] after:h-[2px] after:absolute after:inset-x-0 after:bottom-0 after:bg-sevsu-blue" : "" }} relative flex items-center"
+                    class="{{ Route::is("tasks*") ? "after:content-[''] after:h-[2px] after:absolute after:inset-x-0 after:bottom-0 after:bg-sevsu-blue" : "" }} relative flex items-center"
                 >
                     <a
                         class="transform transition-colors duration-300 hover:text-sevsu-blue"
@@ -69,7 +69,7 @@
                     </a>
                 </li>
                 <li
-                    class="{{ Route::is("teams.index") ? "after:content-[''] after:h-[2px] after:absolute after:inset-x-0 after:bottom-0 after:bg-sevsu-blue" : "" }} relative flex items-center"
+                    class="{{ Route::is("teams*") ? "after:content-[''] after:h-[2px] after:absolute after:inset-x-0 after:bottom-0 after:bg-sevsu-blue" : "" }} relative flex items-center"
                 >
                     <a
                         class="transform transition-colors duration-300 hover:text-sevsu-blue"
@@ -80,7 +80,7 @@
                     </a>
                 </li>
                 <li
-                    class="{{ Route::is("my-teams.index") ? "after:content-[''] after:h-[2px] after:absolute after:inset-x-0 after:bottom-0 after:bg-sevsu-blue" : "" }} relative flex items-center"
+                    class="{{ Route::is("my-teams*") ? "after:content-[''] after:h-[2px] after:absolute after:inset-x-0 after:bottom-0 after:bg-sevsu-blue" : "" }} relative flex items-center"
                 >
                     <a
                         class="transform transition-colors duration-300 hover:text-sevsu-blue"
