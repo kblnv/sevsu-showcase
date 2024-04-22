@@ -90,6 +90,8 @@ new #[Title("Банк задач")] class extends Component {
             <div class="mt-4 space-y-8">
                 @foreach ($this->tasks()->items() as $task)
                     <x-entities.task-card
+                        :task="$task"
+                        :flow="$this->flows->firstWhere('flow_name', $selectedFlow)"
                         :title="$task['task_name']"
                         :customer="$task['customer']"
                         :description="$task['task_description']"

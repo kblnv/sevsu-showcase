@@ -1,4 +1,5 @@
-@props(["title" => "", "customer" => "", "description" => "", "flowId" => "", "taskId" => "", "takeBefore" => "", "finishBefore" => "", "maxTeamSize" => "", "maxProjects" => "", "tags" => []])
+@props(["flow" => null , "task" => null, "tags" => []])
+
 
 <x-shared.card {{ $attributes }}>
     @if (count($tags) != 0)
@@ -9,37 +10,37 @@
 
     <x-shared.card.body>
         <x-shared.card.title
-            href="{{ route('tasks.show', ['flow' => $flowId, 'task' => $taskId]) }}"
+            href="{{ route('tasks.show', ['flow' => $flow['id'], 'task' => $task['id']]) }}"
             wire:navigate
         >
-            {{ $title }}
+            {{ $task['task_name'] }}
         </x-shared.card.title>
 
-        @if ($customer != "")
+        @if ($task['customer'] != "")
             <x-shared.card.subtitle>
-                {{ $customer }}
+                {{ $task['customer'] }}
             </x-shared.card.subtitle>
         @endif
 
         <x-shared.card.text class="mt-4">
-            {{ $description }}
+            {{ $task['task_description'] }}
         </x-shared.card.text>
 
         <dl class="mt-4 grid gap-2 text-sm md:grid-cols-2 lg:grid-cols-4">
             <x-entities.task-card.param
-                :value="$takeBefore"
+                :value="$flow['take_before']"
                 term="Взять проект до:"
             />
             <x-entities.task-card.param
-                :value="$finishBefore"
+                :value="$flow['finish_before']"
                 term="Сдать проект до:"
             />
             <x-entities.task-card.param
-                :value="$maxTeamSize"
+                :value="$flow['max_team_size']"
                 term="Максимум человек в команде:"
             />
             <x-entities.task-card.param
-                :value="$maxProjects"
+                :value="$task['max_projects']"
                 term="Максимальное количество команд:"
             />
         </dl>
