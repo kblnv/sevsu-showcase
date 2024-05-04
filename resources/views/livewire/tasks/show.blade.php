@@ -1,31 +1,32 @@
 <?php
 
+use App\Facades\Tags;
+use App\Facades\Teams;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Title;
 use App\Models\Flow;
 use App\Models\Task;
 
 new #[Title("Задача")] class extends Component {
-    public $flow;
-    public $takeBefore;
-    public $finishBefore;
-    public $maxTeamSize;
-    public $title;
-    public $description;
-    public $customer;
-    public $maxProjects;
+    private $flow;
+    private $task;
+    private $taskTeams;
+
+    public function tags($taskId)
+    {
+        return Tags::getTags($taskId);
+    }
+
+    public function members($teamId)
+    {
+        return Teams::getMembersByTeam($teamId);
+    }
 
     public function mount(Flow $flow, Task $task)
     {
-        $this->flow = $flow["flow_name"];
-        $this->takeBefore = $flow["take_before"];
-        $this->finishBefore = $flow["finish_before"];
-        $this->maxTeamSize = $flow["max_team_size"];
-
-        $this->title = $task["task_name"];
-        $this->description = $task["task_description"];
-        $this->customer = $task["customer"];
-        $this->maxProjects = $task["max_projects"];
+        $this->flow = $flow;
+        $this->task = $task;
+        $this->taskTeams = Teams::getTeamsByTask($task["id"]);
     }
 };
 ?>
@@ -37,8 +38,8 @@ new #[Title("Задача")] class extends Component {
         >
             <li class="inline-flex items-center">
                 <a
-                    class="inline-flex items-center text-md font-medium hover:text-sevsu-blue transition-colors"
-                    href="{{ route('tasks.index') }}"
+                    class="inline-flex items-center font-myriad-regular text-sm transition-colors hover:text-sevsu-blue"
+                    href="{{ route("tasks.index") }}"
                     wire:navigate
                 >
                     Банк задач
@@ -46,23 +47,12 @@ new #[Title("Задача")] class extends Component {
             </li>
             <li aria-current="page">
                 <div class="flex items-center">
-                    <svg
-                        class="mx-1 h-3 w-3 text-gray-400 rtl:rotate-180"
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 6 10"
-                    >
-                        <path
-                            stroke="currentColor"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="m1 9 4-4-4-4"
-                        />
-                    </svg>
+                    <x-shared.arrow-up
+                        class="h-3 w-3 rotate-90"
+                        stroke-width="2"
+                    />
                     <span
-                        class="ms-1 text-md font-medium text-gray-500 md:ms-2"
+                        class="ms-1 font-myriad-regular text-sm text-gray-500 md:ms-2"
                     >
                         Страница задачи
                     </span>
@@ -70,86 +60,138 @@ new #[Title("Задача")] class extends Component {
             </li>
         </ol>
     </nav>
+    <div
+        class="mt-4 overflow-hidden rounded-lg border border-gray-300 bg-sevsu-white px-6 py-4"
+    >
+        <div x-data="{ showInfo: true }">
+            <button
+                class="flex items-center gap-2"
+                type="button"
+                @click="showInfo = !showInfo"
+            >
+                <div class="size-5">
+                    <x-shared.arrow-up x-show="showInfo" />
+                    <x-shared.arrow-down x-show="!showInfo" x-cloak />
+                </div>
+                <x-shared.page-heading>
+                    Информация о задаче
+                </x-shared.page-heading>
+            </button>
+            <dl class="divide-y divide-gray-100" x-show="showInfo">
+                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-md leading-6">Дисциплина</dt>
+                    <dd
+                        class="text-md mt-1 leading-6 text-gray-500 sm:col-span-2 sm:mt-0"
+                    >
+                        {{ $this->flow["flow_name"] }}
+                    </dd>
+                </div>
+                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-md leading-6">Название задачи</dt>
+                    <dd
+                        class="text-md mt-1 leading-6 text-gray-500 sm:col-span-2 sm:mt-0"
+                    >
+                        {{ $this->task["task_name"] }}
+                    </dd>
+                </div>
+                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-md leading-6">Тэги</dt>
+                    <dd
+                        class="text-md mt-1 leading-6 text-gray-500 sm:col-span-2 sm:mt-0"
+                    >
+                        <x-shared.card.tags :tags="$this->tags($this->task['id'])" />
+                    </dd>
+                </div>
+                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-md leading-6">Заказчик</dt>
+                    <dd
+                        class="text-md mt-1 leading-6 text-gray-500 sm:col-span-2 sm:mt-0"
+                    >
+                        {{ $this->task["customer"] }}
+                    </dd>
+                </div>
+                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-md leading-6">Описание задачи</dt>
+                    <dd
+                        class="text-md mt-1 leading-6 text-gray-500 sm:col-span-2 sm:mt-0"
+                    >
+                        {{ $this->task["task_description"] }}
+                    </dd>
+                </div>
+                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-md leading-6">Взять задачу до</dt>
+                    <dd
+                        class="text-md mt-1 leading-6 text-gray-500 sm:col-span-2 sm:mt-0"
+                    >
+                        {{ $this->flow["take_before"] }}
+                    </dd>
+                </div>
+                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-md leading-6">Завершить задачу до</dt>
+                    <dd
+                        class="text-md mt-1 leading-6 text-gray-500 sm:col-span-2 sm:mt-0"
+                    >
+                        {{ $this->flow["finish_before"] }}
+                    </dd>
+                </div>
+                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-md leading-6">
+                        Максимум человек в команде
+                    </dt>
+                    <dd
+                        class="text-md mt-1 leading-6 text-gray-500 sm:col-span-2 sm:mt-0"
+                    >
+                        {{ $this->flow["max_team_size"] }}
+                    </dd>
+                </div>
+                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-md leading-6">
+                        Максимальное количество команд
+                    </dt>
+                    <dd
+                        class="text-md mt-1 leading-6 text-gray-500 sm:col-span-2 sm:mt-0"
+                    >
+                        {{ $this->task["max_projects"] }}
+                    </dd>
+                </div>
+            </dl>
+        </div>
 
-    <div x-data="{ showInfo: true }" class="mt-4">
-        <button
-            class="flex items-center gap-2"
-            type="button"
-            @click="showInfo = !showInfo"
-        >
-            <x-shared.arrow-down class="size-6" stroke-width="2" />
-            <x-shared.page-heading>Информация о задаче</x-shared.page-heading>
-        </button>
-        <dl
-            class="max-w-xl space-y-2"
-            x-show="showInfo"
-            x-collapse.duration.350ms
-        >
-            <div class="flex flex-col border-b border-gray-200 py-2 first:pt-4 first:pb-2">
-                <dt class="mb-1 text-slate-600 md:text-lg">Дисциплина</dt>
-                <dd class="font-myriad-semibold text-lg">{{ $flow }}</dd>
-            </div>
-            <div class="flex flex-col border-b border-gray-200 py-2 first:pt-4 first:pb-2">
-                <dt class="mb-1 text-slate-600 md:text-lg">Название задачи</dt>
-                <dd class="font-myriad-semibold text-lg">
-                    {{ $title }}
-                </dd>
-            </div>
-            <div class="flex flex-col border-b border-gray-200 py-2 first:pt-4 first:pb-2">
-                <dt class="mb-1 text-slate-600 md:text-lg">Заказчик</dt>
-                <dd class="font-myriad-semibold text-lg">
-                    {{ $customer }}
-                </dd>
-            </div>
-            <div class="flex flex-col border-b border-gray-200 py-2 first:pt-4 first:pb-2">
-                <dt class="mb-1 text-slate-600 md:text-lg">Описание задачи</dt>
-                <dd class="font-myriad-semibold text-lg">
-                    {{ $description }}
-                </dd>
-            </div>
-            <div class="flex flex-col border-b border-gray-200 py-2 first:pt-4 first:pb-2">
-                <dt class="mb-1 text-slate-600 md:text-lg">Взять задачу до</dt>
-                <dd class="font-myriad-semibold text-lg">
-                    {{ $takeBefore }}
-                </dd>
-            </div>
-            <div class="flex flex-col border-b border-gray-200 py-2 first:pt-4 first:pb-2">
-                <dt class="mb-1 text-slate-600 md:text-lg">
-                    Завершить задачу до
-                </dt>
-                <dd class="font-myriad-semibold text-lg">
-                    {{ $finishBefore }}
-                </dd>
-            </div>
-            <div class="flex flex-col border-b border-gray-200 py-2 first:pt-4 first:pb-2">
-                <dt class="mb-1 text-slate-600 md:text-lg">
-                    Максимум человек в команде
-                </dt>
-                <dd class="font-myriad-semibold text-lg">
-                    {{ $maxTeamSize }}
-                </dd>
-            </div>
-            <div class="flex flex-col border-b border-gray-200 py-2 first:pt-4 first:pb-2">
-                <dt class="mb-1 text-slate-600 md:text-lg">
-                    Максимальное количество команд
-                </dt>
-                <dd class="font-myriad-semibold text-lg">
-                    {{ $maxProjects }}
-                </dd>
-            </div>
-        </dl>
-    </div>
+        <div class="mt-4" x-data="{ showTeams: true }">
+            <button
+                class="flex items-center gap-2"
+                type="button"
+                @click="showTeams = !showTeams"
+            >
+                <div class="size-5">
+                    <x-shared.arrow-up x-show="showTeams" />
+                    <x-shared.arrow-down x-show="!showTeams" x-cloak />
+                </div>
+                <x-shared.page-heading>
+                    Команды, выбравшие данную задачу
+                </x-shared.page-heading>
+            </button>
 
-    <div class="mt-4" x-data="{ showTeams: true }">
-        <button
-            class="flex items-center gap-2"
-            type="button"
-            @click="showTeams = !showTeams"
-        >
-            <x-shared.arrow-down class="size-6" stroke-width="2" />
-            <x-shared.page-heading>
-                Команды, выбравшие данную задачу
-            </x-shared.page-heading>
-        </button>
+            <div x-show="showTeams">
+                @if (count($this->taskTeams) === 0)
+                    <h2 class="text-md py-6">
+                        Нет команд, выбравших эту задачу
+                    </h2>
+                @else
+                    <div class="space-y-8 py-6">
+                        @foreach ($this->taskTeams as $team)
+                            <x-entities.team-card
+                                :title="$team['team_name']"
+                                :task="$team['task_name']"
+                                :description="$team['team_description']"
+                                :maxTeamMembers="$this->flow['max_team_size']"
+                                :tags="$this->tags($team['task_id'])"
+                                :members="$this->members($team['id'])"
+                            />
+                        @endforeach
+                    </div>
+                @endif
+            </div>
+        </div>
     </div>
 </div>

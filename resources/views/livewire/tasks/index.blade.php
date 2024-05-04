@@ -92,15 +92,6 @@ new #[Title("Банк задач")] class extends Component {
                     <x-entities.task-card
                         :task="$task"
                         :flow="$this->flows->firstWhere('flow_name', $selectedFlow)"
-                        :title="$task['task_name']"
-                        :customer="$task['customer']"
-                        :description="$task['task_description']"
-                        :flowId="$this->flows->firstWhere('flow_name', $selectedFlow)['id']"
-                        :taskId="$task['id']"
-                        :takeBefore="$this->flows->firstWhere('flow_name', $selectedFlow)['take_before']"
-                        :finishBefore="$this->flows->firstWhere('flow_name', $selectedFlow)['finish_before']"
-                        :maxTeamSize="$this->flows->firstWhere('flow_name', $selectedFlow)['max_team_size']"
-                        :maxProjects="$task['max_projects']"
                         :tags="$this->tags($task['id'])"
                     />
                 @endforeach

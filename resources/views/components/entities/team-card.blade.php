@@ -33,7 +33,7 @@
 
     <div class="border-t border-gray-300 p-8">
         <div
-            class="overflow-x-auto rounded-lg border border-gray-300 text-sm shadow shadow-gray-300"
+            class="overflow-x-auto rounded-lg border border-gray-300 text-sm shadow-sm shadow-gray-300"
         >
             <table class="min-w-full divide-y-2 divide-gray-300 bg-white">
                 <thead>

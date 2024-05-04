@@ -5,7 +5,7 @@
         "dev": "vite",
         "build": "vite build",
         "check": "npx prettier ./resources --check",
-        "format": "npx prettier ./resources --write"
+        "fmt": "npx prettier ./resources --write"
     },
     "devDependencies": {
         "autoprefixer": "^10.4.18",
