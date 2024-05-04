@@ -37,8 +37,8 @@ new #[Title("Задача")] class extends Component {
         >
             <li class="inline-flex items-center">
                 <a
-                    class="inline-flex items-center text-md font-medium hover:text-sevsu-blue transition-colors"
-                    href="{{ route('tasks.index') }}"
+                    class="text-md inline-flex items-center font-medium transition-colors hover:text-sevsu-blue"
+                    href="{{ route("tasks.index") }}"
                     wire:navigate
                 >
                     Банк задач
@@ -62,7 +62,7 @@ new #[Title("Задача")] class extends Component {
                         />
                     </svg>
                     <span
-                        class="ms-1 text-md font-medium text-gray-500 md:ms-2"
+                        class="text-md ms-1 font-medium text-gray-500 md:ms-2"
                     >
                         Страница задачи
                     </span>
@@ -71,7 +71,7 @@ new #[Title("Задача")] class extends Component {
         </ol>
     </nav>
 
-    <div x-data="{ showInfo: true }" class="mt-4">
+    <div class="mt-4" x-data="{ showInfo: true }">
         <button
             class="flex items-center gap-2"
             type="button"
@@ -85,35 +85,47 @@ new #[Title("Задача")] class extends Component {
             x-show="showInfo"
             x-collapse.duration.350ms
         >
-            <div class="flex flex-col border-b border-gray-200 py-2 first:pt-4 first:pb-2">
+            <div
+                class="flex flex-col border-b border-gray-200 py-2 first:pb-2 first:pt-4"
+            >
                 <dt class="mb-1 text-slate-600 md:text-lg">Дисциплина</dt>
                 <dd class="font-myriad-semibold text-lg">{{ $flow }}</dd>
             </div>
-            <div class="flex flex-col border-b border-gray-200 py-2 first:pt-4 first:pb-2">
+            <div
+                class="flex flex-col border-b border-gray-200 py-2 first:pb-2 first:pt-4"
+            >
                 <dt class="mb-1 text-slate-600 md:text-lg">Название задачи</dt>
                 <dd class="font-myriad-semibold text-lg">
                     {{ $title }}
                 </dd>
             </div>
-            <div class="flex flex-col border-b border-gray-200 py-2 first:pt-4 first:pb-2">
+            <div
+                class="flex flex-col border-b border-gray-200 py-2 first:pb-2 first:pt-4"
+            >
                 <dt class="mb-1 text-slate-600 md:text-lg">Заказчик</dt>
                 <dd class="font-myriad-semibold text-lg">
                     {{ $customer }}
                 </dd>
             </div>
-            <div class="flex flex-col border-b border-gray-200 py-2 first:pt-4 first:pb-2">
+            <div
+                class="flex flex-col border-b border-gray-200 py-2 first:pb-2 first:pt-4"
+            >
                 <dt class="mb-1 text-slate-600 md:text-lg">Описание задачи</dt>
                 <dd class="font-myriad-semibold text-lg">
                     {{ $description }}
                 </dd>
             </div>
-            <div class="flex flex-col border-b border-gray-200 py-2 first:pt-4 first:pb-2">
+            <div
+                class="flex flex-col border-b border-gray-200 py-2 first:pb-2 first:pt-4"
+            >
                 <dt class="mb-1 text-slate-600 md:text-lg">Взять задачу до</dt>
                 <dd class="font-myriad-semibold text-lg">
                     {{ $takeBefore }}
                 </dd>
             </div>
-            <div class="flex flex-col border-b border-gray-200 py-2 first:pt-4 first:pb-2">
+            <div
+                class="flex flex-col border-b border-gray-200 py-2 first:pb-2 first:pt-4"
+            >
                 <dt class="mb-1 text-slate-600 md:text-lg">
                     Завершить задачу до
                 </dt>
@@ -121,7 +133,9 @@ new #[Title("Задача")] class extends Component {
                     {{ $finishBefore }}
                 </dd>
             </div>
-            <div class="flex flex-col border-b border-gray-200 py-2 first:pt-4 first:pb-2">
+            <div
+                class="flex flex-col border-b border-gray-200 py-2 first:pb-2 first:pt-4"
+            >
                 <dt class="mb-1 text-slate-600 md:text-lg">
                     Максимум человек в команде
                 </dt>
@@ -129,7 +143,9 @@ new #[Title("Задача")] class extends Component {
                     {{ $maxTeamSize }}
                 </dd>
             </div>
-            <div class="flex flex-col border-b border-gray-200 py-2 first:pt-4 first:pb-2">
+            <div
+                class="flex flex-col border-b border-gray-200 py-2 first:pb-2 first:pt-4"
+            >
                 <dt class="mb-1 text-slate-600 md:text-lg">
                     Максимальное количество команд
                 </dt>

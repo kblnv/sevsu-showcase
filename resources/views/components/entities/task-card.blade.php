@@ -1,5 +1,4 @@
-@props(["flow" => null , "task" => null, "tags" => []])
-
+@props(["flow" => null, "task" => null, "tags" => []])
 
 <x-shared.card {{ $attributes }}>
     @if (count($tags) != 0)
@@ -13,17 +12,17 @@
             href="{{ route('tasks.show', ['flow' => $flow['id'], 'task' => $task['id']]) }}"
             wire:navigate
         >
-            {{ $task['task_name'] }}
+            {{ $task["task_name"] }}
         </x-shared.card.title>
 
-        @if ($task['customer'] != "")
+        @if ($task["customer"] != "")
             <x-shared.card.subtitle>
-                {{ $task['customer'] }}
+                {{ $task["customer"] }}
             </x-shared.card.subtitle>
         @endif
 
         <x-shared.card.text class="mt-4">
-            {{ $task['task_description'] }}
+            {{ $task["task_description"] }}
         </x-shared.card.text>
 
         <dl class="mt-4 grid gap-2 text-sm md:grid-cols-2 lg:grid-cols-4">
