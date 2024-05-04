@@ -37,7 +37,7 @@ new #[Title("Задача")] class extends Component {
         >
             <li class="inline-flex items-center">
                 <a
-                    class="text-md inline-flex items-center font-medium transition-colors hover:text-sevsu-blue"
+                    class="inline-flex items-center font-myriad-regular text-sm transition-colors hover:text-sevsu-blue"
                     href="{{ route("tasks.index") }}"
                     wire:navigate
                 >
@@ -46,23 +46,12 @@ new #[Title("Задача")] class extends Component {
             </li>
             <li aria-current="page">
                 <div class="flex items-center">
-                    <svg
-                        class="mx-1 h-3 w-3 text-gray-400 rtl:rotate-180"
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 6 10"
-                    >
-                        <path
-                            stroke="currentColor"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="m1 9 4-4-4-4"
-                        />
-                    </svg>
+                    <x-shared.arrow-up
+                        class="h-3 w-3 rotate-90"
+                        stroke-width="2"
+                    />
                     <span
-                        class="text-md ms-1 font-medium text-gray-500 md:ms-2"
+                        class="ms-1 font-myriad-regular text-sm text-gray-500 md:ms-2"
                     >
                         Страница задачи
                     </span>
@@ -77,79 +66,92 @@ new #[Title("Задача")] class extends Component {
             type="button"
             @click="showInfo = !showInfo"
         >
-            <x-shared.arrow-down class="size-6" stroke-width="2" />
+            <div class="size-5">
+                <x-shared.arrow-up x-show="showInfo" />
+                <x-shared.arrow-down x-show="!showInfo" x-cloak />
+            </div>
             <x-shared.page-heading>Информация о задаче</x-shared.page-heading>
         </button>
         <dl
-            class="max-w-xl space-y-2"
+            class="divide-y divide-gray-100"
             x-show="showInfo"
             x-collapse.duration.350ms
         >
-            <div
-                class="flex flex-col border-b border-gray-200 py-2 first:pb-2 first:pt-4"
-            >
-                <dt class="mb-1 text-slate-600 md:text-lg">Дисциплина</dt>
-                <dd class="font-myriad-semibold text-lg">{{ $flow }}</dd>
+            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt class="font-myriad-regular text-lg leading-6">
+                    Дисциплина
+                </dt>
+                <dd
+                    class="mt-1 text-lg leading-6 text-slate-600 sm:col-span-2 sm:mt-0"
+                >
+                    {{ $flow }}
+                </dd>
             </div>
-            <div
-                class="flex flex-col border-b border-gray-200 py-2 first:pb-2 first:pt-4"
-            >
-                <dt class="mb-1 text-slate-600 md:text-lg">Название задачи</dt>
-                <dd class="font-myriad-semibold text-lg">
+            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt class="font-myriad-regular text-lg leading-6">
+                    Название задачи
+                </dt>
+                <dd
+                    class="mt-1 text-lg leading-6 text-slate-600 sm:col-span-2 sm:mt-0"
+                >
                     {{ $title }}
                 </dd>
             </div>
-            <div
-                class="flex flex-col border-b border-gray-200 py-2 first:pb-2 first:pt-4"
-            >
-                <dt class="mb-1 text-slate-600 md:text-lg">Заказчик</dt>
-                <dd class="font-myriad-semibold text-lg">
+            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt class="font-myriad-regular text-lg leading-6">Заказчик</dt>
+                <dd
+                    class="mt-1 text-lg leading-6 text-slate-600 sm:col-span-2 sm:mt-0"
+                >
                     {{ $customer }}
                 </dd>
             </div>
-            <div
-                class="flex flex-col border-b border-gray-200 py-2 first:pb-2 first:pt-4"
-            >
-                <dt class="mb-1 text-slate-600 md:text-lg">Описание задачи</dt>
-                <dd class="font-myriad-semibold text-lg">
+            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt class="font-myriad-regular text-lg leading-6">
+                    Описание задачи
+                </dt>
+                <dd
+                    class="mt-1 text-lg leading-6 text-slate-600 sm:col-span-2 sm:mt-0"
+                >
                     {{ $description }}
                 </dd>
             </div>
-            <div
-                class="flex flex-col border-b border-gray-200 py-2 first:pb-2 first:pt-4"
-            >
-                <dt class="mb-1 text-slate-600 md:text-lg">Взять задачу до</dt>
-                <dd class="font-myriad-semibold text-lg">
+            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt class="font-myriad-regular text-lg leading-6">
+                    Взять задачу до
+                </dt>
+                <dd
+                    class="mt-1 text-lg leading-6 text-slate-600 sm:col-span-2 sm:mt-0"
+                >
                     {{ $takeBefore }}
                 </dd>
             </div>
-            <div
-                class="flex flex-col border-b border-gray-200 py-2 first:pb-2 first:pt-4"
-            >
-                <dt class="mb-1 text-slate-600 md:text-lg">
+            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt class="font-myriad-regular text-lg leading-6">
                     Завершить задачу до
                 </dt>
-                <dd class="font-myriad-semibold text-lg">
+                <dd
+                    class="mt-1 text-lg leading-6 text-slate-600 sm:col-span-2 sm:mt-0"
+                >
                     {{ $finishBefore }}
                 </dd>
             </div>
-            <div
-                class="flex flex-col border-b border-gray-200 py-2 first:pb-2 first:pt-4"
-            >
-                <dt class="mb-1 text-slate-600 md:text-lg">
+            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt class="font-myriad-regular text-lg leading-6">
                     Максимум человек в команде
                 </dt>
-                <dd class="font-myriad-semibold text-lg">
+                <dd
+                    class="mt-1 text-lg leading-6 text-slate-600 sm:col-span-2 sm:mt-0"
+                >
                     {{ $maxTeamSize }}
                 </dd>
             </div>
-            <div
-                class="flex flex-col border-b border-gray-200 py-2 first:pb-2 first:pt-4"
-            >
-                <dt class="mb-1 text-slate-600 md:text-lg">
+            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt class="font-myriad-regular text-lg leading-6">
                     Максимальное количество команд
                 </dt>
-                <dd class="font-myriad-semibold text-lg">
+                <dd
+                    class="mt-1 text-lg leading-6 text-slate-600 sm:col-span-2 sm:mt-0"
+                >
                     {{ $maxProjects }}
                 </dd>
             </div>
@@ -162,7 +164,10 @@ new #[Title("Задача")] class extends Component {
             type="button"
             @click="showTeams = !showTeams"
         >
-            <x-shared.arrow-down class="size-6" stroke-width="2" />
+            <div class="size-5">
+                <x-shared.arrow-up x-show="showTeams" />
+                <x-shared.arrow-down x-show="!showTeams" x-cloak />
+            </div>
             <x-shared.page-heading>
                 Команды, выбравшие данную задачу
             </x-shared.page-heading>
