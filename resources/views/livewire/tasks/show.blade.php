@@ -59,118 +59,125 @@ new #[Title("Задача")] class extends Component {
             </li>
         </ol>
     </nav>
+    <div
+        class="mt-2 overflow-hidden rounded-lg border border-gray-300 bg-sevsu-white px-6 py-4"
+    >
+        <div x-data="{ showInfo: true }">
+            <button
+                class="flex items-center gap-2"
+                type="button"
+                @click="showInfo = !showInfo"
+            >
+                <div class="size-5">
+                    <x-shared.arrow-up x-show="showInfo" />
+                    <x-shared.arrow-down x-show="!showInfo" x-cloak />
+                </div>
+                <x-shared.page-heading>
+                    Информация о задаче
+                </x-shared.page-heading>
+            </button>
+            <dl
+                class="divide-y divide-gray-100"
+                x-show="showInfo"
+                x-collapse.duration.350ms
+            >
+                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-md leading-6">
+                        Дисциплина
+                    </dt>
+                    <dd
+                        class="mt-1 text-md leading-6 text-gray-500 sm:col-span-2 sm:mt-0"
+                    >
+                        {{ $flow }}
+                    </dd>
+                </div>
+                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-md leading-6">
+                        Название задачи
+                    </dt>
+                    <dd
+                        class="mt-1 text-md leading-6 text-gray-500 sm:col-span-2 sm:mt-0"
+                    >
+                        {{ $title }}
+                    </dd>
+                </div>
+                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-md leading-6">
+                        Заказчик
+                    </dt>
+                    <dd
+                        class="mt-1 text-md leading-6 text-gray-500 sm:col-span-2 sm:mt-0"
+                    >
+                        {{ $customer }}
+                    </dd>
+                </div>
+                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-md leading-6">
+                        Описание задачи
+                    </dt>
+                    <dd
+                        class="mt-1 text-md leading-6 text-gray-500 sm:col-span-2 sm:mt-0"
+                    >
+                        {{ $description }}
+                    </dd>
+                </div>
+                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-md leading-6">
+                        Взять задачу до
+                    </dt>
+                    <dd
+                        class="mt-1 text-md leading-6 text-gray-500 sm:col-span-2 sm:mt-0"
+                    >
+                        {{ $takeBefore }}
+                    </dd>
+                </div>
+                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-md leading-6">
+                        Завершить задачу до
+                    </dt>
+                    <dd
+                        class="mt-1 text-md leading-6 text-gray-500 sm:col-span-2 sm:mt-0"
+                    >
+                        {{ $finishBefore }}
+                    </dd>
+                </div>
+                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-md leading-6">
+                        Максимум человек в команде
+                    </dt>
+                    <dd
+                        class="mt-1 text-md leading-6 text-gray-500 sm:col-span-2 sm:mt-0"
+                    >
+                        {{ $maxTeamSize }}
+                    </dd>
+                </div>
+                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-md leading-6">
+                        Максимальное количество команд
+                    </dt>
+                    <dd
+                        class="mt-1 text-md leading-6 text-gray-500 sm:col-span-2 sm:mt-0"
+                    >
+                        {{ $maxProjects }}
+                    </dd>
+                </div>
+            </dl>
+        </div>
 
-    <div class="mt-4" x-data="{ showInfo: true }">
-        <button
-            class="flex items-center gap-2"
-            type="button"
-            @click="showInfo = !showInfo"
-        >
-            <div class="size-5">
-                <x-shared.arrow-up x-show="showInfo" />
-                <x-shared.arrow-down x-show="!showInfo" x-cloak />
-            </div>
-            <x-shared.page-heading>Информация о задаче</x-shared.page-heading>
-        </button>
-        <dl
-            class="divide-y divide-gray-100"
-            x-show="showInfo"
-            x-collapse.duration.350ms
-        >
-            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                <dt class="font-myriad-regular text-lg leading-6">
-                    Дисциплина
-                </dt>
-                <dd
-                    class="mt-1 text-lg leading-6 text-slate-600 sm:col-span-2 sm:mt-0"
-                >
-                    {{ $flow }}
-                </dd>
-            </div>
-            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                <dt class="font-myriad-regular text-lg leading-6">
-                    Название задачи
-                </dt>
-                <dd
-                    class="mt-1 text-lg leading-6 text-slate-600 sm:col-span-2 sm:mt-0"
-                >
-                    {{ $title }}
-                </dd>
-            </div>
-            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                <dt class="font-myriad-regular text-lg leading-6">Заказчик</dt>
-                <dd
-                    class="mt-1 text-lg leading-6 text-slate-600 sm:col-span-2 sm:mt-0"
-                >
-                    {{ $customer }}
-                </dd>
-            </div>
-            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                <dt class="font-myriad-regular text-lg leading-6">
-                    Описание задачи
-                </dt>
-                <dd
-                    class="mt-1 text-lg leading-6 text-slate-600 sm:col-span-2 sm:mt-0"
-                >
-                    {{ $description }}
-                </dd>
-            </div>
-            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                <dt class="font-myriad-regular text-lg leading-6">
-                    Взять задачу до
-                </dt>
-                <dd
-                    class="mt-1 text-lg leading-6 text-slate-600 sm:col-span-2 sm:mt-0"
-                >
-                    {{ $takeBefore }}
-                </dd>
-            </div>
-            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                <dt class="font-myriad-regular text-lg leading-6">
-                    Завершить задачу до
-                </dt>
-                <dd
-                    class="mt-1 text-lg leading-6 text-slate-600 sm:col-span-2 sm:mt-0"
-                >
-                    {{ $finishBefore }}
-                </dd>
-            </div>
-            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                <dt class="font-myriad-regular text-lg leading-6">
-                    Максимум человек в команде
-                </dt>
-                <dd
-                    class="mt-1 text-lg leading-6 text-slate-600 sm:col-span-2 sm:mt-0"
-                >
-                    {{ $maxTeamSize }}
-                </dd>
-            </div>
-            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                <dt class="font-myriad-regular text-lg leading-6">
-                    Максимальное количество команд
-                </dt>
-                <dd
-                    class="mt-1 text-lg leading-6 text-slate-600 sm:col-span-2 sm:mt-0"
-                >
-                    {{ $maxProjects }}
-                </dd>
-            </div>
-        </dl>
-    </div>
-
-    <div class="mt-4" x-data="{ showTeams: true }">
-        <button
-            class="flex items-center gap-2"
-            type="button"
-            @click="showTeams = !showTeams"
-        >
-            <div class="size-5">
-                <x-shared.arrow-up x-show="showTeams" />
-                <x-shared.arrow-down x-show="!showTeams" x-cloak />
-            </div>
-            <x-shared.page-heading>
-                Команды, выбравшие данную задачу
-            </x-shared.page-heading>
-        </button>
+        <div class="mt-4" x-data="{ showTeams: true }">
+            <button
+                class="flex items-center gap-2"
+                type="button"
+                @click="showTeams = !showTeams"
+            >
+                <div class="size-5">
+                    <x-shared.arrow-up x-show="showTeams" />
+                    <x-shared.arrow-down x-show="!showTeams" x-cloak />
+                </div>
+                <x-shared.page-heading>
+                    Команды, выбравшие данную задачу
+                </x-shared.page-heading>
+            </button>
+        </div>
     </div>
 </div>
