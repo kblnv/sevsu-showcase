@@ -1,17 +1,17 @@
 @props(["title" => "", "task" => "", "description" => "", "maxTeamMembers" => "", "flow" => "", "members" => [], "tags" => []])
 
-<x-shared.card {{ $attributes }}>
+<x-ui.card {{ $attributes }}>
     @if (count($tags) != 0)
         <div class="border-b border-gray-300 p-2">
-            <x-shared.card.tags :tags="$tags" />
+            <x-ui.card.tags :tags="$tags" />
         </div>
     @endif
 
-    <x-shared.card.body>
+    <x-ui.card.body>
         <div class="flex items-center justify-between">
-            <x-shared.card.title href="#">
+            <x-ui.card.title href="#">
                 {{ $title }}
-            </x-shared.card.title>
+            </x-ui.card.title>
 
             @if ($flow)
                 <span class="font-myriad-semibold text-sm text-slate-600">
@@ -20,16 +20,16 @@
             @endif
         </div>
 
-        <x-shared.card.subtitle>
+        <x-ui.card.subtitle>
             {{ $task }}
-        </x-shared.card.subtitle>
+        </x-ui.card.subtitle>
 
         @if ($description != "")
-            <x-shared.card.text class="mt-4">
+            <x-ui.card.text class="mt-4">
                 {{ $description }}
-            </x-shared.card.text>
+            </x-ui.card.text>
         @endif
-    </x-shared.card.body>
+    </x-ui.card.body>
 
     <div class="border-t border-gray-300 p-8">
         <div
@@ -48,7 +48,7 @@
                 <tbody class="divide-y divide-gray-300">
                     @foreach ($members as $member)
                         @php($fullName = "{$member["second_name"]} {$member["first_name"]} {$member["last_name"]}")
-                        <x-entities.team-card.member
+                        <x-components.team-card.member
                             :index="$loop->index + 1"
                             :fullName="$fullName"
                             :vacancy="$member['vacancy_name']"
@@ -62,4 +62,4 @@
             </div>
         </div>
     </div>
-</x-shared.card>
+</x-ui.card>

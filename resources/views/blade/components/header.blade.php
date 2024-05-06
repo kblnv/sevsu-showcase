@@ -109,7 +109,7 @@
                         {{ auth()->user()->first_name }}
                         {{ auth()->user()->last_name }}
 
-                        <x-shared.arrow-down />
+                        <x-ui.arrow-down />
                     </button>
                 </div>
 
