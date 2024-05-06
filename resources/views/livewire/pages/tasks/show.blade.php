@@ -193,5 +193,25 @@ new #[Title("Задача")] class extends Component {
                 @endif
             </div>
         </div>
+
+        <div class="mt-4" x-data="{ showForm: true }">
+            <button
+                class="flex items-center gap-2"
+                type="button"
+                @click="showForm = !showForm"
+            >
+                <div class="size-5">
+                    <x-ui.arrow-up x-show="showForm" />
+                    <x-ui.arrow-down x-show="!showForm" x-cloak />
+                </div>
+                <x-ui.page-heading>
+                    Форма создания команды
+                </x-ui.page-heading>
+            </button>
+
+            <div x-show="showForm">
+                <h1 class="py-6">Здесь форма!!!</h1>
+            </div>
+        </div>
     </div>
 </div>
