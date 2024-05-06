@@ -35,16 +35,16 @@ new #[Title("Мои команды")] class extends Component {
 
 <div>
     @if ($this->teams()->count() == 0)
-        <x-shared.page-heading>
+        <x-ui.page-heading>
             Вы не состоите ни в одной команде
-        </x-shared.page-heading>
+        </x-ui.page-heading>
     @else
-        <x-shared.page-heading>
+        <x-ui.page-heading>
             Все команды, в которых Вы состоите:
-        </x-shared.page-heading>
+        </x-ui.page-heading>
         <div class="mt-4 space-y-8">
             @foreach ($this->teams()->items() as $team)
-                <x-entities.team-card
+                <x-components.team-card
                     :title="$team['team_name']"
                     :flow="$team['flow_name']"
                     :task="$team['task_name']"

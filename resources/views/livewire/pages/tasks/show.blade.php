@@ -47,7 +47,7 @@ new #[Title("Задача")] class extends Component {
             </li>
             <li aria-current="page">
                 <div class="flex items-center">
-                    <x-shared.arrow-up
+                    <x-ui.arrow-up
                         class="h-3 w-3 rotate-90"
                         stroke-width="2"
                     />
@@ -70,12 +70,12 @@ new #[Title("Задача")] class extends Component {
                 @click="showInfo = !showInfo"
             >
                 <div class="size-5">
-                    <x-shared.arrow-up x-show="showInfo" />
-                    <x-shared.arrow-down x-show="!showInfo" x-cloak />
+                    <x-ui.arrow-up x-show="showInfo" />
+                    <x-ui.arrow-down x-show="!showInfo" x-cloak />
                 </div>
-                <x-shared.page-heading>
+                <x-ui.page-heading>
                     Информация о задаче
-                </x-shared.page-heading>
+                </x-ui.page-heading>
             </button>
             <dl class="divide-y divide-gray-100" x-show="showInfo">
                 <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -99,7 +99,7 @@ new #[Title("Задача")] class extends Component {
                     <dd
                         class="text-md mt-1 leading-6 text-gray-500 sm:col-span-2 sm:mt-0"
                     >
-                        <x-shared.card.tags :tags="$this->tags($this->task['id'])" />
+                        <x-ui.card.tags :tags="$this->tags($this->task['id'])" />
                     </dd>
                 </div>
                 <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -164,12 +164,12 @@ new #[Title("Задача")] class extends Component {
                 @click="showTeams = !showTeams"
             >
                 <div class="size-5">
-                    <x-shared.arrow-up x-show="showTeams" />
-                    <x-shared.arrow-down x-show="!showTeams" x-cloak />
+                    <x-ui.arrow-up x-show="showTeams" />
+                    <x-ui.arrow-down x-show="!showTeams" x-cloak />
                 </div>
-                <x-shared.page-heading>
+                <x-ui.page-heading>
                     Команды, выбравшие данную задачу
-                </x-shared.page-heading>
+                </x-ui.page-heading>
             </button>
 
             <div x-show="showTeams">
@@ -180,7 +180,7 @@ new #[Title("Задача")] class extends Component {
                 @else
                     <div class="space-y-8 py-6">
                         @foreach ($this->taskTeams as $team)
-                            <x-entities.team-card
+                            <x-components.team-card
                                 :title="$team['team_name']"
                                 :task="$team['task_name']"
                                 :description="$team['team_description']"

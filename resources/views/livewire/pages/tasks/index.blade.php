@@ -1,34 +1,34 @@
 <?php
 
 use Livewire\Volt\Component;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
-use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
-use App\Facades\Teams;
-use App\Facades\Tags;
 use App\Facades\Flows;
+use App\Facades\Tasks;
+use App\Facades\Tags;
+use App\Traits\CustomPagination;
 
-new #[Title("Команды")] class extends Component {
-    use WithPagination;
+new #[Title("Банк задач")] class extends Component {
+    use CustomPagination;
 
     #[Url]
     public $selectedFlow = "";
+
+    public function tasks()
+    {
+        return Tasks::getTasksByFlow(
+            $this->selectedFlow,
+            auth()->user()->group_id,
+            10,
+        );
+    }
 
     #[Computed(persist: true, seconds: 300)]
     public function flows()
     {
         return Flows::getFlowsByGroup(auth()->user()->group_id);
-    }
-
-    public function teams()
-    {
-        return Teams::getTeamsByFlow($this->selectedFlow);
-    }
-
-    public function members($teamId)
-    {
-        return Teams::getMembersByTeam($teamId);
     }
 
     public function tags($taskId)
@@ -45,21 +45,16 @@ new #[Title("Команды")] class extends Component {
             $this->selectedFlow = $this->flows()->first()->flow_name ?? "";
         }
     }
-
-    public function paginationView()
-    {
-        return "components.widgets.pagination";
-    }
 };
 ?>
 
 <div>
     @if ($selectedFlow == "")
-        <x-shared.page-heading>
+        <x-ui.page-heading>
             Вы не прикреплены ни к одной дисциплине
-        </x-shared.page-heading>
+        </x-ui.page-heading>
     @else
-        <x-shared.select
+        <x-ui.select
             id="flow"
             label="Выберите дисциплину для отображения:"
             wire:model.live="selectedFlow"
@@ -77,33 +72,30 @@ new #[Title("Команды")] class extends Component {
                     </option>
                 @endif
             @endforeach
-        </x-shared.select>
+        </x-ui.select>
 
-        @if ($this->flows->count() == 0)
-            <x-shared.page-heading class="mt-8">
-                Нет команд по выбранной дисциплине
-            </x-shared.page-heading>
+        @if ($this->tasks()->count() == 0)
+            <x-ui.page-heading class="mt-8">
+                Нет задач по выбранной дисциплине
+            </x-ui.page-heading>
         @else
-            <x-shared.page-heading class="mt-8">
-                Команды по выбранной дисциплине:
-            </x-shared.page-heading>
+            <x-ui.page-heading class="mt-8">
+                Банк задач по выбранной дисциплине:
+            </x-ui.page-heading>
 
             <div class="mt-4 space-y-8">
-                @foreach ($this->teams()->items() as $team)
-                    <x-entities.team-card
-                        :title="$team['team_name']"
-                        :task="$team['task_name']"
-                        :description="$team['team_description']"
-                        :maxTeamMembers="$this->flows->firstWhere('flow_name', $selectedFlow)['max_team_size']"
-                        :tags="$this->tags($team['task_id'])"
-                        :members="$this->members($team['id'])"
+                @foreach ($this->tasks()->items() as $task)
+                    <x-components.task-card
+                        :task="$task"
+                        :flow="$this->flows->firstWhere('flow_name', $selectedFlow)"
+                        :tags="$this->tags($task['id'])"
                     />
                 @endforeach
             </div>
         @endif
 
         <div class="mt-4">
-            {{ $this->teams()->links() }}
+            {{ $this->tasks()->links() }}
         </div>
     @endif
 </div>
