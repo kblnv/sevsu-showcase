@@ -1,4 +1,4 @@
-@props(["title" => "", "task" => "", "description" => "", "maxTeamMembers" => "", "flow" => "", "members" => [], "tags" => []])
+@props(["team" => null, "maxTeamMembers" => "", "flow" => "", "members" => [], "tags" => []])
 
 <x-ui.card {{ $attributes }}>
     @if (count($tags) != 0)
@@ -10,7 +10,7 @@
     <x-ui.card.body>
         <div class="flex items-center justify-between">
             <x-ui.card.title href="#">
-                {{ $title }}
+                {{ $team['team_name'] }}
             </x-ui.card.title>
 
             @if ($flow)
@@ -21,12 +21,12 @@
         </div>
 
         <x-ui.card.subtitle>
-            {{ $task }}
+            {{ $team['task_name'] }}
         </x-ui.card.subtitle>
 
-        @if ($description != "")
+        @if ($team['team_description'] != "")
             <x-ui.card.text class="mt-4">
-                {{ $description }}
+                {{ $team['team_description'] }}
             </x-ui.card.text>
         @endif
     </x-ui.card.body>

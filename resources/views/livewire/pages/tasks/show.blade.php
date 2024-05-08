@@ -181,9 +181,7 @@ new #[Title("Задача")] class extends Component {
                     <div class="space-y-8 py-6">
                         @foreach ($this->taskTeams as $team)
                             <x-components.team-card
-                                :title="$team['team_name']"
-                                :task="$team['task_name']"
-                                :description="$team['team_description']"
+                                :team="$team"
                                 :maxTeamMembers="$this->flow['max_team_size']"
                                 :tags="$this->tags($team['task_id'])"
                                 :members="$this->members($team['id'])"

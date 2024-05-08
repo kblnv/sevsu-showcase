@@ -86,9 +86,7 @@ new #[Title("Команды")] class extends Component {
             <div class="mt-4 space-y-8">
                 @foreach ($this->teams()->items() as $team)
                     <x-components.team-card
-                        :title="$team['team_name']"
-                        :task="$team['task_name']"
-                        :description="$team['team_description']"
+                        :team="$team"
                         :maxTeamMembers="$this->flows->firstWhere('flow_name', $selectedFlow)['max_team_size']"
                         :tags="$this->tags($team['task_id'])"
                         :members="$this->members($team['id'])"
