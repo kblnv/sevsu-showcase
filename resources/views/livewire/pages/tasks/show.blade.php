@@ -208,7 +208,49 @@ new #[Title("Задача")] class extends Component {
             </button>
 
             <div x-show="showForm">
-                <h1 class="py-6">Здесь форма!!!</h1>
+                <form>
+                    <div>
+                        <span for="team-name" class="block text-md leading-6 font-medium text-gray-700">Название команды</span>
+                        <x-ui.input
+                            id="team-name"
+                        />
+                    </div>
+
+                    <div class="mt-4">
+                        <span class="block text-md leading-6 font-medium text-gray-700">Описание команды</span>
+                        <textarea
+                            id="team-description"
+                            name="team-description"
+                            class="rounded-lg border-2 border-gray-300 p-3 outline-none bg-sevsu-light-gray focus:border-sevsu-blue"
+                        >
+                        </textarea>
+                    </div>
+
+                    <div class="mt-4">
+                        <span class="block text-md leading-6 font-medium text-gray-700">Пароль</span>
+                        <x-ui.input
+                            type="password"
+                            id="password"
+                        />
+                    </div>
+
+                    <div class="mt-4">
+                        <span class="block text-md leading-6 font-medium text-gray-700">Подтверждение пароля</span>
+                        <x-ui.input
+                            type="password"
+                            id="confirm-password"
+                        />
+                    </div>
+
+                    <div class="mt-4">
+                        <button 
+                            type="submit"
+                            class="inline-flex items-center px-4 py-2 border border-transparent text-sm
+                                   leading font-medium rounded-md text-white bg-sevsu-blue"
+                        >Создать команду
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
