@@ -9,8 +9,10 @@ class TagTask extends Model
 {
     use HasFactory;
 
-    protected $table = "tags_tasks";
+    protected $table = 'tags_tasks';
+
     public $timestamps = false;
+
     protected $fillable = [
         'tag_id',
         'task_id',

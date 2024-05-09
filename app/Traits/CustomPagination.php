@@ -10,6 +10,6 @@ trait CustomPagination
 
     public function paginationView()
     {
-        return "blade.components.pagination";
+        return 'blade.components.pagination';
     }
 }
