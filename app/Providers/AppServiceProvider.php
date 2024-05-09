@@ -6,12 +6,12 @@ use App\Contracts\FlowContract;
 use App\Contracts\TagContract;
 use App\Contracts\TaskContract;
 use App\Contracts\TeamContract;
-use Illuminate\Support\ServiceProvider;
-use App\Services\TeamService;
-use App\Services\TagService;
 use App\Services\FlowService;
+use App\Services\TagService;
 use App\Services\TaskService;
+use App\Services\TeamService;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,10 +24,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(TagContract::class, TagService::class);
         $this->app->bind(FlowContract::class, FlowService::class);
         $this->app->bind(TaskContract::class, TaskService::class);
-        $this->app->bind("flows", FlowContract::class);
-        $this->app->bind("tasks", TaskContract::class);
-        $this->app->bind("teams", TeamContract::class);
-        $this->app->bind("tags", TagContract::class);
+        $this->app->bind('flows', FlowContract::class);
+        $this->app->bind('tasks', TaskContract::class);
+        $this->app->bind('teams', TeamContract::class);
+        $this->app->bind('tags', TagContract::class);
     }
 
     /**

@@ -96,11 +96,11 @@ class DatabaseSeeder extends Seeder
                 Task::firstOrCreate(
                     [
                         'flow_id' => $flow->id,
-                        'task_name' => 'Задача ' . $i . ' дисциплины ' . $flow->flow_name,
+                        'task_name' => 'Задача '.$i.' дисциплины '.$flow->flow_name,
                     ],
                     [
-                        'task_description' => 'Описание задачи ' . $i,
-                        'customer' => 'Заказчик ' . $i,
+                        'task_description' => 'Описание задачи '.$i,
+                        'customer' => 'Заказчик '.$i,
                         'max_projects' => rand(1, 15),
                     ]
                 );
@@ -109,7 +109,7 @@ class DatabaseSeeder extends Seeder
 
         for ($i = 1; $i <= 3; $i++) {
             Tag::firstOrCreate([
-                'tag_name' => 'Тэг ' . $i,
+                'tag_name' => 'Тэг '.$i,
             ]);
         }
 
@@ -122,7 +122,7 @@ class DatabaseSeeder extends Seeder
                     ->where('tag_id', $tagId)
                     ->exists();
 
-                if (!$existingTagTask) {
+                if (! $existingTagTask) {
                     TagTask::create([
                         'task_id' => $task->id,
                         'tag_id' => $tagId,
@@ -142,11 +142,11 @@ class DatabaseSeeder extends Seeder
 
             Team::firstOrCreate(
                 [
-                    'team_name' => 'Команда ' . $i,
+                    'team_name' => 'Команда '.$i,
                     'task_id' => $task->id,
                 ],
                 [
-                    'team_description' => 'Описание команды ' . $i,
+                    'team_description' => 'Описание команды '.$i,
                     'password' => random_int(0, 1) ? Hash::make(random_int(1, 10)) : null,
                 ]
             );
@@ -172,7 +172,7 @@ class DatabaseSeeder extends Seeder
                 foreach ($users as $user) {
                     UserTeam::firstOrCreate([
                         'user_id' => $user->id,
-                        'team_id' => $team->id
+                        'team_id' => $team->id,
                     ], [
                         'is_moderator' => rand(0, 1),
                     ]);
@@ -182,7 +182,7 @@ class DatabaseSeeder extends Seeder
                 for ($i = 0; $teamSize != 0; $teamSize--, $i++) {
                     UserTeam::firstOrCreate([
                         'user_id' => $users[$i]->id,
-                        'team_id' => $team->id
+                        'team_id' => $team->id,
                     ], [
                         'is_moderator' => rand(0, 1),
                     ]);
@@ -198,7 +198,7 @@ class DatabaseSeeder extends Seeder
 
                 Vacancy::firstOrCreate([
                     'team_id' => $team->id,
-                    'vacancy_name' => 'Вакансия ' . $i,
+                    'vacancy_name' => 'Вакансия '.$i,
                 ], [
                     'user_id' => rand(0, 1) ? $users->pluck('user_id')->random() : null,
                 ]);

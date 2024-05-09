@@ -10,9 +10,10 @@ use Illuminate\Support\Facades\Facade;
  * @method static array getMembersByTeam(string $teamId)
  * @method static array getTeamsByTask(string $taskId)
  */
-class Teams extends Facade {
+class Teams extends Facade
+{
     protected static function getFacadeAccessor()
     {
-        return "teams";
+        return 'teams';
     }
 }
