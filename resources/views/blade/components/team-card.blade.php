@@ -10,7 +10,7 @@
     <x-ui.card.body>
         <div class="flex items-center justify-between">
             <x-ui.card.title href="#">
-                {{ $team['team_name'] }}
+                {{ $team["team_name"] }}
             </x-ui.card.title>
 
             @if ($flow)
@@ -21,12 +21,12 @@
         </div>
 
         <x-ui.card.subtitle>
-            {{ $team['task_name'] }}
+            {{ $team["task_name"] }}
         </x-ui.card.subtitle>
 
-        @if ($team['team_description'] != "")
+        @if ($team["team_description"] != "")
             <x-ui.card.text class="mt-4">
-                {{ $team['team_description'] }}
+                {{ $team["team_description"] }}
             </x-ui.card.text>
         @endif
     </x-ui.card.body>

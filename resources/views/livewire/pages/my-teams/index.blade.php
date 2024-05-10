@@ -3,12 +3,12 @@
 use Livewire\Volt\Component;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Computed;
-use Livewire\WithPagination;
 use App\Facades\Teams;
 use App\Facades\Tags;
+use App\Traits\CustomPagination;
 
 new #[Title("Мои команды")] class extends Component {
-    use WithPagination;
+    use CustomPagination;
 
     #[Computed(persist: true, seconds: 300)]
     public function teams()
@@ -25,19 +25,12 @@ new #[Title("Мои команды")] class extends Component {
     {
         return Tags::getTags($taskId);
     }
-
-    public function paginationView()
-    {
-        return "components.widgets.pagination";
-    }
 };
 ?>
 
 <div>
     @if ($this->teams()->count() == 0)
-        <x-ui.page-heading>
-            Вы не состоите ни в одной команде
-        </x-ui.page-heading>
+        <x-ui.page-heading>Вы не состоите ни в одной команде</x-ui.page-heading>
     @else
         <x-ui.page-heading>
             Все команды, в которых Вы состоите:
@@ -45,11 +38,9 @@ new #[Title("Мои команды")] class extends Component {
         <div class="mt-4 space-y-8">
             @foreach ($this->teams()->items() as $team)
                 <x-components.team-card
-                    :title="$team['team_name']"
-                    :flow="$team['flow_name']"
-                    :task="$team['task_name']"
-                    :description="$team['team_description']"
+                    :team="$team"
                     :maxTeamMembers="$team['max_team_size']"
+                    :flow="$team['flow_name']"
                     :tags="$this->tags($team['task_id'])"
                     :members="$this->members($team['id'])"
                 />

@@ -8,9 +8,12 @@ use App\Models\Flow;
 use App\Models\Task;
 
 new #[Title("Задача")] class extends Component {
-    private $flow;
-    private $task;
-    private $taskTeams;
+    public $flow;
+    public $task;
+    public $taskTeams;
+    public $teamName;
+    public $teamDescription;
+    public $password;
 
     public function tags($taskId)
     {
@@ -22,8 +25,21 @@ new #[Title("Задача")] class extends Component {
         return Teams::getMembersByTeam($teamId);
     }
 
+    public function createTeam()
+    {
+        Teams::createTeam(
+            $this->teamName,
+            $this->task["id"],
+            $this->teamDescription,
+            $this->password,
+        );
+
+        return $this->redirectRoute("my-teams.index");
+    }
+
     public function mount(Flow $flow, Task $task)
     {
+        $this->taskId = $task["id"];
         $this->flow = $flow;
         $this->task = $task;
         $this->taskTeams = Teams::getTeamsByTask($task["id"]);
@@ -47,10 +63,7 @@ new #[Title("Задача")] class extends Component {
             </li>
             <li aria-current="page">
                 <div class="flex items-center">
-                    <x-ui.arrow-up
-                        class="h-3 w-3 rotate-90"
-                        stroke-width="2"
-                    />
+                    <x-ui.arrow-up class="h-3 w-3 rotate-90" stroke-width="2" />
                     <span
                         class="ms-1 font-myriad-regular text-sm text-gray-500 md:ms-2"
                     >
@@ -73,9 +86,7 @@ new #[Title("Задача")] class extends Component {
                     <x-ui.arrow-up x-show="showInfo" />
                     <x-ui.arrow-down x-show="!showInfo" x-cloak />
                 </div>
-                <x-ui.page-heading>
-                    Информация о задаче
-                </x-ui.page-heading>
+                <x-ui.page-heading>Информация о задаче</x-ui.page-heading>
             </button>
             <dl class="divide-y divide-gray-100" x-show="showInfo">
                 <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -99,7 +110,9 @@ new #[Title("Задача")] class extends Component {
                     <dd
                         class="text-md mt-1 leading-6 text-gray-500 sm:col-span-2 sm:mt-0"
                     >
-                        <x-ui.card.tags :tags="$this->tags($this->task['id'])" />
+                        <x-ui.card.tags
+                            :tags="$this->tags($this->task['id'])"
+                        />
                     </dd>
                 </div>
                 <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -202,52 +215,59 @@ new #[Title("Задача")] class extends Component {
                     <x-ui.arrow-up x-show="showForm" />
                     <x-ui.arrow-down x-show="!showForm" x-cloak />
                 </div>
-                <x-ui.page-heading>
-                    Форма создания команды
-                </x-ui.page-heading>
+                <x-ui.page-heading>Форма создания команды</x-ui.page-heading>
             </button>
 
             <div x-show="showForm">
-                <form>
+                <form class="flex flex-col gap-4 py-6" wire:submit="createTeam">
                     <div>
-                        <span for="team-name" class="block text-md leading-6 font-medium text-gray-700">Название команды</span>
+                        <label
+                            class="text-md block font-medium leading-6 text-gray-700"
+                            for="team-name"
+                        >
+                            Название команды *
+                        </label>
                         <x-ui.input
                             id="team-name"
+                            wire:model="teamName"
+                            required
                         />
                     </div>
 
-                    <div class="mt-4">
-                        <span class="block text-md leading-6 font-medium text-gray-700">Описание команды</span>
-                        <textarea
-                            id="team-description"
-                            name="team-description"
-                            class="rounded-lg border-2 border-gray-300 p-3 outline-none bg-sevsu-light-gray focus:border-sevsu-blue"
+                    <div>
+                        <label
+                            class="text-md block font-medium leading-6 text-gray-700"
+                            for="team-description"
                         >
-                        </textarea>
+                            Описание команды
+                        </label>
+                        <textarea
+                            class="w-full rounded-lg border-2 border-gray-300 bg-sevsu-light-gray p-3 outline-none focus:border-sevsu-blue"
+                            id="team-description"
+                            rows="3"
+                            wire:model="teamDescription"
+                        ></textarea>
                     </div>
 
-                    <div class="mt-4">
-                        <span class="block text-md leading-6 font-medium text-gray-700">Пароль</span>
+                    <div>
+                        <label
+                            class="text-md block font-medium leading-6 text-gray-700"
+                            for="password"
+                        >
+                            Пароль
+                        </label>
                         <x-ui.input
-                            type="password"
                             id="password"
-                        />
-                    </div>
-
-                    <div class="mt-4">
-                        <span class="block text-md leading-6 font-medium text-gray-700">Подтверждение пароля</span>
-                        <x-ui.input
                             type="password"
-                            id="confirm-password"
+                            wire:model="password"
                         />
                     </div>
-
                     <div class="mt-4">
-                        <button 
+                        <button
+                            class="leading inline-flex items-center rounded-md border border-transparent bg-sevsu-blue px-4 py-2 text-sm font-medium text-white"
                             type="submit"
-                            class="inline-flex items-center px-4 py-2 border border-transparent text-sm
-                                   leading font-medium rounded-md text-white bg-sevsu-blue"
-                        >Создать команду
+                        >
+                            Создать команду
                         </button>
                     </div>
                 </form>
