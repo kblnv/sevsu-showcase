@@ -4,6 +4,7 @@ namespace App\Contracts;
 
 use Illuminate\Database\Eloquent\Collection;
 
-interface FlowContract {
+interface FlowContract
+{
     public function getFlowsByGroup(string $groupId): Collection;
 }

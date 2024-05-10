@@ -37,7 +37,7 @@ trait SocialUsers
     {
         Auth::logout();
 
-        $logoutUrl = env(strtoupper($provider) . '_LOGOUT_URI');
+        $logoutUrl = env(strtoupper($provider).'_LOGOUT_URI');
 
         return redirect($logoutUrl);
     }
@@ -46,7 +46,7 @@ trait SocialUsers
     {
         $group = Group::where('group_name', $groupName)->first();
 
-        if (!$group) {
+        if (! $group) {
             $group = Group::create([
                 'group_name' => $groupName,
             ]);
