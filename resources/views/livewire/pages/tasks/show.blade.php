@@ -8,9 +8,12 @@ use App\Models\Flow;
 use App\Models\Task;
 
 new #[Title("Задача")] class extends Component {
-    private $flow;
-    private $task;
-    private $taskTeams;
+    public $flow;
+    public $task;
+    public $taskTeams;
+    public $teamName;
+    public $teamDescription;
+    public $password;
 
     public function tags($taskId)
     {
@@ -22,8 +25,21 @@ new #[Title("Задача")] class extends Component {
         return Teams::getMembersByTeam($teamId);
     }
 
+    public function createTeam()
+    {
+        Teams::createTeam(
+            $this->teamName,
+            $this->task["id"],
+            $this->teamDescription,
+            $this->password,
+        );
+
+        return $this->redirectRoute("my-teams.index");
+    }
+
     public function mount(Flow $flow, Task $task)
     {
+        $this->taskId = $task["id"];
         $this->flow = $flow;
         $this->task = $task;
         $this->taskTeams = Teams::getTeamsByTask($task["id"]);
@@ -47,10 +63,7 @@ new #[Title("Задача")] class extends Component {
             </li>
             <li aria-current="page">
                 <div class="flex items-center">
-                    <x-ui.arrow-up
-                        class="h-3 w-3 rotate-90"
-                        stroke-width="2"
-                    />
+                    <x-ui.arrow-up class="h-3 w-3 rotate-90" stroke-width="2" />
                     <span
                         class="ms-1 font-myriad-regular text-sm text-gray-500 md:ms-2"
                     >
@@ -73,9 +86,7 @@ new #[Title("Задача")] class extends Component {
                     <x-ui.arrow-up x-show="showInfo" />
                     <x-ui.arrow-down x-show="!showInfo" x-cloak />
                 </div>
-                <x-ui.page-heading>
-                    Информация о задаче
-                </x-ui.page-heading>
+                <x-ui.page-heading>Информация о задаче</x-ui.page-heading>
             </button>
             <dl class="divide-y divide-gray-100" x-show="showInfo">
                 <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -99,7 +110,9 @@ new #[Title("Задача")] class extends Component {
                     <dd
                         class="text-md mt-1 leading-6 text-gray-500 sm:col-span-2 sm:mt-0"
                     >
-                        <x-ui.card.tags :tags="$this->tags($this->task['id'])" />
+                        <x-ui.card.tags
+                            :tags="$this->tags($this->task['id'])"
+                        />
                     </dd>
                 </div>
                 <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -181,9 +194,7 @@ new #[Title("Задача")] class extends Component {
                     <div class="space-y-8 py-6">
                         @foreach ($this->taskTeams as $team)
                             <x-components.team-card
-                                :title="$team['team_name']"
-                                :task="$team['task_name']"
-                                :description="$team['team_description']"
+                                :team="$team"
                                 :maxTeamMembers="$this->flow['max_team_size']"
                                 :tags="$this->tags($team['task_id'])"
                                 :members="$this->members($team['id'])"
@@ -204,13 +215,62 @@ new #[Title("Задача")] class extends Component {
                     <x-ui.arrow-up x-show="showForm" />
                     <x-ui.arrow-down x-show="!showForm" x-cloak />
                 </div>
-                <x-ui.page-heading>
-                    Форма создания команды
-                </x-ui.page-heading>
+                <x-ui.page-heading>Форма создания команды</x-ui.page-heading>
             </button>
 
             <div x-show="showForm">
-                <h1 class="py-6">Здесь форма!!!</h1>
+                <form class="flex flex-col gap-4 py-6" wire:submit="createTeam">
+                    <div>
+                        <label
+                            class="text-md block font-medium leading-6 text-gray-700"
+                            for="team-name"
+                        >
+                            Название команды *
+                        </label>
+                        <x-ui.input
+                            id="team-name"
+                            wire:model="teamName"
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <label
+                            class="text-md block font-medium leading-6 text-gray-700"
+                            for="team-description"
+                        >
+                            Описание команды
+                        </label>
+                        <textarea
+                            class="w-full rounded-lg border-2 border-gray-300 bg-sevsu-light-gray p-3 outline-none focus:border-sevsu-blue"
+                            id="team-description"
+                            rows="3"
+                            wire:model="teamDescription"
+                        ></textarea>
+                    </div>
+
+                    <div>
+                        <label
+                            class="text-md block font-medium leading-6 text-gray-700"
+                            for="password"
+                        >
+                            Пароль
+                        </label>
+                        <x-ui.input
+                            id="password"
+                            type="password"
+                            wire:model="password"
+                        />
+                    </div>
+                    <div class="mt-4">
+                        <button
+                            class="leading inline-flex items-center rounded-md border border-transparent bg-sevsu-blue px-4 py-2 text-sm font-medium text-white"
+                            type="submit"
+                        >
+                            Создать команду
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
