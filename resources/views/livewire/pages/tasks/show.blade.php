@@ -15,6 +15,27 @@ new #[Title("Задача")] class extends Component {
     public $teamDescription;
     public $password;
 
+    public function rules()
+    {
+        return [
+            'teamName' => [
+                'required',
+                'string',
+                'min:5',
+                'unique_team_flow:'.$this->task['id'],
+            ],
+            'teamDescription' => 'nullable|string|min:10',
+            'password' => 'nullable',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'teamName.unique_team_flow' => 'Команда с таким именем уже существует внутри потока задачи.',
+        ];
+    }
+
     public function tags($taskId)
     {
         return Tags::getTags($taskId);
@@ -27,9 +48,11 @@ new #[Title("Задача")] class extends Component {
 
     public function createTeam()
     {
+        $this->validate();
+
         Teams::createTeam(
             $this->teamName,
-            $this->task["id"],
+            $this->task['id'],
             $this->teamDescription,
             $this->password,
         );

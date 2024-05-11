@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Facades\Flows;
+use App\Facades\Teams;
 use App\Models\Flow;
 use App\Models\Group;
 use App\Models\GroupFlow;
@@ -13,7 +15,6 @@ use App\Models\Task;
 use App\Models\Team;
 use App\Models\User;
 use App\Models\UserTeam;
-use App\Models\Vacancy;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -170,38 +171,42 @@ class DatabaseSeeder extends Seeder
 
             if ($remainingUsers > 0) {
                 foreach ($users as $user) {
-                    UserTeam::firstOrCreate([
-                        'user_id' => $user->id,
-                        'team_id' => $team->id,
-                    ], [
-                        'is_moderator' => rand(0, 1),
-                    ]);
+                    $flow = Flows::getFlowByTask($team->task_id);
+                    $userTeam = Teams::getUserTeamByFlow($flow->id, $user->id);
+
+                    if (is_null($userTeam)) {
+                        UserTeam::firstOrCreate([
+                            'user_id' => $user->id,
+                            'team_id' => $team->id,
+                        ], [
+                            'vacancy' => rand(0, 1) ? 'Вакансия '.$i : null,
+                            'is_moderator' => rand(0, 1),
+                        ]);
+                    }
                 }
             } else {
                 $teamSize = $maxTeamSize - rand(0, $maxTeamSize - 5);
+
                 for ($i = 0; $teamSize != 0; $teamSize--, $i++) {
-                    UserTeam::firstOrCreate([
-                        'user_id' => $users[$i]->id,
-                        'team_id' => $team->id,
-                    ], [
-                        'is_moderator' => rand(0, 1),
-                    ]);
+                    $flow = Flows::getFlowByTask($team->task_id);
+                    $userTeam = Teams::getUserTeamByFlow($flow->id, $users[$i]->id);
+
+                    if (is_null($userTeam)) {
+                        UserTeam::firstOrCreate([
+                            'user_id' => $users[$i]->id,
+                            'team_id' => $team->id,
+                        ], [
+                            'vacancy' => rand(0, 1) ? 'Вакансия '.$i : null,
+                            'is_moderator' => rand(0, 1),
+                        ]);
+                    }
                 }
             }
-        }
 
-        foreach ($teams as $team) {
-            for ($i = 1; $i < rand(3, 8); $i++) {
-                $users = UserTeam::select('user_id')
-                    ->where('team_id', '=', $team->id)
-                    ->get();
+            $userTeamCount = UserTeam::where('team_id', $team->id)->count();
 
-                Vacancy::firstOrCreate([
-                    'team_id' => $team->id,
-                    'vacancy_name' => 'Вакансия '.$i,
-                ], [
-                    'user_id' => rand(0, 1) ? $users->pluck('user_id')->random() : null,
-                ]);
+            if ($userTeamCount === 0) {
+                $team->delete();
             }
         }
     }
