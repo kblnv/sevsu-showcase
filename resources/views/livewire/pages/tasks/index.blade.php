@@ -4,14 +4,13 @@ use Livewire\Volt\Component;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
-use Livewire\WithPagination;
 use App\Facades\Flows;
 use App\Facades\Tasks;
 use App\Facades\Tags;
-use App\Traits\CustomPagination;
+use App\Traits\WithCustomPagination;
 
 new #[Title("Банк задач")] class extends Component {
-    use CustomPagination;
+    use WithCustomPagination;
 
     #[Url]
     public $selectedFlow = "";
@@ -50,11 +49,9 @@ new #[Title("Банк задач")] class extends Component {
 
 <div>
     @if ($selectedFlow == "")
-        <x-ui.page-heading>
-            Вы не прикреплены ни к одной дисциплине
-        </x-ui.page-heading>
+        <x-page-heading>Вы не прикреплены ни к одной дисциплине</x-page-heading>
     @else
-        <x-ui.select
+        <x-select
             id="flow"
             label="Выберите дисциплину для отображения:"
             wire:model.live="selectedFlow"
@@ -72,20 +69,20 @@ new #[Title("Банк задач")] class extends Component {
                     </option>
                 @endif
             @endforeach
-        </x-ui.select>
+        </x-select>
 
         @if ($this->tasks()->count() == 0)
-            <x-ui.page-heading class="mt-8">
+            <x-page-heading class="mt-8">
                 Нет задач по выбранной дисциплине
-            </x-ui.page-heading>
+            </x-page-heading>
         @else
-            <x-ui.page-heading class="mt-8">
+            <x-page-heading class="mt-8">
                 Банк задач по выбранной дисциплине:
-            </x-ui.page-heading>
+            </x-page-heading>
 
             <div class="mt-4 space-y-8">
                 @foreach ($this->tasks()->items() as $task)
-                    <x-components.task-card
+                    <x-task-card
                         :task="$task"
                         :flow="$this->flows->firstWhere('flow_name', $selectedFlow)"
                         :tags="$this->tags($task['id'])"

@@ -16,7 +16,7 @@
         <nav
             class="flex items-center justify-between"
             role="navigation"
-            aria-label="Pagination Navigation"
+            aria-label="Пагинация"
         >
             <div class="flex flex-1 justify-between sm:hidden">
                 <span>
