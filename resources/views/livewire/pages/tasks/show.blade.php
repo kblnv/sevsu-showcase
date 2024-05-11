@@ -49,10 +49,10 @@ new #[Title("Задача")] class extends Component {
 
 <div>
     @php
-    $breadcrumbsItems = [
-        ["title" => "Банк задач", "link" => route("tasks.index"), "currentPage" => false],
-        ["title" => "Страница задачи", "link" => "", "currentPage" => true],
-    ];
+        $breadcrumbsItems = [
+            ["title" => "Банк задач", "link" => route("tasks.index"), "currentPage" => false],
+            ["title" => "Страница задачи", "link" => "", "currentPage" => true],
+        ];
     @endphp
 
     <x-breadcrumbs :items="$breadcrumbsItems" />
