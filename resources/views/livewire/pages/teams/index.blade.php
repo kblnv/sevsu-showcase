@@ -7,10 +7,10 @@ use Livewire\Attributes\Computed;
 use App\Facades\Teams;
 use App\Facades\Tags;
 use App\Facades\Flows;
-use App\Traits\CustomPagination;
+use App\Traits\WithCustomPagination;
 
 new #[Title("Команды")] class extends Component {
-    use CustomPagination;
+    use WithCustomPagination;
 
     #[Url]
     public $selectedFlow = "";

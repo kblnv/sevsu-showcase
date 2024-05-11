@@ -4,7 +4,7 @@ namespace App\Traits;
 
 use Livewire\WithPagination;
 
-trait CustomPagination
+trait WithCustomPagination
 {
     use WithPagination;
 

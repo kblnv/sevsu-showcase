@@ -5,10 +5,10 @@ use Livewire\Attributes\Title;
 use Livewire\Attributes\Computed;
 use App\Facades\Teams;
 use App\Facades\Tags;
-use App\Traits\CustomPagination;
+use App\Traits\WithCustomPagination;
 
 new #[Title("Мои команды")] class extends Component {
-    use CustomPagination;
+    use WithCustomPagination;
 
     #[Computed(persist: true, seconds: 300)]
     public function teams()

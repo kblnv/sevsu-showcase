@@ -4,14 +4,13 @@ use Livewire\Volt\Component;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
-use Livewire\WithPagination;
 use App\Facades\Flows;
 use App\Facades\Tasks;
 use App\Facades\Tags;
-use App\Traits\CustomPagination;
+use App\Traits\WithCustomPagination;
 
 new #[Title("Банк задач")] class extends Component {
-    use CustomPagination;
+    use WithCustomPagination;
 
     #[Url]
     public $selectedFlow = "";

@@ -76,19 +76,8 @@ new #[Title("Задача")] class extends Component {
     <div
         class="mt-4 overflow-hidden rounded-lg border border-gray-300 bg-sevsu-white px-6 py-4"
     >
-        <div x-data="{ showInfo: true }">
-            <button
-                class="flex items-center gap-2"
-                type="button"
-                @click="showInfo = !showInfo"
-            >
-                <div class="size-5">
-                    <x-ui.arrow-up x-show="showInfo" />
-                    <x-ui.arrow-down x-show="!showInfo" x-cloak />
-                </div>
-                <x-ui.page-heading>Информация о задаче</x-ui.page-heading>
-            </button>
-            <dl class="divide-y divide-gray-100" x-show="showInfo">
+        <x-components.task-page-section sectionTitle="Информация о задаче">
+            <dl class="divide-y divide-gray-100">
                 <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                     <dt class="text-md leading-6">Дисциплина</dt>
                     <dd
@@ -168,24 +157,12 @@ new #[Title("Задача")] class extends Component {
                     </dd>
                 </div>
             </dl>
-        </div>
+        </x-components.task-page-section>
 
-        <div class="mt-4" x-data="{ showTeams: true }">
-            <button
-                class="flex items-center gap-2"
-                type="button"
-                @click="showTeams = !showTeams"
-            >
-                <div class="size-5">
-                    <x-ui.arrow-up x-show="showTeams" />
-                    <x-ui.arrow-down x-show="!showTeams" x-cloak />
-                </div>
-                <x-ui.page-heading>
-                    Команды, выбравшие данную задачу
-                </x-ui.page-heading>
-            </button>
-
-            <div x-show="showTeams">
+        <x-components.task-page-section
+            sectionTitle="Команды, выбравшие данную задачу"
+        >
+            <div>
                 @if (count($this->taskTeams) === 0)
                     <h2 class="text-md py-6">
                         Нет команд, выбравших эту задачу
@@ -203,75 +180,57 @@ new #[Title("Задача")] class extends Component {
                     </div>
                 @endif
             </div>
-        </div>
+        </x-components.task-page-section>
 
-        <div class="mt-4" x-data="{ showForm: true }">
-            <button
-                class="flex items-center gap-2"
-                type="button"
-                @click="showForm = !showForm"
-            >
-                <div class="size-5">
-                    <x-ui.arrow-up x-show="showForm" />
-                    <x-ui.arrow-down x-show="!showForm" x-cloak />
+        <x-components.task-page-section sectionTitle="Форма создания команды">
+            <form class="flex flex-col gap-4 py-6" wire:submit="createTeam">
+                <div>
+                    <label
+                        class="text-md block font-medium leading-6 text-gray-700"
+                        for="team-name"
+                    >
+                        Название команды *
+                    </label>
+                    <x-ui.input id="team-name" wire:model="teamName" required />
                 </div>
-                <x-ui.page-heading>Форма создания команды</x-ui.page-heading>
-            </button>
 
-            <div x-show="showForm">
-                <form class="flex flex-col gap-4 py-6" wire:submit="createTeam">
-                    <div>
-                        <label
-                            class="text-md block font-medium leading-6 text-gray-700"
-                            for="team-name"
-                        >
-                            Название команды *
-                        </label>
-                        <x-ui.input
-                            id="team-name"
-                            wire:model="teamName"
-                            required
-                        />
-                    </div>
+                <div>
+                    <label
+                        class="text-md block font-medium leading-6 text-gray-700"
+                        for="team-description"
+                    >
+                        Описание команды
+                    </label>
+                    <textarea
+                        class="w-full rounded-lg border-2 border-gray-300 bg-sevsu-light-gray p-3 outline-none focus:border-sevsu-blue"
+                        id="team-description"
+                        rows="3"
+                        wire:model="teamDescription"
+                    ></textarea>
+                </div>
 
-                    <div>
-                        <label
-                            class="text-md block font-medium leading-6 text-gray-700"
-                            for="team-description"
-                        >
-                            Описание команды
-                        </label>
-                        <textarea
-                            class="w-full rounded-lg border-2 border-gray-300 bg-sevsu-light-gray p-3 outline-none focus:border-sevsu-blue"
-                            id="team-description"
-                            rows="3"
-                            wire:model="teamDescription"
-                        ></textarea>
-                    </div>
-
-                    <div>
-                        <label
-                            class="text-md block font-medium leading-6 text-gray-700"
-                            for="password"
-                        >
-                            Пароль
-                        </label>
-                        <x-ui.input
-                            id="password"
-                            type="password"
-                            wire:model="password"
-                        />
-                    </div>
-                    <div class="mt-4">
-                        <button
-                            class="leading inline-flex items-center rounded-md border border-transparent bg-sevsu-blue px-4 py-2 text-sm font-medium text-white"
-                            type="submit"
-                        >
-                            Создать команду
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
+                <div>
+                    <label
+                        class="text-md block font-medium leading-6 text-gray-700"
+                        for="password"
+                    >
+                        Пароль
+                    </label>
+                    <x-ui.input
+                        id="password"
+                        type="password"
+                        wire:model="password"
+                    />
+                </div>
+                <div class="mt-4">
+                    <button
+                        class="leading inline-flex items-center rounded-md border border-transparent bg-sevsu-blue px-4 py-2 text-sm font-medium text-white"
+                        type="submit"
+                    >
+                        Создать команду
+                    </button>
+                </div>
+            </form>
+        </x-components.task-page-section>
     </div>
 </div>
