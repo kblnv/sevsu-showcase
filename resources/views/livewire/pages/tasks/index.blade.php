@@ -80,15 +80,10 @@ new #[Title("Банк задач")] class extends Component {
                 Банк задач по выбранной дисциплине:
             </x-page-heading>
 
-            <div class="mt-4 space-y-8">
-                @foreach ($this->tasks()->items() as $task)
-                    <x-task-card
-                        :task="$task"
-                        :flow="$this->flows->firstWhere('flow_name', $selectedFlow)"
-                        :tags="$this->tags($task['id'])"
-                    />
-                @endforeach
-            </div>
+            <x-task-card-list
+                :tasks="$this->tasks()->items()"
+                :flow="$this->flows->firstWhere('flow_name', $selectedFlow)"
+            />
         @endif
 
         <div class="mt-4">
