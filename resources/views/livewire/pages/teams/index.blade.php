@@ -50,11 +50,11 @@ new #[Title("Команды")] class extends Component {
 
 <div>
     @if ($selectedFlow == "")
-        <x-ui.page-heading>
+        <x-page-heading>
             Вы не прикреплены ни к одной дисциплине
-        </x-ui.page-heading>
+        </x-page-heading>
     @else
-        <x-ui.select
+        <x-select
             id="flow"
             label="Выберите дисциплину для отображения:"
             wire:model.live="selectedFlow"
@@ -72,20 +72,20 @@ new #[Title("Команды")] class extends Component {
                     </option>
                 @endif
             @endforeach
-        </x-ui.select>
+        </x-select>
 
         @if ($this->flows->count() == 0)
-            <x-ui.page-heading class="mt-8">
+            <x-page-heading class="mt-8">
                 Нет команд по выбранной дисциплине
-            </x-ui.page-heading>
+            </x-page-heading>
         @else
-            <x-ui.page-heading class="mt-8">
+            <x-page-heading class="mt-8">
                 Команды по выбранной дисциплине:
-            </x-ui.page-heading>
+            </x-page-heading>
 
             <div class="mt-4 space-y-8">
                 @foreach ($this->teams()->items() as $team)
-                    <x-components.team-card
+                    <x-team-card
                         :team="$team"
                         :maxTeamMembers="$this->flows->firstWhere('flow_name', $selectedFlow)['max_team_size']"
                         :tags="$this->tags($team['task_id'])"

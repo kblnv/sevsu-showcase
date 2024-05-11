@@ -63,7 +63,7 @@ new #[Title("Задача")] class extends Component {
             </li>
             <li aria-current="page">
                 <div class="flex items-center">
-                    <x-ui.arrow-up class="h-3 w-3 rotate-90" stroke-width="2" />
+                    <x-arrow-up class="h-3 w-3 rotate-90" stroke-width="2" />
                     <span
                         class="ms-1 font-myriad-regular text-sm text-gray-500 md:ms-2"
                     >
@@ -76,7 +76,7 @@ new #[Title("Задача")] class extends Component {
     <div
         class="mt-4 overflow-hidden rounded-lg border border-gray-300 bg-sevsu-white px-6 py-4"
     >
-        <x-components.task-page-section sectionTitle="Информация о задаче">
+        <x-task-page-section sectionTitle="Информация о задаче">
             <dl class="divide-y divide-gray-100">
                 <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                     <dt class="text-md leading-6">Дисциплина</dt>
@@ -99,7 +99,7 @@ new #[Title("Задача")] class extends Component {
                     <dd
                         class="text-md mt-1 leading-6 text-gray-500 sm:col-span-2 sm:mt-0"
                     >
-                        <x-ui.card.tags
+                        <x-card.tags
                             :tags="$this->tags($this->task['id'])"
                         />
                     </dd>
@@ -157,9 +157,9 @@ new #[Title("Задача")] class extends Component {
                     </dd>
                 </div>
             </dl>
-        </x-components.task-page-section>
+        </x-task-page-section>
 
-        <x-components.task-page-section
+        <x-task-page-section
             sectionTitle="Команды, выбравшие данную задачу"
         >
             <div>
@@ -170,7 +170,7 @@ new #[Title("Задача")] class extends Component {
                 @else
                     <div class="space-y-8 py-6">
                         @foreach ($this->taskTeams as $team)
-                            <x-components.team-card
+                            <x-team-card
                                 :team="$team"
                                 :maxTeamMembers="$this->flow['max_team_size']"
                                 :tags="$this->tags($team['task_id'])"
@@ -180,9 +180,9 @@ new #[Title("Задача")] class extends Component {
                     </div>
                 @endif
             </div>
-        </x-components.task-page-section>
+        </x-task-page-section>
 
-        <x-components.task-page-section sectionTitle="Форма создания команды">
+        <x-task-page-section sectionTitle="Форма создания команды">
             <form class="flex flex-col gap-4 py-6" wire:submit="createTeam">
                 <div>
                     <label
@@ -191,7 +191,7 @@ new #[Title("Задача")] class extends Component {
                     >
                         Название команды *
                     </label>
-                    <x-ui.input id="team-name" wire:model="teamName" required />
+                    <x-input id="team-name" wire:model="teamName" required />
                 </div>
 
                 <div>
@@ -216,7 +216,7 @@ new #[Title("Задача")] class extends Component {
                     >
                         Пароль
                     </label>
-                    <x-ui.input
+                    <x-input
                         id="password"
                         type="password"
                         wire:model="password"
@@ -231,6 +231,6 @@ new #[Title("Задача")] class extends Component {
                     </button>
                 </div>
             </form>
-        </x-components.task-page-section>
+        </x-task-page-section>
     </div>
 </div>
