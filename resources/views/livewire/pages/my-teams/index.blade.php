@@ -32,9 +32,7 @@ new #[Title("Мои команды")] class extends Component {
     @if ($this->teams()->count() == 0)
         <x-page-heading>Вы не состоите ни в одной команде</x-page-heading>
     @else
-        <x-page-heading>
-            Все команды, в которых Вы состоите:
-        </x-page-heading>
+        <x-page-heading>Все команды, в которых Вы состоите:</x-page-heading>
         <div class="mt-4 space-y-8">
             @foreach ($this->teams()->items() as $team)
                 <x-team-card

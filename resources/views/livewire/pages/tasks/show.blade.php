@@ -48,33 +48,16 @@ new #[Title("Задача")] class extends Component {
 ?>
 
 <div>
-    <nav class="flex" aria-label="Breadcrumb">
-        <ol
-            class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse"
-        >
-            <li class="inline-flex items-center">
-                <a
-                    class="inline-flex items-center font-myriad-regular text-sm transition-colors hover:text-sevsu-blue"
-                    href="{{ route("tasks.index") }}"
-                    wire:navigate
-                >
-                    Банк задач
-                </a>
-            </li>
-            <li aria-current="page">
-                <div class="flex items-center">
-                    <x-arrow-up class="h-3 w-3 rotate-90" stroke-width="2" />
-                    <span
-                        class="ms-1 font-myriad-regular text-sm text-gray-500 md:ms-2"
-                    >
-                        Страница задачи
-                    </span>
-                </div>
-            </li>
-        </ol>
-    </nav>
+    @php
+    $breadcrumbsItems = [
+        ["title" => "Банк задач", "link" => route("tasks.index"), "currentPage" => false],
+        ["title" => "Страница задачи", "link" => "", "currentPage" => true],
+    ];
+    @endphp
+
+    <x-breadcrumbs :items="$breadcrumbsItems" />
     <div
-        class="mt-4 overflow-hidden rounded-lg border border-gray-300 bg-sevsu-white px-6 py-4"
+        class="mt-4 flex flex-col gap-2 overflow-hidden rounded-lg border border-gray-300 bg-sevsu-white px-6 py-4"
     >
         <x-task-page-section sectionTitle="Информация о задаче">
             <dl class="divide-y divide-gray-100">
@@ -99,9 +82,7 @@ new #[Title("Задача")] class extends Component {
                     <dd
                         class="text-md mt-1 leading-6 text-gray-500 sm:col-span-2 sm:mt-0"
                     >
-                        <x-card.tags
-                            :tags="$this->tags($this->task['id'])"
-                        />
+                        <x-card.tags :tags="$this->tags($this->task['id'])" />
                     </dd>
                 </div>
                 <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -159,9 +140,7 @@ new #[Title("Задача")] class extends Component {
             </dl>
         </x-task-page-section>
 
-        <x-task-page-section
-            sectionTitle="Команды, выбравшие данную задачу"
-        >
+        <x-task-page-section sectionTitle="Команды, выбравшие данную задачу">
             <div>
                 @if (count($this->taskTeams) === 0)
                     <h2 class="text-md py-6">

@@ -5,7 +5,7 @@
     $showSection = "show_$uniqueId";
 @endphp
 
-<div class="mt-4" x-data="{ {{ $showSection }}: true }">
+<div x-data="{ {{ $showSection }}: true }">
     <button
         class="flex items-center gap-2"
         type="button"

@@ -50,9 +50,7 @@ new #[Title("Команды")] class extends Component {
 
 <div>
     @if ($selectedFlow == "")
-        <x-page-heading>
-            Вы не прикреплены ни к одной дисциплине
-        </x-page-heading>
+        <x-page-heading>Вы не прикреплены ни к одной дисциплине</x-page-heading>
     @else
         <x-select
             id="flow"
