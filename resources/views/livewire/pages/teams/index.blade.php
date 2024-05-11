@@ -81,16 +81,10 @@ new #[Title("Команды")] class extends Component {
                 Команды по выбранной дисциплине:
             </x-page-heading>
 
-            <div class="mt-4 space-y-8">
-                @foreach ($this->teams()->items() as $team)
-                    <x-team-card
-                        :team="$team"
-                        :maxTeamMembers="$this->flows->firstWhere('flow_name', $selectedFlow)['max_team_size']"
-                        :tags="$this->tags($team['task_id'])"
-                        :members="$this->members($team['id'])"
-                    />
-                @endforeach
-            </div>
+            <livewire:components.team-card-list
+                :teams="$this->teams()->items()"
+                :maxTeamMembers="$this->flows->firstWhere('flow_name', $selectedFlow)['max_team_size']"
+            />
         @endif
 
         <div class="mt-4">
