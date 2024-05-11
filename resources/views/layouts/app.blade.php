@@ -14,13 +14,13 @@
     </head>
 
     <body>
-        <x-components.header />
+        <x-header />
 
         <main class="container mx-auto max-h-full min-h-screen px-6 py-8">
             {{ $slot }}
         </main>
 
-        <x-components.footer />
+        <x-footer />
 
         @livewireScriptConfig
     </body>
