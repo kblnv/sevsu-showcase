@@ -15,6 +15,27 @@ new #[Title("Задача")] class extends Component {
     public $teamDescription;
     public $password;
 
+    public function rules()
+    {
+        return [
+            'teamName' => [
+                'required',
+                'string',
+                'min:5',
+                'unique_team_flow:'.$this->task['id'],
+            ],
+            'teamDescription' => 'nullable|string|min:10',
+            'password' => 'nullable',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'teamName.unique_team_flow' => 'Команда с таким именем уже существует внутри потока задачи.',
+        ];
+    }
+
     public function tags($taskId)
     {
         return Tags::getTags($taskId);
@@ -27,9 +48,11 @@ new #[Title("Задача")] class extends Component {
 
     public function createTeam()
     {
+        $this->validate();
+
         Teams::createTeam(
             $this->teamName,
-            $this->task["id"],
+            $this->task['id'],
             $this->teamDescription,
             $this->password,
         );
@@ -39,7 +62,6 @@ new #[Title("Задача")] class extends Component {
 
     public function mount(Flow $flow, Task $task)
     {
-        $this->taskId = $task["id"];
         $this->flow = $flow;
         $this->task = $task;
         $this->taskTeams = Teams::getTeamsByTask($task["id"]);
@@ -63,7 +85,7 @@ new #[Title("Задача")] class extends Component {
             </li>
             <li aria-current="page">
                 <div class="flex items-center">
-                    <x-ui.arrow-up class="h-3 w-3 rotate-90" stroke-width="2" />
+                    <x-ui.arrow-up class="h-3 w-3 rotate-90" stroke-width="2"/>
                     <span
                         class="ms-1 font-myriad-regular text-sm text-gray-500 md:ms-2"
                     >
@@ -83,8 +105,8 @@ new #[Title("Задача")] class extends Component {
                 @click="showInfo = !showInfo"
             >
                 <div class="size-5">
-                    <x-ui.arrow-up x-show="showInfo" />
-                    <x-ui.arrow-down x-show="!showInfo" x-cloak />
+                    <x-ui.arrow-up x-show="showInfo"/>
+                    <x-ui.arrow-down x-show="!showInfo" x-cloak/>
                 </div>
                 <x-ui.page-heading>Информация о задаче</x-ui.page-heading>
             </button>
@@ -177,8 +199,8 @@ new #[Title("Задача")] class extends Component {
                 @click="showTeams = !showTeams"
             >
                 <div class="size-5">
-                    <x-ui.arrow-up x-show="showTeams" />
-                    <x-ui.arrow-down x-show="!showTeams" x-cloak />
+                    <x-ui.arrow-up x-show="showTeams"/>
+                    <x-ui.arrow-down x-show="!showTeams" x-cloak/>
                 </div>
                 <x-ui.page-heading>
                     Команды, выбравшие данную задачу
@@ -212,8 +234,8 @@ new #[Title("Задача")] class extends Component {
                 @click="showForm = !showForm"
             >
                 <div class="size-5">
-                    <x-ui.arrow-up x-show="showForm" />
-                    <x-ui.arrow-down x-show="!showForm" x-cloak />
+                    <x-ui.arrow-up x-show="showForm"/>
+                    <x-ui.arrow-down x-show="!showForm" x-cloak/>
                 </div>
                 <x-ui.page-heading>Форма создания команды</x-ui.page-heading>
             </button>

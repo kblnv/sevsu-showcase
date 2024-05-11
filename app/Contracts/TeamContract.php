@@ -2,14 +2,14 @@
 
 namespace App\Contracts;
 
+use App\Models\Team;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\Collection;
 
 interface TeamContract
 {
     public function getUserTeamsByUser(string $userId, int $paginateCount): LengthAwarePaginator;
 
-    public function getTeamsByFlow(string $selectedFlow, int $paginateCount): LengthAwarePaginator;
+    public function getTeamsByFlow(string $flowName, int $paginateCount): LengthAwarePaginator;
 
     public function getMembersByTeam(string $teamId): array;
 
@@ -17,5 +17,5 @@ interface TeamContract
 
     public function createTeam(string $teamName, string $taskId, ?string $teamDescription = null, ?string $password = null): void;
 
-    public function getUserTeamByFlow(string $flowId, string $userId): Collection;
+    public function getUserTeamByFlow(string $flowId, string $userId): ?Team;
 }

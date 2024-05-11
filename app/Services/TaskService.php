@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 class TaskService implements TaskContract
 {
-    public function getTasksByFlow(string $selectedFlow, string $groupId, int $paginateCount = 10): LengthAwarePaginator
+    public function getTasksByFlow(string $flowName, string $groupId, int $paginateCount = 10): LengthAwarePaginator
     {
         return Task::select(
             'tasks.id',
@@ -19,7 +19,7 @@ class TaskService implements TaskContract
             'tasks.max_projects',
         )
             ->join('flows', 'tasks.flow_id', '=', 'flows.id')
-            ->where('flows.flow_name', '=', $selectedFlow)
+            ->where('flows.flow_name', '=', $flowName)
             ->join('groups_flows', 'flows.id', '=', 'groups_flows.flow_id')
             ->where('groups_flows.group_id', $groupId)
             ->join('groups', 'groups_flows.group_id', '=', 'groups.id')
