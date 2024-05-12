@@ -68,7 +68,7 @@ new #[Title("Задача")] class extends Component {
         $this->flow = $flow;
         $this->task = $task;
         $this->taskTeams = Teams::getTeamsByTask($task['id']);
-        $this->canCreateTeam = ! Teams::isUserHasTeamByFlow($this->flow['id'], Auth::id());
+        $this->canCreateTeam = Teams::canCreateTeam($this->taskId, Auth::id());
     }
 };
 ?>

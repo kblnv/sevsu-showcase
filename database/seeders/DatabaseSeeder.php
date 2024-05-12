@@ -162,8 +162,7 @@ class DatabaseSeeder extends Seeder
                 ->where('tasks.id', '=', $team->task_id)
                 ->get();
 
-            $maxTeamSize = Flow::select('flows.max_team_size')
-                ->join('tasks', 'tasks.flow_id', '=', 'flows.id')
+            $maxTeamSize = Flow::join('tasks', 'tasks.flow_id', '=', 'flows.id')
                 ->where('tasks.id', '=', $team->task_id)
                 ->value('flows.max_team_size');
 

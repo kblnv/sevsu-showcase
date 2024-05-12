@@ -15,11 +15,13 @@ interface TeamContract
 
     public function getTeamsByTask(string $taskId): array;
 
-    public function createTeam(string $teamName, string $taskId, ?string $teamDescription = null, ?string $password = null): void;
-
     public function getUserTeamByFlow(string $flowId, string $userId): ?Team;
+
+    public function createTeam(string $teamName, string $taskId, ?string $teamDescription = null, ?string $password = null): void;
 
     public function isFlowHasTeam(string $flowId, string $teamName): bool;
 
     public function isUserHasTeamByFlow(string $flowId, string $userId): bool;
+
+    public function canCreateTeam(string $taskId, string $userId): bool;
 }
