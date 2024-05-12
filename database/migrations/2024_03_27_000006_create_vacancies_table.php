@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users_teams', function (Blueprint $table) {
-            $table->uuid('user_id');
+        Schema::create('vacancies', function (Blueprint $table) {
+            $table->id();
             $table->uuid('team_id');
-            $table->primary(['user_id', 'team_id']);
-            $table->boolean('is_moderator')->default(0);
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->uuid('user_id')->nullable();
+            $table->string('vacancy_name');
+            $table->foreign('user_id')->references('id')->on('users')->nullOnDelete();
             $table->foreign('team_id')->references('id')->on('teams');
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users_teams');
+        Schema::dropIfExists('vacancies');
     }
 };

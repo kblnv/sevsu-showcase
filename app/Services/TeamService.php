@@ -56,11 +56,15 @@ class TeamService implements TeamContract
             'users.second_name',
             'users.last_name',
             'users_teams.is_moderator',
-            'users_teams.vacancy',
+            'vacancies.vacancy_name',
         )
             ->join('users', 'users_teams.user_id', '=', 'users.id')
             ->join('teams', 'teams.id', '=', 'users_teams.team_id')
             ->where('teams.id', '=', $teamId)
+            ->leftJoin('vacancies', function ($join) use ($teamId) {
+                $join->on('users.id', '=', 'vacancies.user_id')
+                    ->where('vacancies.team_id', '=', $teamId);
+            })
             ->get()
             ->toArray();
     }
