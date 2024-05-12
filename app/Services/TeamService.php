@@ -100,6 +100,14 @@ class TeamService implements TeamContract
             ->first();
     }
 
+    public function isFlowHasTeam(string $flowId, string $teamName): bool
+    {
+        return Team::where('team_name', $teamName)
+            ->join('tasks', 'tasks.id', '=', 'teams.task_id')
+            ->where('tasks.flow_id', $flowId)
+            ->exists();
+    }
+
     public function createTeam(string $teamName, string $taskId, ?string $teamDescription = null, ?string $password = null): void
     {
         $userId = Auth::id();
