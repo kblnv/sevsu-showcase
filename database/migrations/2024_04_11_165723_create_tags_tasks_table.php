@@ -15,8 +15,8 @@ return new class extends Migration
             $table->uuid('task_id');
             $table->unsignedBigInteger('tag_id');
             $table->primary(['task_id', 'tag_id']);
-            $table->foreign('task_id')->references('id')->on('tasks');
-            $table->foreign('tag_id')->references('id')->on('tags');
+            $table->foreign('task_id')->references('id')->on('tasks')->cascadeOnDelete();
+            $table->foreign('tag_id')->references('id')->on('tags')->cascadeOnDelete();
         });
     }
 

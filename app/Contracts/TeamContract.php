@@ -20,4 +20,6 @@ interface TeamContract
     public function getUserTeamByFlow(string $flowId, string $userId): ?Team;
 
     public function isFlowHasTeam(string $flowId, string $teamName): bool;
+
+    public function isUserHasTeamByFlow(string $flowId, string $userId): bool;
 }

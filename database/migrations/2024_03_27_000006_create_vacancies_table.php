@@ -17,7 +17,7 @@ return new class extends Migration
             $table->uuid('user_id')->nullable();
             $table->string('vacancy_name');
             $table->foreign('user_id')->references('id')->on('users')->nullOnDelete();
-            $table->foreign('team_id')->references('id')->on('teams');
+            $table->foreign('team_id')->references('id')->on('teams')->cascadeOnDelete();
         });
     }
 

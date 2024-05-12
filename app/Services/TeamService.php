@@ -108,15 +108,22 @@ class TeamService implements TeamContract
             ->exists();
     }
 
+    public function isUserHasTeamByFlow(string $flowId, string $userId): bool
+    {
+        return Team::join('tasks', 'teams.task_id', '=', 'tasks.id')
+            ->where('tasks.flow_id', '=', $flowId)
+            ->join('users_teams', 'users_teams.team_id', '=', 'teams.id')
+            ->where('users_teams.user_id', '=', $userId)
+            ->exists();
+    }
+
     public function createTeam(string $teamName, string $taskId, ?string $teamDescription = null, ?string $password = null): void
     {
         $userId = Auth::id();
 
         $flow = Flows::getFlowByTask($taskId);
 
-        $userTeam = $this->getUserTeamByFlow($flow->id, $userId);
-
-        if (is_null($userTeam)) {
+        if (! $this->isUserHasTeamByFlow($flow->id, $userId)) {
             $team = Team::create([
                 'team_name' => $teamName,
                 'team_description' => $teamDescription,

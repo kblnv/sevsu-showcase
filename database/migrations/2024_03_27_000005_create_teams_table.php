@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('team_description')->nullable();
             $table->string('password')->nullable();
             $table->uuid('task_id');
-            $table->foreign('task_id')->references('id')->on('tasks');
+            $table->foreign('task_id')->references('id')->on('tasks')->cascadeOnDelete();
             $table->timestamps();
         });
     }
