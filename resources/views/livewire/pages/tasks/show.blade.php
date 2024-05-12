@@ -22,7 +22,7 @@ new #[Title("Задача")] class extends Component {
                 'required',
                 'string',
                 'min:5',
-                'unique_team_flow:'.$this->task['id'],
+                'unique_team_flow:'.$this->flow['id'],
             ],
             'teamDescription' => 'nullable|string|min:10',
             'password' => 'nullable',

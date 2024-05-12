@@ -6,8 +6,7 @@ use App\Contracts\FlowContract;
 use App\Contracts\TagContract;
 use App\Contracts\TaskContract;
 use App\Contracts\TeamContract;
-use App\Facades\Flows;
-use App\Models\Team;
+use App\Facades\Teams;
 use App\Services\FlowService;
 use App\Services\TagService;
 use App\Services\TaskService;
@@ -42,15 +41,10 @@ class AppServiceProvider extends ServiceProvider
         Blade::setPath(resource_path('views/blade'));
 
         Validator::extend('unique_team_flow', function ($attribute, $value, $parameters, $validator) {
-            $taskId = $parameters[0] ?? null;
+            $flowId = $parameters[0] ?? null;
 
-            if ($taskId) {
-                $flow = Flows::getFlowByTask($taskId);
-
-                return ! Team::where('team_name', $value)
-                    ->join('tasks', 'tasks.id', '=', 'teams.task_id')
-                    ->where('tasks.flow_id', $flow->id)
-                    ->exists();
+            if ($flowId) {
+                return ! Teams::isFlowHasTeam($flowId, $value);
             }
 
             return false;
