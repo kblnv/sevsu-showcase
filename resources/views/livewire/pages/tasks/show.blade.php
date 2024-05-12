@@ -20,21 +20,22 @@ new #[Title("Задача")] class extends Component {
     public function rules()
     {
         return [
-            'teamName' => [
-                'required',
-                'string',
-                'min:5',
-                'unique_team_flow:'.$this->flow['id'],
+            "teamName" => [
+                "required",
+                "string",
+                "min:5",
+                "unique_team_flow:" . $this->flow["id"],
             ],
-            'teamDescription' => 'nullable|string|min:10',
-            'password' => 'nullable',
+            "teamDescription" => "nullable|string|min:10",
+            "password" => "nullable",
         ];
     }
 
     public function messages()
     {
         return [
-            'teamName.unique_team_flow' => 'Команда с таким именем уже существует внутри потока задачи.',
+            "teamName.unique_team_flow" =>
+                "Команда с таким именем уже существует внутри потока задачи.",
         ];
     }
 
@@ -54,119 +55,81 @@ new #[Title("Задача")] class extends Component {
 
         Teams::createTeam(
             $this->teamName,
-            $this->task['id'],
+            $this->task["id"],
             $this->teamDescription,
             $this->password,
         );
 
-        return $this->redirectRoute('my-teams.index');
+        return $this->redirectRoute("my-teams.index");
     }
 
     public function mount(Flow $flow, Task $task)
     {
-        $this->taskId = $task['id'];
+        $this->taskId = $task["id"];
         $this->flow = $flow;
         $this->task = $task;
-        $this->taskTeams = Teams::getTeamsByTask($task['id']);
+        $this->taskTeams = Teams::getTeamsByTask($task["id"]);
         $this->canCreateTeam = Teams::canCreateTeam($this->taskId, Auth::id());
     }
 };
 ?>
 
 <div>
-    @php
-        $breadcrumbsItems = [
-            ["title" => "Банк задач", "link" => route("tasks.index"), "currentPage" => false],
-            ["title" => "Страница задачи", "link" => "", "currentPage" => true],
-        ];
-    @endphp
+    <x-breadcrumbs>
+        <x-breadcrumbs.item
+            title="Банк задач"
+            :link="route('tasks.index')"
+            :first="true"
+        />
+        <x-breadcrumbs.item title="Страница задачи" :muted="true" />
+    </x-breadcrumbs>
 
-    <x-breadcrumbs :items="$breadcrumbsItems" />
     <div
         class="mt-4 flex flex-col gap-2 overflow-hidden rounded-lg border border-gray-300 bg-sevsu-white px-6 py-4"
     >
-        <x-task-page-section sectionTitle="Информация о задаче">
-            <dl class="divide-y divide-gray-100">
-                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt class="text-md leading-6">Дисциплина</dt>
-                    <dd
-                        class="text-md mt-1 leading-6 text-gray-500 sm:col-span-2 sm:mt-0"
-                    >
-                        {{ $this->flow["flow_name"] }}
-                    </dd>
-                </div>
-                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt class="text-md leading-6">Название задачи</dt>
-                    <dd
-                        class="text-md mt-1 leading-6 text-gray-500 sm:col-span-2 sm:mt-0"
-                    >
-                        {{ $this->task["task_name"] }}
-                    </dd>
-                </div>
-                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt class="text-md leading-6">Тэги</dt>
-                    <dd
-                        class="text-md mt-1 leading-6 text-gray-500 sm:col-span-2 sm:mt-0"
-                    >
+        <x-page-section title="Информация о задаче">
+            <x-description-list>
+                <x-description-list.item
+                    term="Дисциплина"
+                    :description="$this->flow['flow_name']"
+                />
+                <x-description-list.item
+                    term="Название задачи"
+                    :description="$this->task['task_name']"
+                />
+                <x-description-list.item term="Тэги">
+                    <x-slot:description>
                         <x-card.tags :tags="$this->tags($this->task['id'])" />
-                    </dd>
-                </div>
-                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt class="text-md leading-6">Заказчик</dt>
-                    <dd
-                        class="text-md mt-1 leading-6 text-gray-500 sm:col-span-2 sm:mt-0"
-                    >
-                        {{ $this->task["customer"] }}
-                    </dd>
-                </div>
-                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt class="text-md leading-6">Описание задачи</dt>
-                    <dd
-                        class="text-md mt-1 leading-6 text-gray-500 sm:col-span-2 sm:mt-0"
-                    >
-                        {{ $this->task["task_description"] }}
-                    </dd>
-                </div>
-                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt class="text-md leading-6">Взять задачу до</dt>
-                    <dd
-                        class="text-md mt-1 leading-6 text-gray-500 sm:col-span-2 sm:mt-0"
-                    >
-                        {{ $this->flow["take_before"] }}
-                    </dd>
-                </div>
-                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt class="text-md leading-6">Завершить задачу до</dt>
-                    <dd
-                        class="text-md mt-1 leading-6 text-gray-500 sm:col-span-2 sm:mt-0"
-                    >
-                        {{ $this->flow["finish_before"] }}
-                    </dd>
-                </div>
-                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt class="text-md leading-6">
-                        Максимум человек в команде
-                    </dt>
-                    <dd
-                        class="text-md mt-1 leading-6 text-gray-500 sm:col-span-2 sm:mt-0"
-                    >
-                        {{ $this->flow["max_team_size"] }}
-                    </dd>
-                </div>
-                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt class="text-md leading-6">
-                        Максимальное количество команд
-                    </dt>
-                    <dd
-                        class="text-md mt-1 leading-6 text-gray-500 sm:col-span-2 sm:mt-0"
-                    >
-                        {{ $this->task["max_projects"] }}
-                    </dd>
-                </div>
-            </dl>
-        </x-task-page-section>
+                    </x-slot>
+                </x-description-list.item>
+                <x-description-list.item
+                    term="Заказчик"
+                    :description="$this->task['customer']"
+                />
+                <x-description-list.item
+                    term="Описание задачи"
+                    :description="$this->task['task_description']"
+                />
+                <x-description-list.item
+                    term="Взять задачу до"
+                    :description="$this->flow['take_before']"
+                />
+                <x-description-list.item
+                    term="Завершить задачу до"
+                    :description="$this->flow['finish_before']"
+                />
+                <x-description-list.item
+                    term="Максимум человек в команде"
+                    :description="$this->flow['max_team_size']"
+                />
+                <x-description-list.item
+                    term="Максимальное количество команд"
+                    :description="$this->task['max_projects']"
+                />
+            </x-description-list>
+        </x-page-section>
 
-        <x-task-page-section sectionTitle="Команды, выбравшие данную задачу">
+        <x-page-section title="Команды, выбравшие данную задачу">
             <div>
                 @if (count($this->taskTeams) === 0)
                     <h2 class="text-md py-6">
@@ -185,10 +148,10 @@ new #[Title("Задача")] class extends Component {
                     </div>
                 @endif
             </div>
-        </x-task-page-section>
+        </x-page-section>
 
-        @if($this->canCreateTeam)
-            <x-task-page-section sectionTitle="Форма создания команды">
+        @if ($this->canCreateTeam)
+            <x-page-section title="Форма создания команды">
                 <form class="flex flex-col gap-4 py-6" wire:submit="createTeam">
                     <div>
                         <label
@@ -197,7 +160,11 @@ new #[Title("Задача")] class extends Component {
                         >
                             Название команды *
                         </label>
-                        <x-input id="team-name" wire:model="teamName" required />
+                        <x-input
+                            id="team-name"
+                            wire:model="teamName"
+                            required
+                        />
                     </div>
 
                     <div>
@@ -237,7 +204,7 @@ new #[Title("Задача")] class extends Component {
                         </button>
                     </div>
                 </form>
-            </x-task-page-section>
+            </x-page-section>
         @endif
     </div>
 </div>

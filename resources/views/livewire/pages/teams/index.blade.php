@@ -5,7 +5,6 @@ use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Computed;
 use App\Facades\Teams;
-use App\Facades\Tags;
 use App\Facades\Flows;
 use App\Traits\WithCustomPagination;
 
@@ -21,19 +20,14 @@ new #[Title("Команды")] class extends Component {
         return Flows::getFlowsByGroup(auth()->user()->group_id);
     }
 
-    public function teams()
+    public function getCurrentTeams()
     {
         return Teams::getTeamsByFlow($this->selectedFlow);
     }
 
-    public function members($teamId)
+    public function getCurrentFlow()
     {
-        return Teams::getMembersByTeam($teamId);
-    }
-
-    public function tags($taskId)
-    {
-        return Tags::getTags($taskId);
+        return $this->flows->firstWhere("flow_name", $this->selectedFlow);
     }
 
     public function mount()
@@ -72,7 +66,7 @@ new #[Title("Команды")] class extends Component {
             @endforeach
         </x-select>
 
-        @if ($this->flows->count() == 0)
+        @if ($this->getCurrentTeams()->count() == 0)
             <x-page-heading class="mt-8">
                 Нет команд по выбранной дисциплине
             </x-page-heading>
@@ -82,13 +76,13 @@ new #[Title("Команды")] class extends Component {
             </x-page-heading>
 
             <livewire:components.team-card-list
-                :teams="$this->teams()->items()"
-                :maxTeamMembers="$this->flows->firstWhere('flow_name', $selectedFlow)['max_team_size']"
+                :teams="$this->getCurrentTeams()->items()"
+                :flow="$this->getCurrentFlow()"
             />
         @endif
 
         <div class="mt-4">
-            {{ $this->teams()->links() }}
+            {{ $this->getCurrentTeams()->links() }}
         </div>
     @endif
 </div>
