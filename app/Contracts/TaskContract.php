@@ -10,4 +10,6 @@ interface TaskContract
     public function getTasksByFlow(string $selectedFlow, string $groupId, int $paginateCount): LengthAwarePaginator;
 
     public function getTaskByFlow(string $taskId, string $flowId): Collection;
+
+    public function getRemainingTeamsCount(string $taskId): int;
 }

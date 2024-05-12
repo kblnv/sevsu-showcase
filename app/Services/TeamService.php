@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Contracts\TeamContract;
 use App\Facades\Flows;
+use App\Facades\Tasks;
 use App\Models\Team;
 use App\Models\UserTeam;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -121,9 +122,7 @@ class TeamService implements TeamContract
     {
         $userId = Auth::id();
 
-        $flow = Flows::getFlowByTask($taskId);
-
-        if (! $this->isUserHasTeamByFlow($flow->id, $userId)) {
+        if ($this->canCreateTeam($taskId, $userId)) {
             $team = Team::create([
                 'team_name' => $teamName,
                 'team_description' => $teamDescription,
@@ -137,5 +136,16 @@ class TeamService implements TeamContract
                 'is_moderator' => 1,
             ]);
         }
+    }
+
+    public function canCreateTeam(string $taskId, string $userId): bool
+    {
+        $flow = Flows::getFlowByTask($taskId);
+
+        $userHasTeam = $this->isUserHasTeamByFlow($flow->id, $userId);
+
+        $remainingPlaces = Tasks::getRemainingTeamsCount($taskId);
+
+        return (! $userHasTeam) && ($remainingPlaces > 0);
     }
 }
