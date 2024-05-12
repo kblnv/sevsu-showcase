@@ -2,6 +2,7 @@
 
 use App\Facades\Tags;
 use App\Facades\Teams;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Title;
 use App\Models\Flow;
@@ -11,6 +12,7 @@ new #[Title("Задача")] class extends Component {
     public $flow;
     public $task;
     public $taskTeams;
+    public $canCreateTeam;
     public $teamName;
     public $teamDescription;
     public $password;
@@ -57,15 +59,16 @@ new #[Title("Задача")] class extends Component {
             $this->password,
         );
 
-        return $this->redirectRoute("my-teams.index");
+        return $this->redirectRoute('my-teams.index');
     }
 
     public function mount(Flow $flow, Task $task)
     {
-        $this->taskId = $task["id"];
+        $this->taskId = $task['id'];
         $this->flow = $flow;
         $this->task = $task;
-        $this->taskTeams = Teams::getTeamsByTask($task["id"]);
+        $this->taskTeams = Teams::getTeamsByTask($task['id']);
+        $this->canCreateTeam = ! Teams::isUserHasTeamByFlow($this->flow['id'], Auth::id());
     }
 };
 ?>
@@ -184,55 +187,57 @@ new #[Title("Задача")] class extends Component {
             </div>
         </x-task-page-section>
 
-        <x-task-page-section sectionTitle="Форма создания команды">
-            <form class="flex flex-col gap-4 py-6" wire:submit="createTeam">
-                <div>
-                    <label
-                        class="text-md block font-medium leading-6 text-gray-700"
-                        for="team-name"
-                    >
-                        Название команды *
-                    </label>
-                    <x-input id="team-name" wire:model="teamName" required />
-                </div>
+        @if($this->canCreateTeam)
+            <x-task-page-section sectionTitle="Форма создания команды">
+                <form class="flex flex-col gap-4 py-6" wire:submit="createTeam">
+                    <div>
+                        <label
+                            class="text-md block font-medium leading-6 text-gray-700"
+                            for="team-name"
+                        >
+                            Название команды *
+                        </label>
+                        <x-input id="team-name" wire:model="teamName" required />
+                    </div>
 
-                <div>
-                    <label
-                        class="text-md block font-medium leading-6 text-gray-700"
-                        for="team-description"
-                    >
-                        Описание команды
-                    </label>
-                    <textarea
-                        class="w-full rounded-lg border-2 border-gray-300 bg-sevsu-light-gray p-3 outline-none focus:border-sevsu-blue"
-                        id="team-description"
-                        rows="3"
-                        wire:model="teamDescription"
-                    ></textarea>
-                </div>
+                    <div>
+                        <label
+                            class="text-md block font-medium leading-6 text-gray-700"
+                            for="team-description"
+                        >
+                            Описание команды
+                        </label>
+                        <textarea
+                            class="w-full rounded-lg border-2 border-gray-300 bg-sevsu-light-gray p-3 outline-none focus:border-sevsu-blue"
+                            id="team-description"
+                            rows="3"
+                            wire:model="teamDescription"
+                        ></textarea>
+                    </div>
 
-                <div>
-                    <label
-                        class="text-md block font-medium leading-6 text-gray-700"
-                        for="password"
-                    >
-                        Пароль
-                    </label>
-                    <x-input
-                        id="password"
-                        type="password"
-                        wire:model="password"
-                    />
-                </div>
-                <div class="mt-4">
-                    <button
-                        class="leading inline-flex items-center rounded-md border border-transparent bg-sevsu-blue px-4 py-2 text-sm font-medium text-white"
-                        type="submit"
-                    >
-                        Создать команду
-                    </button>
-                </div>
-            </form>
-        </x-task-page-section>
+                    <div>
+                        <label
+                            class="text-md block font-medium leading-6 text-gray-700"
+                            for="password"
+                        >
+                            Пароль
+                        </label>
+                        <x-input
+                            id="password"
+                            type="password"
+                            wire:model="password"
+                        />
+                    </div>
+                    <div class="mt-4">
+                        <button
+                            class="leading inline-flex items-center rounded-md border border-transparent bg-sevsu-blue px-4 py-2 text-sm font-medium text-white"
+                            type="submit"
+                        >
+                            Создать команду
+                        </button>
+                    </div>
+                </form>
+            </x-task-page-section>
+        @endif
     </div>
 </div>

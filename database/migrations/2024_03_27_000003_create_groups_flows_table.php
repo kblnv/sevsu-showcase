@@ -15,8 +15,8 @@ return new class extends Migration
             $table->uuid('flow_id');
             $table->unsignedBigInteger('group_id');
             $table->primary(['flow_id', 'group_id']);
-            $table->foreign('flow_id')->references('id')->on('flows');
-            $table->foreign('group_id')->references('id')->on('groups');
+            $table->foreign('flow_id')->references('id')->on('flows')->cascadeOnDelete();
+            $table->foreign('group_id')->references('id')->on('groups')->cascadeOnDelete();
         });
     }
 

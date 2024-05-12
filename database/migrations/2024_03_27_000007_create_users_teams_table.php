@@ -16,8 +16,8 @@ return new class extends Migration
             $table->uuid('team_id');
             $table->primary(['user_id', 'team_id']);
             $table->boolean('is_moderator')->default(0);
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('team_id')->references('id')->on('teams');
+            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
+            $table->foreign('team_id')->references('id')->on('teams')->cascadeOnDelete();
         });
     }
 
