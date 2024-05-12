@@ -8,7 +8,7 @@ use Livewire\Volt\Component;
 new class extends Component {
     #[Reactive]
     public $teams;
-    public $maxTeamMembers;
+    public $flow;
 
     public function members($teamId)
     {
@@ -19,19 +19,27 @@ new class extends Component {
     {
         return Tags::getTags($taskId);
     }
-
 }; ?>
 
-<div>
-    <div class="mt-4 space-y-8">
-        @foreach ($teams as $team)
+<div class="mt-4 space-y-8">
+    @foreach ($teams as $team)
+        @if ($flow)
+            <!-- Если передан объект $flow показываем команды по выбранной дисциплине -->
             <x-team-card
                 :team="$team"
-                :maxTeamMembers="$maxTeamMembers"
+                :maxTeamMembers="$flow['max_team_size']"
                 :tags="$this->tags($team['task_id'])"
                 :members="$this->members($team['id'])"
             />
-        @endforeach
-    </div>
+        @else
+            <!-- Иначе показываем команды пользователя -->
+            <x-team-card
+                :team="$team"
+                :maxTeamMembers="$team['max_team_size']"
+                :flow="$team['flow_name']"
+                :tags="$this->tags($team['task_id'])"
+                :members="$this->members($team['id'])"
+            />
+        @endif
+    @endforeach
 </div>
-

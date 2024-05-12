@@ -26,16 +26,6 @@ new #[Title("Команды")] class extends Component {
         return Teams::getTeamsByFlow($this->selectedFlow);
     }
 
-    public function members($teamId)
-    {
-        return Teams::getMembersByTeam($teamId);
-    }
-
-    public function tags($taskId)
-    {
-        return Tags::getTags($taskId);
-    }
-
     public function mount()
     {
         if (
@@ -83,7 +73,7 @@ new #[Title("Команды")] class extends Component {
 
             <livewire:components.team-card-list
                 :teams="$this->teams()->items()"
-                :maxTeamMembers="$this->flows->firstWhere('flow_name', $selectedFlow)['max_team_size']"
+                :flow="$this->flows->firstWhere('flow_name', $selectedFlow)"
             />
         @endif
 

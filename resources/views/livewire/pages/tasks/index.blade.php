@@ -6,7 +6,6 @@ use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
 use App\Facades\Flows;
 use App\Facades\Tasks;
-use App\Facades\Tags;
 use App\Traits\WithCustomPagination;
 
 new #[Title("Банк задач")] class extends Component {
@@ -15,6 +14,12 @@ new #[Title("Банк задач")] class extends Component {
     #[Url]
     public $selectedFlow = "";
 
+    #[Computed(persist: true, seconds: 300)]
+    public function flows()
+    {
+        return Flows::getFlowsByGroup(auth()->user()->group_id);
+    }
+
     public function tasks()
     {
         return Tasks::getTasksByFlow(
@@ -22,17 +27,6 @@ new #[Title("Банк задач")] class extends Component {
             auth()->user()->group_id,
             10,
         );
-    }
-
-    #[Computed(persist: true, seconds: 300)]
-    public function flows()
-    {
-        return Flows::getFlowsByGroup(auth()->user()->group_id);
-    }
-
-    public function tags($taskId)
-    {
-        return Tags::getTags($taskId);
     }
 
     public function mount()
@@ -80,7 +74,7 @@ new #[Title("Банк задач")] class extends Component {
                 Банк задач по выбранной дисциплине:
             </x-page-heading>
 
-            <x-task-card-list
+            <livewire:components.task-card-list
                 :tasks="$this->tasks()->items()"
                 :flow="$this->flows->firstWhere('flow_name', $selectedFlow)"
             />

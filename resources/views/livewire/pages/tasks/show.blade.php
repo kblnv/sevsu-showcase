@@ -20,21 +20,22 @@ new #[Title("Задача")] class extends Component {
     public function rules()
     {
         return [
-            'teamName' => [
-                'required',
-                'string',
-                'min:5',
-                'unique_team_flow:'.$this->flow['id'],
+            "teamName" => [
+                "required",
+                "string",
+                "min:5",
+                "unique_team_flow:" . $this->flow["id"],
             ],
-            'teamDescription' => 'nullable|string|min:10',
-            'password' => 'nullable',
+            "teamDescription" => "nullable|string|min:10",
+            "password" => "nullable",
         ];
     }
 
     public function messages()
     {
         return [
-            'teamName.unique_team_flow' => 'Команда с таким именем уже существует внутри потока задачи.',
+            "teamName.unique_team_flow" =>
+                "Команда с таким именем уже существует внутри потока задачи.",
         ];
     }
 
@@ -54,20 +55,20 @@ new #[Title("Задача")] class extends Component {
 
         Teams::createTeam(
             $this->teamName,
-            $this->task['id'],
+            $this->task["id"],
             $this->teamDescription,
             $this->password,
         );
 
-        return $this->redirectRoute('my-teams.index');
+        return $this->redirectRoute("my-teams.index");
     }
 
     public function mount(Flow $flow, Task $task)
     {
-        $this->taskId = $task['id'];
+        $this->taskId = $task["id"];
         $this->flow = $flow;
         $this->task = $task;
-        $this->taskTeams = Teams::getTeamsByTask($task['id']);
+        $this->taskTeams = Teams::getTeamsByTask($task["id"]);
         $this->canCreateTeam = Teams::canCreateTeam($this->taskId, Auth::id());
     }
 };
@@ -187,7 +188,7 @@ new #[Title("Задача")] class extends Component {
             </div>
         </x-task-page-section>
 
-        @if($this->canCreateTeam)
+        @if ($this->canCreateTeam)
             <x-task-page-section sectionTitle="Форма создания команды">
                 <form class="flex flex-col gap-4 py-6" wire:submit="createTeam">
                     <div>
@@ -197,7 +198,11 @@ new #[Title("Задача")] class extends Component {
                         >
                             Название команды *
                         </label>
-                        <x-input id="team-name" wire:model="teamName" required />
+                        <x-input
+                            id="team-name"
+                            wire:model="teamName"
+                            required
+                        />
                     </div>
 
                     <div>
