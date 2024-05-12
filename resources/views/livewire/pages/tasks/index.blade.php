@@ -31,7 +31,7 @@ new #[Title("Банк задач")] class extends Component {
 
     public function getCurrentFlow()
     {
-        return $this->flows->firstWhere('flow_name', $this->selectedFlow);
+        return $this->flows->firstWhere("flow_name", $this->selectedFlow);
     }
 
     public function mount()

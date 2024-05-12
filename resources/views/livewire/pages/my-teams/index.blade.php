@@ -24,7 +24,9 @@ new #[Title("Мои команды")] class extends Component {
     @else
         <x-page-heading>Все команды, в которых Вы состоите:</x-page-heading>
 
-        <livewire:components.team-card-list :teams="$this->userTeams->items()" />
+        <livewire:components.team-card-list
+            :teams="$this->userTeams->items()"
+        />
 
         <div class="mt-4">
             {{ $this->userTeams->links() }}
