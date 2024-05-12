@@ -1,11 +1,11 @@
-@props(["sectionTitle" => ""])
+@props(["title" => ""])
 
 @php
     $uniqueId = uniqid();
     $showSection = "show_$uniqueId";
 @endphp
 
-<div x-data="{ {{ $showSection }}: true }">
+<section x-data="{ {{ $showSection }}: true }">
     <button
         class="flex items-center gap-2"
         type="button"
@@ -15,10 +15,10 @@
             <x-arrow-up x-show="{{ $showSection }}" />
             <x-arrow-down x-show="!{{ $showSection }}" x-cloak />
         </div>
-        <x-page-heading>{{ $sectionTitle }}</x-page-heading>
+        <x-page-heading>{{ $title }}</x-page-heading>
     </button>
 
     <div x-show="{{ $showSection }}">
         {{ $slot }}
     </div>
-</div>
+</section>

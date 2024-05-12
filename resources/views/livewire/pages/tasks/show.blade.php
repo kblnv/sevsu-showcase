@@ -86,7 +86,7 @@ new #[Title("Задача")] class extends Component {
     <div
         class="mt-4 flex flex-col gap-2 overflow-hidden rounded-lg border border-gray-300 bg-sevsu-white px-6 py-4"
     >
-        <x-task-page-section sectionTitle="Информация о задаче">
+        <x-page-section title="Информация о задаче">
             <x-description-list>
                 <x-description-list.item
                     term="Дисциплина"
@@ -126,9 +126,9 @@ new #[Title("Задача")] class extends Component {
                     :description="$this->task['max_projects']"
                 />
             </x-description-list>
-        </x-task-page-section>
+        </x-page-section>
 
-        <x-task-page-section sectionTitle="Команды, выбравшие данную задачу">
+        <x-page-section title="Команды, выбравшие данную задачу">
             <div>
                 @if (count($this->taskTeams) === 0)
                     <h2 class="text-md py-6">
@@ -147,10 +147,10 @@ new #[Title("Задача")] class extends Component {
                     </div>
                 @endif
             </div>
-        </x-task-page-section>
+        </x-page-section>
 
         @if ($this->canCreateTeam)
-            <x-task-page-section sectionTitle="Форма создания команды">
+            <x-page-section title="Форма создания команды">
                 <form class="flex flex-col gap-4 py-6" wire:submit="createTeam">
                     <div>
                         <label
@@ -203,7 +203,7 @@ new #[Title("Задача")] class extends Component {
                         </button>
                     </div>
                 </form>
-            </x-task-page-section>
+            </x-page-section>
         @endif
     </div>
 </div>
