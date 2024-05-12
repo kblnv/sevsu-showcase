@@ -9,7 +9,7 @@ new class extends Component {
     public $tasks;
     public $flow;
 
-    public function tags($taskId)
+    public function getTaskTags($taskId)
     {
         return Tags::getTags($taskId);
     }
@@ -20,7 +20,7 @@ new class extends Component {
         <x-task-card
             :task="$task"
             :flow="$flow"
-            :tags="$this->tags($task['id'])"
+            :tags="$this->getTaskTags($task['id'])"
         />
     @endforeach
 </div>

@@ -11,33 +11,23 @@ new #[Title("Мои команды")] class extends Component {
     use WithCustomPagination;
 
     #[Computed(persist: true, seconds: 300)]
-    public function teams()
+    public function userTeams()
     {
         return Teams::getUserTeamsByUser(auth()->user()->id);
-    }
-
-    public function members($teamId)
-    {
-        return Teams::getMembersByTeam($teamId);
-    }
-
-    public function tags($taskId)
-    {
-        return Tags::getTags($taskId);
     }
 };
 ?>
 
 <div>
-    @if ($this->teams()->count() == 0)
+    @if ($this->userTeams->count() == 0)
         <x-page-heading>Вы не состоите ни в одной команде</x-page-heading>
     @else
         <x-page-heading>Все команды, в которых Вы состоите:</x-page-heading>
 
-        <livewire:components.team-card-list :teams="$this->teams()->items()" />
+        <livewire:components.team-card-list :teams="$this->userTeams->items()" />
 
         <div class="mt-4">
-            {{ $this->teams()->links() }}
+            {{ $this->userTeams->links() }}
         </div>
     @endif
 </div>

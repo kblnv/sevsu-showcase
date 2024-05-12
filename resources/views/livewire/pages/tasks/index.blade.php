@@ -20,13 +20,18 @@ new #[Title("Банк задач")] class extends Component {
         return Flows::getFlowsByGroup(auth()->user()->group_id);
     }
 
-    public function tasks()
+    public function getCurrentTasks()
     {
         return Tasks::getTasksByFlow(
             $this->selectedFlow,
             auth()->user()->group_id,
             10,
         );
+    }
+
+    public function getCurrentFlow()
+    {
+        return $this->flows->firstWhere('flow_name', $this->selectedFlow);
     }
 
     public function mount()
@@ -65,7 +70,7 @@ new #[Title("Банк задач")] class extends Component {
             @endforeach
         </x-select>
 
-        @if ($this->tasks()->count() == 0)
+        @if ($this->getCurrentTasks()->count() == 0)
             <x-page-heading class="mt-8">
                 Нет задач по выбранной дисциплине
             </x-page-heading>
@@ -75,13 +80,13 @@ new #[Title("Банк задач")] class extends Component {
             </x-page-heading>
 
             <livewire:components.task-card-list
-                :tasks="$this->tasks()->items()"
-                :flow="$this->flows->firstWhere('flow_name', $selectedFlow)"
+                :tasks="$this->getCurrentTasks()->items()"
+                :flow="$this->getCurrentFlow()"
             />
         @endif
 
         <div class="mt-4">
-            {{ $this->tasks()->links() }}
+            {{ $this->getCurrentTasks()->links() }}
         </div>
     @endif
 </div>

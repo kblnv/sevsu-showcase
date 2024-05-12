@@ -10,12 +10,12 @@ new class extends Component {
     public $teams;
     public $flow;
 
-    public function members($teamId)
+    public function getTeamMembers($teamId)
     {
         return Teams::getMembersByTeam($teamId);
     }
 
-    public function tags($taskId)
+    public function getTaskTags($taskId)
     {
         return Tags::getTags($taskId);
     }
@@ -28,8 +28,8 @@ new class extends Component {
             <x-team-card
                 :team="$team"
                 :maxTeamMembers="$flow['max_team_size']"
-                :tags="$this->tags($team['task_id'])"
-                :members="$this->members($team['id'])"
+                :tags="$this->getTaskTags($team['task_id'])"
+                :members="$this->getTeamMembers($team['id'])"
             />
         @else
             <!-- Иначе показываем команды пользователя -->
@@ -37,8 +37,8 @@ new class extends Component {
                 :team="$team"
                 :maxTeamMembers="$team['max_team_size']"
                 :flow="$team['flow_name']"
-                :tags="$this->tags($team['task_id'])"
-                :members="$this->members($team['id'])"
+                :tags="$this->getTaskTags($team['task_id'])"
+                :members="$this->getTeamMembers($team['id'])"
             />
         @endif
     @endforeach
