@@ -15,6 +15,7 @@ use App\Models\Task;
 use App\Models\Team;
 use App\Models\User;
 use App\Models\UserTeam;
+use App\Models\Vacancy;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -161,9 +162,9 @@ class DatabaseSeeder extends Seeder
                 ->where('tasks.id', '=', $team->task_id)
                 ->get();
 
-            $maxTeamSize = Task::select('flows.max_team_size')
+            $maxTeamSize = Flow::select('flows.max_team_size')
+                ->join('tasks', 'tasks.flow_id', '=', 'flows.id')
                 ->where('tasks.id', '=', $team->task_id)
-                ->join('flows', 'flows.id', '=', 'tasks.flow_id')
                 ->value('flows.max_team_size');
 
             $usersCount = $users->count();
@@ -179,8 +180,14 @@ class DatabaseSeeder extends Seeder
                             'user_id' => $user->id,
                             'team_id' => $team->id,
                         ], [
-                            'vacancy' => rand(0, 1) ? 'Вакансия '.$i : null,
                             'is_moderator' => rand(0, 1),
+                        ]);
+
+                        Vacancy::firstOrCreate([
+                            'team_id' => $team->id,
+                            'vacancy_name' => 'Вакансия '.$i,
+                        ], [
+                            'user_id' => rand(0, 1) ? $user->id : null,
                         ]);
                     }
                 }
@@ -196,8 +203,14 @@ class DatabaseSeeder extends Seeder
                             'user_id' => $users[$i]->id,
                             'team_id' => $team->id,
                         ], [
-                            'vacancy' => rand(0, 1) ? 'Вакансия '.$i : null,
                             'is_moderator' => rand(0, 1),
+                        ]);
+
+                        Vacancy::firstOrCreate([
+                            'team_id' => $team->id,
+                            'vacancy_name' => 'Вакансия '.$i,
+                        ], [
+                            'user_id' => rand(0, 1) ? $users[$i]->id : null,
                         ]);
                     }
                 }

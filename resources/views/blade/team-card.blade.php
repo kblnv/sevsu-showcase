@@ -51,7 +51,7 @@
                         <x-team-card.member
                             :index="$loop->index + 1"
                             :fullName="$fullName"
-                            :vacancy="$member['vacancy']"
+                            :vacancy="$member['vacancy_name']"
                             :isModerator="$member['is_moderator']"
                         />
                     @endforeach
