@@ -61,5 +61,12 @@
                 Участников: {{ count($members) }}/{{ $maxTeamMembers }}
             </div>
         </div>
+        <x-card.button
+            href="#"
+            wire:navigate
+            class="mt-4"
+        >
+            Перейти
+        </x-card.button>
     </div>
 </x-card.root>
