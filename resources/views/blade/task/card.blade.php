@@ -1,6 +1,6 @@
 @props(["flow" => null, "task" => null, "tags" => []])
 
-<x-card {{ $attributes }}>
+<x-card.root {{ $attributes }}>
     @if (count($tags) != 0)
         <div class="border-b border-gray-300 p-2">
             <x-card.tags :tags="$tags" />
@@ -26,22 +26,22 @@
         </x-card.text>
 
         <dl class="mt-4 grid gap-2 text-sm md:grid-cols-2 lg:grid-cols-4">
-            <x-task-card.param
+            <x-task.param
                 :value="$flow['take_before']"
                 term="Взять проект до:"
             />
-            <x-task-card.param
+            <x-task.param
                 :value="$flow['finish_before']"
                 term="Сдать проект до:"
             />
-            <x-task-card.param
+            <x-task.param
                 :value="$flow['max_team_size']"
                 term="Максимум человек в команде:"
             />
-            <x-task-card.param
+            <x-task.param
                 :value="$task['max_projects']"
                 term="Максимальное количество команд:"
             />
         </dl>
     </x-card.body>
-</x-card>
+</x-card.root>

@@ -25,7 +25,7 @@ new class extends Component {
     @foreach ($teams as $team)
         @if ($flow)
             <!-- Если передан объект $flow показываем команды по выбранной дисциплине -->
-            <x-team-card
+            <x-team.card
                 :team="$team"
                 :maxTeamMembers="$flow['max_team_size']"
                 :tags="$this->getTaskTags($team['task_id'])"
@@ -33,7 +33,7 @@ new class extends Component {
             />
         @else
             <!-- Иначе показываем команды пользователя -->
-            <x-team-card
+            <x-team.card
                 :team="$team"
                 :maxTeamMembers="$team['max_team_size']"
                 :flow="$team['flow_name']"

@@ -12,10 +12,10 @@
         @click="{{ $showSection }} = !{{ $showSection }}"
     >
         <div class="size-5">
-            <x-arrow-up x-show="{{ $showSection }}" />
-            <x-arrow-down x-show="!{{ $showSection }}" x-cloak />
+            <x-arrow.up x-show="{{ $showSection }}" />
+            <x-arrow.down x-show="!{{ $showSection }}" x-cloak />
         </div>
-        <x-page-heading>{{ $title }}</x-page-heading>
+        <x-page.heading>{{ $title }}</x-page.heading>
     </button>
 
     <div x-show="{{ $showSection }}">

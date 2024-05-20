@@ -48,7 +48,7 @@ new #[Title("Банк задач")] class extends Component {
 
 <div>
     @if ($selectedFlow == "")
-        <x-page-heading>Вы не прикреплены ни к одной дисциплине</x-page-heading>
+        <x-page.heading>Вы не прикреплены ни к одной дисциплине</x-page.heading>
     @else
         <x-select
             id="flow"
@@ -71,13 +71,13 @@ new #[Title("Банк задач")] class extends Component {
         </x-select>
 
         @if ($this->getCurrentTasks()->count() == 0)
-            <x-page-heading class="mt-8">
+            <x-page.heading class="mt-8">
                 Нет задач по выбранной дисциплине
-            </x-page-heading>
+            </x-page.heading>
         @else
-            <x-page-heading class="mt-8">
+            <x-page.heading class="mt-8">
                 Банк задач по выбранной дисциплине:
-            </x-page-heading>
+            </x-page.heading>
 
             <livewire:components.task-card-list
                 :tasks="$this->getCurrentTasks()->items()"

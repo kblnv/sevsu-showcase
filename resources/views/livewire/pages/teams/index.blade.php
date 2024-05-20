@@ -44,7 +44,7 @@ new #[Title("Команды")] class extends Component {
 
 <div>
     @if ($selectedFlow == "")
-        <x-page-heading>Вы не прикреплены ни к одной дисциплине</x-page-heading>
+        <x-page.heading>Вы не прикреплены ни к одной дисциплине</x-page.heading>
     @else
         <x-select
             id="flow"
@@ -67,13 +67,13 @@ new #[Title("Команды")] class extends Component {
         </x-select>
 
         @if ($this->getCurrentTeams()->count() == 0)
-            <x-page-heading class="mt-8">
+            <x-page.heading class="mt-8">
                 Нет команд по выбранной дисциплине
-            </x-page-heading>
+            </x-page.heading>
         @else
-            <x-page-heading class="mt-8">
+            <x-page.heading class="mt-8">
                 Команды по выбранной дисциплине:
-            </x-page-heading>
+            </x-page.heading>
 
             <livewire:components.team-card-list
                 :teams="$this->getCurrentTeams()->items()"
