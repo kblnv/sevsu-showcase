@@ -1,6 +1,6 @@
 @props(["team" => null, "maxTeamMembers" => "", "flow" => "", "members" => [], "tags" => []])
 
-<x-card {{ $attributes }}>
+<x-card.root {{ $attributes }}>
     @if (count($tags) != 0)
         <div class="border-b border-gray-300 p-2">
             <x-card.tags :tags="$tags" />
@@ -48,7 +48,7 @@
                 <tbody class="divide-y divide-gray-300">
                     @foreach ($members as $member)
                         @php($fullName = "{$member["second_name"]} {$member["first_name"]} {$member["last_name"]}")
-                        <x-team-card.member
+                        <x-team.member
                             :index="$loop->index + 1"
                             :fullName="$fullName"
                             :vacancy="$member['vacancy_name']"
@@ -62,4 +62,4 @@
             </div>
         </div>
     </div>
-</x-card>
+</x-card.root>

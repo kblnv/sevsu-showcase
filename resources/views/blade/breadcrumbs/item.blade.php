@@ -3,7 +3,7 @@
 <li class="inline-flex items-center">
     <div class="flex items-center">
         @if (! $first)
-            <x-arrow-up class="h-3 w-3 rotate-90" stroke-width="2" />
+            <x-arrow.up class="h-3 w-3 rotate-90" stroke-width="2" />
         @endif
 
         @if ($muted)
