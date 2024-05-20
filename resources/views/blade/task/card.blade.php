@@ -8,10 +8,7 @@
     @endif
 
     <x-card.body>
-        <x-card.title
-            href="{{ route('tasks.show', ['flow' => $flow['id'], 'task' => $task['id']]) }}"
-            wire:navigate
-        >
+        <x-card.title>
             {{ $task["task_name"] }}
         </x-card.title>
 
@@ -25,23 +22,12 @@
             {{ $task["task_description"] }}
         </x-card.text>
 
-        <dl class="mt-4 grid gap-2 text-sm md:grid-cols-2 lg:grid-cols-4">
-            <x-task.param
-                :value="$flow['take_before']"
-                term="Взять проект до:"
-            />
-            <x-task.param
-                :value="$flow['finish_before']"
-                term="Сдать проект до:"
-            />
-            <x-task.param
-                :value="$flow['max_team_size']"
-                term="Максимум человек в команде:"
-            />
-            <x-task.param
-                :value="$task['max_projects']"
-                term="Максимальное количество команд:"
-            />
-        </dl>
+        <x-card.button
+            href="{{ route('tasks.show', ['flow' => $flow['id'], 'task' => $task['id']]) }}"
+            wire:navigate
+            class="mt-4"
+        >
+            Перейти
+        </x-card.button>
     </x-card.body>
 </x-card.root>
