@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @method static \Illuminate\Database\Eloquent\Collection getFlowsByGroup(string $groupId)
+ * @method static App\Models\Flow getFlowByTask(string $taskId)
  */
 class Flows extends Facade
 {

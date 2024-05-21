@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Traits\SocialUsers;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
+use Laravel\Socialite\Two\InvalidStateException;
 
 class SocialController extends Controller
 {
@@ -17,7 +18,11 @@ class SocialController extends Controller
 
     public function handleProviderCallback(Request $request, $provider)
     {
-        $user = Socialite::driver($provider)->user();
+        try {
+            $user = Socialite::driver($provider)->user();
+        } catch (InvalidStateException $e) {
+            return redirect('/');
+        }
 
         return $this->checkUser($user);
     }

@@ -13,7 +13,7 @@ new #[Title("Мои команды")] class extends Component {
     #[Computed(persist: true, seconds: 300)]
     public function userTeams()
     {
-        return Teams::getUserTeamsByUser(auth()->user()->id);
+        return Teams::getUserTeams(auth()->user()->id);
     }
 };
 ?>
