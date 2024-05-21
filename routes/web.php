@@ -20,6 +20,7 @@ Route::middleware('auth')->group(function () {
     Volt::route('/teams', 'pages.teams.index')->name('teams.index');
     Volt::route('/my-teams', 'pages.my-teams.index')->name('my-teams.index');
     Volt::route('/flows/{flow}/tasks/{task}', 'pages.tasks.show')->name('tasks.show');
+    Volt::route('/teams/{team}', 'pages.teams.show')->name('teams.show');
 
     Route::get('/{provider}/logout', [SocialController::class, 'logout'])->name('logout');
 });

@@ -7,13 +7,14 @@ use App\Facades\Flows;
 use App\Facades\Tasks;
 use App\Models\Team;
 use App\Models\UserTeam;
+use App\Models\Vacancy;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class TeamService implements TeamContract
 {
-    public function getUserTeamsByUser(string $userId, int $paginateCount = 10): LengthAwarePaginator
+    public function getUserTeams(string $userId, int $paginateCount = 10): LengthAwarePaginator
     {
         return Team::select(
             'tasks.flow_id',
@@ -53,6 +54,7 @@ class TeamService implements TeamContract
     public function getMembersByTeam(string $teamId): array
     {
         return UserTeam::select(
+            'users.id',
             'users.first_name',
             'users.second_name',
             'users.last_name',
@@ -66,6 +68,78 @@ class TeamService implements TeamContract
                 $join->on('users.id', '=', 'vacancies.user_id')
                     ->where('vacancies.team_id', '=', $teamId);
             })
+            ->get()
+            ->toArray();
+    }
+
+    public function getTeam(string $teamId): ?Team
+    {
+        return Team::select(
+            'tasks.flow_id',
+            'flows.flow_name',
+            'flows.max_team_size',
+            'teams.id',
+            'teams.team_name',
+            'teams.team_description',
+            'teams.task_id',
+            'tasks.task_name',
+            'tasks.task_description',
+        )
+            ->join('tasks', 'tasks.id', '=', 'teams.task_id')
+            ->join('flows', 'tasks.flow_id', '=', 'flows.id')
+            ->where('teams.id', '=', $teamId)
+            ->first();
+    }
+
+    public function deleteMember(string $userId, string $teamId): void
+    {
+        $member = UserTeam::where([
+            ['user_id', '=', $userId],
+            ['team_id', '=', $teamId],
+        ])
+            ->first();
+
+        $member?->delete();
+    }
+
+    public function setVacancy(string $vacancyId, string $userId): void
+    {
+        Vacancy::where('id', '=', $vacancyId)
+            ->update(['user_id' => $userId]);
+    }
+
+    public function updateTeam(string $teamId, string $teamName, string $teamDescription): void
+    {
+        Team::where('id', '=', $teamId)
+            ->update([
+                'team_name' => $teamName,
+                'team_description' => $teamDescription,
+            ]);
+    }
+
+    public function setPassword(string $teamId, string $password): void
+    {
+        Team::where('id', '=', $teamId)
+            ->update(['password' => Hash::make($password)]);
+    }
+
+    public function isModerator(string $teamId, string $userId): bool
+    {
+        return UserTeam::where([
+            ['team_id', '=', $teamId],
+            ['user_id', '=', $userId],
+        ])
+            ->value('is_moderator');
+    }
+
+    public function getTeamVacancies(string $teamId): array
+    {
+        return Vacancy::select(
+            'vacancies.id',
+            'vacancies.user_id',
+            'vacancies.vacancy_name'
+        )
+            ->where('vacancies.team_id', '=', $teamId)
             ->get()
             ->toArray();
     }
@@ -109,7 +183,7 @@ class TeamService implements TeamContract
             ->exists();
     }
 
-    public function isUserHasTeamByFlow(string $flowId, string $userId): bool
+    public function hasUserTeam(string $flowId, string $userId): bool
     {
         return Team::join('tasks', 'teams.task_id', '=', 'tasks.id')
             ->where('tasks.flow_id', '=', $flowId)
@@ -142,7 +216,7 @@ class TeamService implements TeamContract
     {
         $flow = Flows::getFlowByTask($taskId);
 
-        $userHasTeam = $this->isUserHasTeamByFlow($flow->id, $userId);
+        $userHasTeam = $this->hasUserTeam($flow->id, $userId);
 
         $remainingPlaces = Tasks::getRemainingTeamsCount($taskId);
 
