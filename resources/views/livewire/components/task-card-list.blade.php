@@ -17,7 +17,7 @@ new class extends Component {
 
 <div class="mt-4 space-y-8">
     @foreach ($tasks as $task)
-        <x-task-card
+        <x-task.card
             :task="$task"
             :flow="$flow"
             :tags="$this->getTaskTags($task['id'])"

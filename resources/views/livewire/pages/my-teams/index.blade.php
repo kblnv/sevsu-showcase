@@ -20,9 +20,9 @@ new #[Title("Мои команды")] class extends Component {
 
 <div>
     @if ($this->userTeams->count() == 0)
-        <x-page-heading>Вы не состоите ни в одной команде</x-page-heading>
+        <x-page.heading>Вы не состоите ни в одной команде</x-page.heading>
     @else
-        <x-page-heading>Все команды, в которых Вы состоите:</x-page-heading>
+        <x-page.heading>Все команды, в которых Вы состоите:</x-page.heading>
 
         <livewire:components.team-card-list
             :teams="$this->userTeams->items()"

@@ -75,20 +75,20 @@ new #[Title("Задача")] class extends Component {
 ?>
 
 <div>
-    <x-breadcrumbs>
+    <x-breadcrumbs.root>
         <x-breadcrumbs.item
             title="Банк задач"
             :link="route('tasks.index')"
             :first="true"
         />
         <x-breadcrumbs.item title="Страница задачи" :muted="true" />
-    </x-breadcrumbs>
+    </x-breadcrumbs.root>
 
     <div
         class="mt-4 flex flex-col gap-2 overflow-hidden rounded-lg border border-gray-300 bg-sevsu-white px-6 py-4"
     >
-        <x-page-section title="Информация о задаче">
-            <x-description-list>
+        <x-page.section title="Информация о задаче">
+            <x-description-list.root>
                 <x-description-list.item
                     term="Дисциплина"
                     :description="$this->flow['flow_name']"
@@ -126,10 +126,10 @@ new #[Title("Задача")] class extends Component {
                     term="Максимальное количество команд"
                     :description="$this->task['max_projects']"
                 />
-            </x-description-list>
-        </x-page-section>
+            </x-description-list.root>
+        </x-page.section>
 
-        <x-page-section title="Команды, выбравшие данную задачу">
+        <x-page.section title="Команды, выбравшие данную задачу">
             <div>
                 @if (count($this->taskTeams) === 0)
                     <h2 class="text-md py-6">
@@ -138,7 +138,7 @@ new #[Title("Задача")] class extends Component {
                 @else
                     <div class="space-y-8 py-6">
                         @foreach ($this->taskTeams as $team)
-                            <x-team-card
+                            <x-team.card
                                 :team="$team"
                                 :maxTeamMembers="$this->flow['max_team_size']"
                                 :tags="$this->tags($team['task_id'])"
@@ -148,10 +148,10 @@ new #[Title("Задача")] class extends Component {
                     </div>
                 @endif
             </div>
-        </x-page-section>
+        </x-page.section>
 
         @if ($this->canCreateTeam)
-            <x-page-section title="Форма создания команды">
+            <x-page.section title="Форма создания команды">
                 <form class="flex flex-col gap-4 py-6" wire:submit="createTeam">
                     <div>
                         <label
@@ -204,7 +204,7 @@ new #[Title("Задача")] class extends Component {
                         </button>
                     </div>
                 </form>
-            </x-page-section>
+            </x-page.section>
         @endif
     </div>
 </div>
