@@ -18,7 +18,7 @@ class FlowService implements FlowContract
             'flows.max_team_size',
             'flows.can_create_task',
         )
-            ->join('groups_flows', 'flows.id', '=', 'groups_flows.flow_id')
+            ->join('groups_flows', 'flows.id', 'groups_flows.flow_id')
             ->where('groups_flows.group_id', $groupId)
             ->get();
     }
@@ -33,7 +33,7 @@ class FlowService implements FlowContract
             'flows.max_team_size',
             'flows.can_create_task',
         )
-            ->join('tasks', 'tasks.flow_id', '=', 'flows.id')
+            ->join('tasks', 'tasks.flow_id', 'flows.id')
             ->where('tasks.id', $taskId)
             ->first();
     }
