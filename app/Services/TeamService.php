@@ -27,11 +27,11 @@ class TeamService implements TeamContract
             'tasks.task_name',
             'tasks.task_description',
         )
-            ->join('users_teams', 'teams.id', '=', 'users_teams.team_id')
-            ->join('users', 'users_teams.user_id', '=', 'users.id')
-            ->where('users.id', '=', $userId)
-            ->join('tasks', 'teams.task_id', '=', 'tasks.id')
-            ->join('flows', 'tasks.flow_id', '=', 'flows.id')
+            ->join('users_teams', 'teams.id', 'users_teams.team_id')
+            ->join('users', 'users_teams.user_id', 'users.id')
+            ->where('users.id', $userId)
+            ->join('tasks', 'teams.task_id', 'tasks.id')
+            ->join('flows', 'tasks.flow_id', 'flows.id')
             ->paginate($paginateCount);
     }
 
@@ -45,9 +45,9 @@ class TeamService implements TeamContract
             'tasks.task_name',
             'tasks.task_description',
         )
-            ->join('tasks', 'teams.task_id', '=', 'tasks.id')
-            ->join('flows', 'tasks.flow_id', '=', 'flows.id')
-            ->where('flows.flow_name', '=', $flowName)
+            ->join('tasks', 'teams.task_id', 'tasks.id')
+            ->join('flows', 'tasks.flow_id', 'flows.id')
+            ->where('flows.flow_name', $flowName)
             ->paginate($paginateCount);
     }
 
@@ -61,12 +61,12 @@ class TeamService implements TeamContract
             'users_teams.is_moderator',
             'vacancies.vacancy_name',
         )
-            ->join('users', 'users_teams.user_id', '=', 'users.id')
-            ->join('teams', 'teams.id', '=', 'users_teams.team_id')
-            ->where('teams.id', '=', $teamId)
+            ->join('users', 'users_teams.user_id', 'users.id')
+            ->join('teams', 'teams.id', 'users_teams.team_id')
+            ->where('teams.id', $teamId)
             ->leftJoin('vacancies', function ($join) use ($teamId) {
-                $join->on('users.id', '=', 'vacancies.user_id')
-                    ->where('vacancies.team_id', '=', $teamId);
+                $join->on('users.id', 'vacancies.user_id')
+                    ->where('vacancies.team_id', $teamId);
             })
             ->get()
             ->toArray();
@@ -85,17 +85,17 @@ class TeamService implements TeamContract
             'tasks.task_name',
             'tasks.task_description',
         )
-            ->join('tasks', 'tasks.id', '=', 'teams.task_id')
-            ->join('flows', 'tasks.flow_id', '=', 'flows.id')
-            ->where('teams.id', '=', $teamId)
+            ->join('tasks', 'tasks.id', 'teams.task_id')
+            ->join('flows', 'tasks.flow_id', 'flows.id')
+            ->where('teams.id', $teamId)
             ->first();
     }
 
     public function deleteMember(string $userId, string $teamId): void
     {
         $member = UserTeam::where([
-            ['user_id', '=', $userId],
-            ['team_id', '=', $teamId],
+            ['user_id', $userId],
+            ['team_id', $teamId],
         ])
             ->first();
 
@@ -104,13 +104,13 @@ class TeamService implements TeamContract
 
     public function setVacancy(string $vacancyId, string $userId): void
     {
-        Vacancy::where('id', '=', $vacancyId)
+        Vacancy::where('id', $vacancyId)
             ->update(['user_id' => $userId]);
     }
 
     public function updateTeam(string $teamId, string $teamName, string $teamDescription): void
     {
-        Team::where('id', '=', $teamId)
+        Team::where('id', $teamId)
             ->update([
                 'team_name' => $teamName,
                 'team_description' => $teamDescription,
@@ -119,15 +119,15 @@ class TeamService implements TeamContract
 
     public function setPassword(string $teamId, string $password): void
     {
-        Team::where('id', '=', $teamId)
+        Team::where('id', $teamId)
             ->update(['password' => Hash::make($password)]);
     }
 
     public function isModerator(string $teamId, string $userId): bool
     {
         return UserTeam::where([
-            ['team_id', '=', $teamId],
-            ['user_id', '=', $userId],
+            ['team_id', $teamId],
+            ['user_id', $userId],
         ])
             ->value('is_moderator');
     }
@@ -139,7 +139,7 @@ class TeamService implements TeamContract
             'vacancies.user_id',
             'vacancies.vacancy_name'
         )
-            ->where('vacancies.team_id', '=', $teamId)
+            ->where('vacancies.team_id', $teamId)
             ->get()
             ->toArray();
     }
@@ -154,8 +154,8 @@ class TeamService implements TeamContract
             'tasks.task_name',
             'tasks.task_description',
         )
-            ->join('tasks', 'teams.task_id', '=', 'tasks.id')
-            ->where('teams.task_id', '=', $taskId)
+            ->join('tasks', 'teams.task_id', 'tasks.id')
+            ->where('teams.task_id', $taskId)
             ->get()
             ->toArray();
     }
@@ -168,27 +168,27 @@ class TeamService implements TeamContract
             'teams.team_description',
             'teams.task_id',
         )
-            ->join('tasks', 'teams.task_id', '=', 'tasks.id')
-            ->where('tasks.flow_id', '=', $flowId)
-            ->join('users_teams', 'users_teams.team_id', '=', 'teams.id')
-            ->where('users_teams.user_id', '=', $userId)
+            ->join('tasks', 'teams.task_id', 'tasks.id')
+            ->where('tasks.flow_id', $flowId)
+            ->join('users_teams', 'users_teams.team_id', 'teams.id')
+            ->where('users_teams.user_id', $userId)
             ->first();
     }
 
     public function isFlowHasTeam(string $flowId, string $teamName): bool
     {
         return Team::where('team_name', $teamName)
-            ->join('tasks', 'tasks.id', '=', 'teams.task_id')
+            ->join('tasks', 'tasks.id', 'teams.task_id')
             ->where('tasks.flow_id', $flowId)
             ->exists();
     }
 
     public function hasUserTeam(string $flowId, string $userId): bool
     {
-        return Team::join('tasks', 'teams.task_id', '=', 'tasks.id')
-            ->where('tasks.flow_id', '=', $flowId)
-            ->join('users_teams', 'users_teams.team_id', '=', 'teams.id')
-            ->where('users_teams.user_id', '=', $userId)
+        return Team::join('tasks', 'teams.task_id', 'tasks.id')
+            ->where('tasks.flow_id', $flowId)
+            ->join('users_teams', 'users_teams.team_id', 'teams.id')
+            ->where('users_teams.user_id', $userId)
             ->exists();
     }
 

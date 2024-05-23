@@ -20,11 +20,11 @@ class TaskService implements TaskContract
             'tasks.max_projects',
         )
             ->selectSub($this->getTeamCountSubquery(), 'team_count')
-            ->join('flows', 'tasks.flow_id', '=', 'flows.id')
-            ->where('flows.flow_name', '=', $flowName)
-            ->join('groups_flows', 'flows.id', '=', 'groups_flows.flow_id')
+            ->join('flows', 'tasks.flow_id', 'flows.id')
+            ->where('flows.flow_name', $flowName)
+            ->join('groups_flows', 'flows.id', 'groups_flows.flow_id')
             ->where('groups_flows.group_id', $groupId)
-            ->join('groups', 'groups_flows.group_id', '=', 'groups.id')
+            ->join('groups', 'groups_flows.group_id', 'groups.id')
             ->paginate($paginateCount);
     }
 
@@ -40,18 +40,18 @@ class TaskService implements TaskContract
             'flows.finish_before',
             'flows.max_team_size',
         )
-            ->join('flows', 'tasks.flow_id', '=', 'flows.id')
-            ->where('flows.id', '=', $flowId)
-            ->where('tasks.id', '=', $taskId)
+            ->join('flows', 'tasks.flow_id', 'flows.id')
+            ->where('flows.id', $flowId)
+            ->where('tasks.id', $taskId)
             ->get();
     }
 
     public function getRemainingTeamsCount(string $taskId): int
     {
-        $maxTeams = Task::where('id', '=', $taskId)
+        $maxTeams = Task::where('id', $taskId)
             ->value('max_projects');
 
-        $teamsCount = Team::where('task_id', '=', $taskId)
+        $teamsCount = Team::where('task_id', $taskId)
             ->count();
 
         return $maxTeams - $teamsCount;
