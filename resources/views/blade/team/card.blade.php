@@ -25,9 +25,26 @@
         @endif
     </x-card.body>
 
-    <div class="border-t border-gray-300 p-8">
+    <div class="border-t border-gray-300 p-8" x-data="{ showTable: false }">
+        @if (count($members) > 1)
+            <div class="flex items-center gap-2">
+                <x-arrow.down class="size-3" x-show="!showTable" />
+                <x-arrow.down class="size-3 rotate-180" x-show="showTable" />
+                <button
+                    class="text-sm"
+                    type="button"
+                    @click="showTable = !showTable"
+                >
+                    Показать полностью
+                </button>
+            </div>
+        @endif
+
         <div
-            class="overflow-x-auto rounded-lg border border-gray-300 text-sm shadow-sm shadow-gray-300"
+            class="mt-1 overflow-x-auto rounded-lg border border-gray-300 text-sm shadow-sm shadow-gray-300"
+            x-cloak
+            x-show="showTable"
+            x-collapse.min.113
         >
             <table class="min-w-full divide-y-2 divide-gray-300 bg-white">
                 <thead>
