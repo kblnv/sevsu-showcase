@@ -75,14 +75,7 @@ new #[Title("Задача")] class extends Component {
 ?>
 
 <div>
-    <x-breadcrumbs.root>
-        <x-breadcrumbs.item
-            title="Банк задач"
-            :link="route('tasks.index')"
-            :first="true"
-        />
-        <x-breadcrumbs.item title="Страница задачи" :muted="true" />
-    </x-breadcrumbs.root>
+    <x-page.button type="back" href="{{ route('tasks.index') }}" wire:navigate>Назад</x-page.button>
 
     <div
         class="mt-4 flex flex-col gap-2 overflow-hidden rounded-lg border border-gray-300 bg-sevsu-white px-6 py-4"

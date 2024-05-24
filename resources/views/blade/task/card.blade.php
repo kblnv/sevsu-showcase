@@ -22,12 +22,12 @@
             {{ $task["task_description"] }}
         </x-card.text>
 
-        <x-card.button
+        <x-page.button
+            class="mt-4"
             href="{{ route('tasks.show', ['flow' => $flow['id'], 'task' => $task['id']]) }}"
             wire:navigate
-            class="mt-4"
         >
             Перейти
-        </x-card.button>
+        </x-page.button>
     </x-card.body>
 </x-card.root>
