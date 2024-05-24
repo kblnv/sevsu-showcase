@@ -19,7 +19,7 @@
         @endif
 
         <x-card.text class="mt-4">
-            {{ $task["task_description"] }}
+            {{ Str::limit($task["task_description"], 1024) }}
         </x-card.text>
 
         <x-page.button
