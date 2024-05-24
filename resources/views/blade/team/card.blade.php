@@ -1,12 +1,6 @@
 @props(["team" => null, "maxTeamMembers" => "", "flow" => "", "members" => [], "tags" => []])
 
 <x-card.root {{ $attributes }}>
-    @if (count($tags) != 0)
-        <div class="border-b border-gray-300 p-2">
-            <x-card.tags :tags="$tags" />
-        </div>
-    @endif
-
     <x-card.body>
         <div class="flex items-center justify-between">
             <x-card.title href="#">
@@ -61,7 +55,7 @@
                 Участников: {{ count($members) }}/{{ $maxTeamMembers }}
             </div>
         </div>
-        <x-page.button class="mt-4" href="#" wire:navigate>
+        <x-page.button class="mt-6" href="#" wire:navigate>
             Перейти
         </x-page.button>
     </div>
