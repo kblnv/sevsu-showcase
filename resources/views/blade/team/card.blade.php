@@ -40,14 +40,24 @@
                 </thead>
 
                 <tbody class="divide-y divide-gray-300">
-                    @foreach ($members as $member)
+                    @foreach ($members as $key => $member)
                         @php($fullName = "{$member["second_name"]} {$member["first_name"]} {$member["last_name"]}")
-                        <x-team.member
-                            :index="$loop->index + 1"
-                            :fullName="$fullName"
-                            :vacancy="$member['vacancy_name']"
-                            :isModerator="$member['is_moderator']"
-                        />
+                        @if ($key % 2 === 0)
+                            <x-team.member
+                                :index="$loop->index + 1"
+                                :fullName="$fullName"
+                                :vacancy="$member['vacancy_name']"
+                                :isModerator="$member['is_moderator']"
+                            />
+                        @else
+                            <x-team.member
+                                class="bg-gray-50"
+                                :index="$loop->index + 1"
+                                :fullName="$fullName"
+                                :vacancy="$member['vacancy_name']"
+                                :isModerator="$member['is_moderator']"
+                            />
+                        @endif
                     @endforeach
                 </tbody>
             </table>
