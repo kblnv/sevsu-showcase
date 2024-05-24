@@ -1,12 +1,6 @@
 @props(["team" => null, "maxTeamMembers" => "", "flow" => "", "members" => [], "tags" => []])
 
 <x-card.root {{ $attributes }}>
-    @if (count($tags) != 0)
-        <div class="border-b border-gray-300 p-2">
-            <x-card.tags :tags="$tags" />
-        </div>
-    @endif
-
     <x-card.body>
         <div class="flex items-center justify-between">
             <x-card.title href="#">
@@ -26,14 +20,31 @@
 
         @if ($team["team_description"] != "")
             <x-card.text class="mt-4">
-                {{ $team["team_description"] }}
+                {{ Str::limit($team["team_description"], 1024) }}
             </x-card.text>
         @endif
     </x-card.body>
 
-    <div class="border-t border-gray-300 p-8">
+    <div class="border-t border-gray-300 p-8" x-data="{ showTable: false }">
+        @if (count($members) > 1)
+            <div class="flex items-center gap-2">
+                <x-arrow.down class="size-3" x-show="!showTable" />
+                <x-arrow.down class="size-3 rotate-180" x-show="showTable" />
+                <button
+                    class="text-sm"
+                    type="button"
+                    @click="showTable = !showTable"
+                >
+                    Показать полностью
+                </button>
+            </div>
+        @endif
+
         <div
-            class="overflow-x-auto rounded-lg border border-gray-300 text-sm shadow-sm shadow-gray-300"
+            class="mt-1 overflow-x-auto rounded-lg border border-gray-300 text-sm shadow-sm shadow-gray-300"
+            x-cloak
+            x-show="showTable"
+            x-collapse.min.113
         >
             <table class="min-w-full divide-y-2 divide-gray-300 bg-white">
                 <thead>
@@ -46,14 +57,24 @@
                 </thead>
 
                 <tbody class="divide-y divide-gray-300">
-                    @foreach ($members as $member)
+                    @foreach ($members as $key => $member)
                         @php($fullName = "{$member["second_name"]} {$member["first_name"]} {$member["last_name"]}")
-                        <x-team.member
-                            :index="$loop->index + 1"
-                            :fullName="$fullName"
-                            :vacancy="$member['vacancy_name']"
-                            :isModerator="$member['is_moderator']"
-                        />
+                        @if ($key % 2 === 0)
+                            <x-team.member
+                                :index="$loop->index + 1"
+                                :fullName="$fullName"
+                                :vacancy="$member['vacancy_name']"
+                                :isModerator="$member['is_moderator']"
+                            />
+                        @else
+                            <x-team.member
+                                class="bg-gray-50"
+                                :index="$loop->index + 1"
+                                :fullName="$fullName"
+                                :vacancy="$member['vacancy_name']"
+                                :isModerator="$member['is_moderator']"
+                            />
+                        @endif
                     @endforeach
                 </tbody>
             </table>
@@ -61,12 +82,8 @@
                 Участников: {{ count($members) }}/{{ $maxTeamMembers }}
             </div>
         </div>
-        <x-card.button
-            href="#"
-            wire:navigate
-            class="mt-4"
-        >
+        <x-page.button class="mt-6" href="#" wire:navigate>
             Перейти
-        </x-card.button>
+        </x-page.button>
     </div>
 </x-card.root>

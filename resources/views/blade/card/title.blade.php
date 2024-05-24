@@ -1,3 +1,3 @@
-<h2 class="text-xl font-myriad-bold">
+<h2 class="font-myriad-bold text-xl">
     {{ $slot }}
 </h2>
