@@ -169,12 +169,9 @@ new #[Title("Задача")] class extends Component {
                         >
                             Описание команды
                         </label>
-                        <textarea
-                            class="w-full rounded-lg border-2 border-gray-300 bg-sevsu-light-gray p-3 outline-none focus:border-sevsu-blue"
-                            id="team-description"
-                            rows="3"
+                        <x-textarea
                             wire:model="teamDescription"
-                        ></textarea>
+                        ></x-textarea>
                     </div>
 
                     <div>
@@ -191,12 +188,11 @@ new #[Title("Задача")] class extends Component {
                         />
                     </div>
                     <div class="mt-4">
-                        <button
-                            class="leading inline-flex items-center rounded-md border border-transparent bg-sevsu-blue px-4 py-2 text-sm font-medium text-white"
+                        <x-button
                             type="submit"
                         >
                             Создать команду
-                        </button>
+                        </x-button>
                     </div>
                 </form>
             </x-page.section>
