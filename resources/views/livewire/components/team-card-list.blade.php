@@ -14,11 +14,6 @@ new class extends Component {
     {
         return Teams::getMembersByTeam($teamId);
     }
-
-    public function getTaskTags($taskId)
-    {
-        return Tags::getTags($taskId);
-    }
 }; ?>
 
 <div class="mt-4 space-y-8">
@@ -28,7 +23,6 @@ new class extends Component {
             <x-team.card
                 :team="$team"
                 :maxTeamMembers="$flow['max_team_size']"
-                :tags="$this->getTaskTags($team['task_id'])"
                 :members="$this->getTeamMembers($team['id'])"
             />
         @else
@@ -37,7 +31,6 @@ new class extends Component {
                 :team="$team"
                 :maxTeamMembers="$team['max_team_size']"
                 :flow="$team['flow_name']"
-                :tags="$this->getTaskTags($team['task_id'])"
                 :members="$this->getTeamMembers($team['id'])"
             />
         @endif
