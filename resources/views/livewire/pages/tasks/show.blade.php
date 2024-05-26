@@ -11,17 +11,12 @@ use App\Models\Task;
 new #[Title("Задача")] class extends Component {
     public $flow;
     public $task;
-    public $taskTeams;
+    public $teams;
     public $canCreateTeam;
 
-    public function tags($taskId)
+    public function getTaskTags($taskId)
     {
         return Tags::getTags($taskId);
-    }
-
-    public function members($teamId)
-    {
-        return Teams::getMembersByTeam($teamId);
     }
 
     public function mount(Flow $flow, Task $task)
@@ -29,7 +24,7 @@ new #[Title("Задача")] class extends Component {
         $this->taskId = $task["id"];
         $this->flow = $flow;
         $this->task = $task;
-        $this->taskTeams = Teams::getTeamsByTask($task["id"]);
+        $this->teams = Teams::getTeamsByTask($task["id"]);
         $this->canCreateTeam = Teams::canCreateTeam($this->taskId, Auth::id());
     }
 };
@@ -55,7 +50,7 @@ new #[Title("Задача")] class extends Component {
                 />
                 <x-description-list.item term="Тэги">
                     <x-slot:description>
-                        <x-card.tags :tags="$this->tags($this->task['id'])" />
+                        <x-card.tags :tags="$this->getTaskTags($this->task['id'])" />
                     </x-slot>
                 </x-description-list.item>
                 <x-description-list.item
@@ -87,20 +82,16 @@ new #[Title("Задача")] class extends Component {
 
         <x-page.section title="Команды, выбравшие данную задачу">
             <div>
-                @if (count($this->taskTeams) === 0)
+                @if (count($this->teams) === 0)
                     <h2 class="text-md py-6">
                         Нет команд, выбравших эту задачу
                     </h2>
                 @else
                     <div class="space-y-8 py-6">
-                        @foreach ($this->taskTeams as $team)
-                            <x-team.card
-                                :team="$team"
-                                :maxTeamMembers="$this->flow['max_team_size']"
-                                :tags="$this->tags($team['task_id'])"
-                                :members="$this->members($team['id'])"
-                            />
-                        @endforeach
+                    <livewire:components.team-card-list
+                        :teams="$teams"
+                        :flow="$flow"
+                     />
                     </div>
                 @endif
             </div>

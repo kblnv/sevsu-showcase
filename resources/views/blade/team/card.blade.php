@@ -1,4 +1,4 @@
-@props(["team" => null, "maxTeamMembers" => "", "flow" => "", "members" => [], "tags" => []])
+@props(["team" => null, "maxTeamMembers" => "", "flow" => "", "members" => []])
 
 <x-card.root {{ $attributes }}>
     <x-card.body>
