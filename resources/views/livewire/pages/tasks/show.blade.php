@@ -13,31 +13,6 @@ new #[Title("Задача")] class extends Component {
     public $task;
     public $taskTeams;
     public $canCreateTeam;
-    public $teamName;
-    public $teamDescription;
-    public $password;
-
-    public function rules()
-    {
-        return [
-            "teamName" => [
-                "required",
-                "string",
-                "min:5",
-                "unique_team_flow:" . $this->flow["id"],
-            ],
-            "teamDescription" => "nullable|string|min:10",
-            "password" => "nullable",
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            "teamName.unique_team_flow" =>
-                "Команда с таким именем уже существует внутри потока задачи.",
-        ];
-    }
 
     public function tags($taskId)
     {
@@ -47,20 +22,6 @@ new #[Title("Задача")] class extends Component {
     public function members($teamId)
     {
         return Teams::getMembersByTeam($teamId);
-    }
-
-    public function createTeam()
-    {
-        $this->validate();
-
-        Teams::createTeam(
-            $this->teamName,
-            $this->task["id"],
-            $this->teamDescription,
-            $this->password,
-        );
-
-        return $this->redirectRoute("my-teams.index");
     }
 
     public function mount(Flow $flow, Task $task)
@@ -147,58 +108,10 @@ new #[Title("Задача")] class extends Component {
 
         @if ($this->canCreateTeam)
             <x-page.section title="Форма создания команды">
-                <form class="flex flex-col gap-4 py-6" wire:submit="createTeam">
-                    <div>
-                        <label
-                            class="text-md block font-medium leading-6 text-gray-700"
-                            for="team-name"
-                        >
-                            Название команды *
-                        </label>
-                        <x-input
-                            id="team-name"
-                            wire:model="teamName"
-                            required
-                        />
-                    </div>
-
-                    <div>
-                        <label
-                            class="text-md block font-medium leading-6 text-gray-700"
-                            for="team-description"
-                        >
-                            Описание команды
-                        </label>
-                        <textarea
-                            class="w-full rounded-lg border-2 border-gray-300 bg-sevsu-light-gray p-3 outline-none focus:border-sevsu-blue"
-                            id="team-description"
-                            rows="3"
-                            wire:model="teamDescription"
-                        ></textarea>
-                    </div>
-
-                    <div>
-                        <label
-                            class="text-md block font-medium leading-6 text-gray-700"
-                            for="password"
-                        >
-                            Пароль
-                        </label>
-                        <x-input
-                            id="password"
-                            type="password"
-                            wire:model="password"
-                        />
-                    </div>
-                    <div class="mt-4">
-                        <button
-                            class="leading inline-flex items-center rounded-md border border-transparent bg-sevsu-blue px-4 py-2 text-sm font-medium text-white"
-                            type="submit"
-                        >
-                            Создать команду
-                        </button>
-                    </div>
-                </form>
+                <livewire:components.team-form
+                    :task="$task"
+                    :flow="$flow"
+                />
             </x-page.section>
         @endif
     </div>
