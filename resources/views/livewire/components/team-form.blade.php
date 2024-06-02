@@ -12,7 +12,6 @@ new class extends Component {
     public $task;
     public $flow;
 
-
     public function rules()
     {
         return [
@@ -30,8 +29,7 @@ new class extends Component {
     public function messages()
     {
         return [
-            "teamName.required" =>
-                "Это поле обязательно для ввода",
+            "teamName.required" => "Это поле обязательно для ввода",
             "teamName.unique_team_flow" =>
                 "Команда с таким именем уже существует внутри потока задачи.",
             "teamName.min" =>
@@ -65,12 +63,14 @@ new class extends Component {
             Название команды *
         </label>
         <x-input
+            class="{{ $errors->has('teamName') ? 'border-red-700' : '' }}"
             id="team-name"
             wire:model="teamName"
-            class="{{ $errors->has('teamName') ? 'border-red-700' : '' }}"
         />
         <div>
-            @error('teamName') <span class="error text-red-700">{{ $message }}</span> @enderror
+            @error("teamName")
+                <span class="error text-red-700">{{ $message }}</span>
+            @enderror
         </div>
     </div>
 
@@ -82,11 +82,13 @@ new class extends Component {
             Описание команды
         </label>
         <x-textarea
-            wire:model="teamDescription"
             class="{{ $errors->has('teamDescription') ? 'border-red-700' : '' }}"
+            wire:model="teamDescription"
         ></x-textarea>
         <div>
-            @error('teamDescription') <span class="error text-red-700">{{ $message }}</span> @enderror
+            @error("teamDescription")
+                <span class="error text-red-700">{{ $message }}</span>
+            @enderror
         </div>
     </div>
 
@@ -97,17 +99,9 @@ new class extends Component {
         >
             Пароль
         </label>
-        <x-input
-            id="password"
-            type="password"
-            wire:model="password"
-        />
+        <x-input id="password" type="password" wire:model="password" />
     </div>
     <div class="mt-4">
-        <x-button
-            type="submit"
-        >
-            Создать команду
-        </x-button>
+        <x-button type="submit">Создать команду</x-button>
     </div>
 </form>
