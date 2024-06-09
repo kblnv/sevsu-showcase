@@ -15,7 +15,6 @@ new #[Title("Задача")] class extends Component {
     public $teams;
     public $canCreateTeam;
 
-    // TODO: move to mount()
     #[Url]
     public $currentTab = "";
     public $defaultTab = "Задача";
@@ -39,11 +38,13 @@ new #[Title("Задача")] class extends Component {
         $this->teams = Teams::getTeamsByTask($task["id"]);
         $this->canCreateTeam = Teams::canCreateTeam($this->taskId, Auth::id());
 
-        // TODO: handle constraints
+        if (! $this->canCreateTeam) {
+            array_splice($this->tabs, count($this->tabs) - 1, 1);
+        }
+
         if (
             $this->currentTab === "" ||
-            ! in_array($this->currentTab, $this->tabs) ||
-            ($this->currentTab === "Создание команды" && ! $this->canCreateTeam)
+            ! in_array($this->currentTab, $this->tabs)
         ) {
             $this->currentTab = $this->defaultTab;
         }
@@ -57,18 +58,13 @@ new #[Title("Задача")] class extends Component {
     </x-page.button>
 
     <div class="mt-8">
-        <livewire:components.tabs
-            :tabs="$tabs"
-            :currentTab="$currentTab"
-            :defaultTab="$defaultTab"
-            :constraints="['Задача' => true, 'Команды' => true, 'Создание команды' => $canCreateTeam]"
-        />
+        <livewire:components.tabs :tabs="$tabs" :currentTab="$currentTab" />
     </div>
 
     <div
         class="flex flex-col gap-2 overflow-hidden border border-t-0 border-gray-300 bg-sevsu-white px-6 py-4"
     >
-        @if ($currentTab === 'Задача')
+        @if ($currentTab === "Задача")
             <section>
                 <x-page.heading>Информация о задаче</x-page.heading>
                 <x-description-list.root>
@@ -113,9 +109,11 @@ new #[Title("Задача")] class extends Component {
                     />
                 </x-description-list.root>
             </section>
-        @elseif ($currentTab === 'Команды')
+        @elseif ($currentTab === "Команды")
             <section>
-                <x-page.heading>Команды, выбравшие данную задачу</x-page.heading>
+                <x-page.heading>
+                    Команды, выбравшие данную задачу
+                </x-page.heading>
                 <div>
                     @if (count($this->teams) === 0)
                         <h2 class="text-md py-6">
@@ -131,7 +129,7 @@ new #[Title("Задача")] class extends Component {
                     @endif
                 </div>
             </section>
-        @elseif ($currentTab === 'Создание команды')
+        @elseif ($currentTab === "Создание команды")
             <section>
                 <x-page.heading>Форма создания команды</x-page.heading>
                 <livewire:components.team-form :task="$task" :flow="$flow" />
