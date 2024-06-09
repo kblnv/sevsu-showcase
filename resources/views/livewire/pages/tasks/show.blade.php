@@ -35,8 +35,8 @@ new #[Title("Задача")] class extends Component {
     {
         $this->flow = $flow;
         $this->task = $task;
-        $this->teams = Teams::getTeamsByTask($task['id']);
-        $canCreateTeam = Teams::canCreateTeam($task['id'], Auth::id());
+        $this->teams = Teams::getTeamsByTask($task["id"]);
+        $canCreateTeam = Teams::canCreateTeam($task["id"], Auth::id());
 
         if (! $canCreateTeam) {
             unset($this->tabs[count($this->tabs) - 1]);

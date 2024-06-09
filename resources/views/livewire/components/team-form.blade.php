@@ -105,6 +105,6 @@ new class extends Component {
         <x-input id="password" type="password" wire:model="password" />
     </div>
     <div class="mt-4">
-        <x-button type="submit">Создать команду</x-button>
+        <x-button type="submit" element="button" variant="blue">Создать команду</x-button>
     </div>
 </form>
