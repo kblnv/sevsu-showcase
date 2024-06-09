@@ -2,17 +2,20 @@
 
 use Livewire\Volt\Component;
 use App\Facades\Teams;
+use App\Models\Flow;
+use App\Models\Task;
 use Livewire\Attributes\Reactive;
 
 new class extends Component {
-    public $teamName;
-    public $teamDescription;
-    public $password;
-    #[Reactive]
-    public $task;
-    public $flow;
+    public string $teamName = "";
+    public string $teamDescription = "";
+    public string $password = "";
 
-    public function rules()
+    #[Reactive]
+    public ?Task $task = null;
+    public ?Flow $flow = null;
+
+    public function rules(): array
     {
         return [
             "teamName" => [
@@ -26,7 +29,7 @@ new class extends Component {
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
             "teamName.required" => "Это поле обязательно для ввода",

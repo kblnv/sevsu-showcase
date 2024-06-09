@@ -6,31 +6,37 @@ use Livewire\Attributes\Url;
 use Livewire\Attributes\Computed;
 use App\Facades\Teams;
 use App\Facades\Flows;
+use App\Models\Flow;
 use App\Traits\WithCustomPagination;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 new #[Title("Команды")] class extends Component {
     use WithCustomPagination;
 
     #[Url]
-    public $selectedFlow = "";
+    public string $selectedFlow = "";
 
     #[Computed(persist: true, seconds: 300)]
-    public function flows()
+    public function flows(): Collection
     {
         return Flows::getFlowsByGroup(auth()->user()->group_id);
     }
 
-    public function getCurrentTeams()
+    #[Computed]
+    public function currentTeams(): LengthAwarePaginator
     {
         return Teams::getTeamsByFlow($this->selectedFlow);
     }
 
-    public function getCurrentFlow()
+    #[Computed]
+    public function currentFlow(): ?Flow
     {
         return $this->flows->firstWhere("flow_name", $this->selectedFlow);
     }
 
-    public function mount()
+    public function mount(): void
     {
         if (
             $this->selectedFlow == "" ||
@@ -66,7 +72,7 @@ new #[Title("Команды")] class extends Component {
             @endforeach
         </x-select>
 
-        @if ($this->getCurrentTeams()->count() == 0)
+        @if ($this->currentTeams->count() == 0)
             <x-page.heading class="mt-8">
                 Нет команд по выбранной дисциплине
             </x-page.heading>
@@ -76,13 +82,13 @@ new #[Title("Команды")] class extends Component {
             </x-page.heading>
 
             <livewire:components.team-card-list
-                :teams="$this->getCurrentTeams()->items()"
-                :flow="$this->getCurrentFlow()"
+                :teams="$this->currentTeams->items()"
+                :flow="$this->currentFlow"
             />
         @endif
 
         <div class="mt-4">
-            {{ $this->getCurrentTeams()->links() }}
+            {{ $this->currentTeams->links() }}
         </div>
     @endif
 </div>
