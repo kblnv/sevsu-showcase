@@ -28,8 +28,8 @@
     <div class="border-t border-gray-300 p-8" x-data="{ showTable: false }">
         @if (count($members) > 1)
             <div class="flex items-center gap-2">
-                <x-arrow.down class="size-3" x-show="!showTable" />
-                <x-arrow.down class="size-3 rotate-180" x-show="showTable" />
+                <x-arrow.down class="w-3 h-3" x-show="!showTable" />
+                <x-arrow.down class="w-3 h-3 rotate-180" x-show="showTable" />
                 <button
                     class="text-sm"
                     type="button"

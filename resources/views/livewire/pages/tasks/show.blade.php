@@ -7,39 +7,39 @@ use Livewire\Volt\Component;
 use Livewire\Attributes\Title;
 use App\Models\Flow;
 use App\Models\Task;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\Url;
 
 new #[Title("Задача")] class extends Component {
-    public $flow;
-    public $task;
-    public $teams;
-    public $canCreateTeam;
+    public ?Flow $flow = null;
+    public ?Task $task = null;
+    public array $teams = [];
 
     #[Url]
-    public $currentTab = "";
-    public $defaultTab = "Задача";
-    public $tabs = ["Задача", "Команды", "Создание команды"];
+    public string $currentTab = "";
+    public string $defaultTab = "Задача";
+    public array $tabs = ["Задача", "Команды", "Создание команды"];
 
-    public function switchTab($tabName)
+    public function switchTab(string $tabName): void
     {
         $this->currentTab = $tabName;
     }
 
-    public function getTaskTags($taskId)
+    #[Computed(persist: true, seconds: 300)]
+    public function taskTags(string $taskId): array
     {
         return Tags::getTags($taskId);
     }
 
-    public function mount(Flow $flow, Task $task)
+    public function mount(Flow $flow, Task $task): void
     {
-        $this->taskId = $task["id"];
         $this->flow = $flow;
         $this->task = $task;
-        $this->teams = Teams::getTeamsByTask($task["id"]);
-        $this->canCreateTeam = Teams::canCreateTeam($this->taskId, Auth::id());
+        $this->teams = Teams::getTeamsByTask($task['id']);
+        $canCreateTeam = Teams::canCreateTeam($task['id'], Auth::id());
 
-        if (! $this->canCreateTeam) {
-            array_splice($this->tabs, count($this->tabs) - 1, 1);
+        if (! $canCreateTeam) {
+            unset($this->tabs[count($this->tabs) - 1]);
         }
 
         if (
@@ -79,7 +79,7 @@ new #[Title("Задача")] class extends Component {
                     <x-description-list.item term="Тэги">
                         <x-slot:description>
                             <x-card.tags
-                                :tags="$this->getTaskTags($this->task['id'])"
+                                :tags="$this->taskTags($this->task['id'])"
                             />
                         </x-slot>
                     </x-description-list.item>

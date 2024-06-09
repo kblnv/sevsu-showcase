@@ -5,8 +5,8 @@ use Livewire\Volt\Component;
 
 new class extends Component {
     #[Reactive]
-    public $currentTab;
-    public $tabs;
+    public string $currentTab = "";
+    public array $tabs = [];
 }; ?>
 
 <div class="border-b border-gray-200">

@@ -6,21 +6,25 @@ use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
 use App\Facades\Flows;
 use App\Facades\Tasks;
+use App\Models\Flow;
 use App\Traits\WithCustomPagination;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 new #[Title("Банк задач")] class extends Component {
     use WithCustomPagination;
 
     #[Url]
-    public $selectedFlow = "";
+    public string $selectedFlow = "";
 
     #[Computed(persist: true, seconds: 300)]
-    public function flows()
+    public function flows(): Collection
     {
         return Flows::getFlowsByGroup(auth()->user()->group_id);
     }
 
-    public function getCurrentTasks()
+    #[Computed]
+    public function currentTasks(): LengthAwarePaginator
     {
         return Tasks::getTasksByFlow(
             $this->selectedFlow,
@@ -29,12 +33,13 @@ new #[Title("Банк задач")] class extends Component {
         );
     }
 
-    public function getCurrentFlow()
+    #[Computed]
+    public function currentFlow(): ?Flow
     {
         return $this->flows->firstWhere("flow_name", $this->selectedFlow);
     }
 
-    public function mount()
+    public function mount(): void
     {
         if (
             $this->selectedFlow == "" ||
@@ -70,7 +75,7 @@ new #[Title("Банк задач")] class extends Component {
             @endforeach
         </x-select>
 
-        @if ($this->getCurrentTasks()->count() == 0)
+        @if ($this->currentTasks->count() == 0)
             <x-page.heading class="mt-8">
                 Нет задач по выбранной дисциплине
             </x-page.heading>
@@ -80,13 +85,13 @@ new #[Title("Банк задач")] class extends Component {
             </x-page.heading>
 
             <livewire:components.task-card-list
-                :tasks="$this->getCurrentTasks()->items()"
-                :flow="$this->getCurrentFlow()"
+                :tasks="$this->currentTasks->items()"
+                :flow="$this->currentFlow"
             />
         @endif
 
         <div class="mt-4">
-            {{ $this->getCurrentTasks()->links() }}
+            {{ $this->currentTasks->links() }}
         </div>
     @endif
 </div>

@@ -4,14 +4,14 @@ use Livewire\Volt\Component;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Computed;
 use App\Facades\Teams;
-use App\Facades\Tags;
 use App\Traits\WithCustomPagination;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 new #[Title("Мои команды")] class extends Component {
     use WithCustomPagination;
 
     #[Computed(persist: true, seconds: 300)]
-    public function userTeams()
+    public function userTeams(): LengthAwarePaginator
     {
         return Teams::getUserTeams(auth()->user()->id);
     }
