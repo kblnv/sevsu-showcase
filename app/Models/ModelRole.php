@@ -7,27 +7,27 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class UserTeam extends Model
+class ModelRole extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $table = 'users_teams';
-
     public $timestamps = false;
 
+    protected $table = 'model_has_roles';
+
     protected $fillable = [
-        'user_id',
-        'team_id',
-        'is_moderator',
+        'role_id',
+        'model_type',
+        'model_id',
     ];
 
-    public function users(): BelongsTo
+    public function roles(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(Role::class, 'role_id');
     }
 
-    public function teams(): BelongsTo
+    public function models(): BelongsTo
     {
-        return $this->belongsTo(Team::class, 'team_id');
+        return $this->belongsTo(User::class, 'model_id');
     }
 }
