@@ -83,9 +83,8 @@
             </div>
         </div>
         <x-page.button
-            class="mt-6"
+            class="mt-4"
             href="{{ route('teams.show', $team['id']) }}"
-            wire:navigate
         >
             Перейти
         </x-page.button>

@@ -25,8 +25,8 @@ new #[Title("Задача")] class extends Component {
     public function mount(Team $team): void
     {
         $this->team = $team;
-        $this->task = Task::find($team['task_id']);
-        $this->flow = Flow::find($this->task['flow_id']);
+        $this->task = Task::find($team["task_id"]);
+        $this->flow = Flow::find($this->task["flow_id"]);
 
         if (
             $this->currentTab === "" ||
@@ -39,7 +39,7 @@ new #[Title("Задача")] class extends Component {
 ?>
 
 <div>
-    <x-page.button type="back" href="{{ route('tasks.index') }}" wire:navigate>
+    <x-page.button href="{{ route('tasks.index') }}" arrow="back" wire:navigate>
         Назад
     </x-page.button>
 
@@ -58,12 +58,13 @@ new #[Title("Задача")] class extends Component {
                         term="Название команды"
                         :description="$team['team_name']"
                     />
-                    @if ($team['description'])
+                    @if ($team["description"])
                         <x-description-list.item
                             term="Описание команды"
                             :description="$team['description']"
                         />
                     @endif
+
                     <x-description-list.item
                         term="Задача"
                         :link="route('tasks.show', ['flow' => $flow['id'], 'task' => $task['id']])"
@@ -75,9 +76,7 @@ new #[Title("Задача")] class extends Component {
             </section>
         @elseif ($currentTab === "Участники")
             <section>
-                <x-page.heading>
-                    Участники команды
-                </x-page.heading>
+                <x-page.heading>Участники команды</x-page.heading>
             </section>
         @endif
     </div>
