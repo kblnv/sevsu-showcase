@@ -37,5 +37,5 @@ interface TeamContract
 
     public function setPassword(string $teamId, string $password): void;
 
-    public function isModerator(string $teamId, string $userId): bool;
+    public function isModerator(string $teamId, string $userId): ?bool;
 }

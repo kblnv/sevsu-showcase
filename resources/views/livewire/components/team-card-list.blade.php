@@ -2,15 +2,16 @@
 
 use App\Facades\Tags;
 use App\Facades\Teams;
+use App\Models\Flow;
 use Livewire\Attributes\Reactive;
 use Livewire\Volt\Component;
 
 new class extends Component {
     #[Reactive]
-    public $teams;
-    public $flow;
+    public array $teams = [];
+    public ?Flow $flow;
 
-    public function getTeamMembers($teamId)
+    public function getTeamMembers(string $teamId): array
     {
         return Teams::getMembersByTeam($teamId);
     }

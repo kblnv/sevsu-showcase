@@ -1,15 +1,17 @@
 <?php
 
 use App\Facades\Tags;
+use App\Models\Flow;
+use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Reactive;
 use Livewire\Volt\Component;
 
 new class extends Component {
     #[Reactive]
-    public $tasks;
-    public $flow;
+    public array $tasks = [];
+    public ?Flow $flow = null;
 
-    public function getTaskTags($taskId)
+    public function getTaskTags(string $taskId): array
     {
         return Tags::getTags($taskId);
     }

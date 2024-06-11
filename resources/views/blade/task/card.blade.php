@@ -25,7 +25,6 @@
         <x-page.button
             class="mt-4"
             href="{{ route('tasks.show', ['flow' => $flow['id'], 'task' => $task['id']]) }}"
-            wire:navigate
         >
             Перейти
         </x-page.button>

@@ -28,8 +28,8 @@
     <div class="border-t border-gray-300 p-8" x-data="{ showTable: false }">
         @if (count($members) > 1)
             <div class="flex items-center gap-2">
-                <x-arrow.down class="size-3" x-show="!showTable" />
-                <x-arrow.down class="size-3 rotate-180" x-show="showTable" />
+                <x-arrow.down class="h-3 w-3" x-show="!showTable" />
+                <x-arrow.down class="h-3 w-3 rotate-180" x-show="showTable" />
                 <button
                     class="text-sm"
                     type="button"
@@ -82,7 +82,10 @@
                 Участников: {{ count($members) }}/{{ $maxTeamMembers }}
             </div>
         </div>
-        <x-page.button class="mt-6" href="#" wire:navigate>
+        <x-page.button
+            class="mt-4"
+            href="{{ route('teams.show', $team['id']) }}"
+        >
             Перейти
         </x-page.button>
     </div>

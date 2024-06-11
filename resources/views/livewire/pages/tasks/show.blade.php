@@ -7,43 +7,46 @@ use Livewire\Volt\Component;
 use Livewire\Attributes\Title;
 use App\Models\Flow;
 use App\Models\Task;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\Url;
 
 new #[Title("Задача")] class extends Component {
-    public $flow;
-    public $task;
-    public $teams;
-    public $canCreateTeam;
+    public ?Flow $flow = null;
+    public ?Task $task = null;
+    public array $teams = [];
 
-    // TODO: move to mount()
     #[Url]
-    public $currentTab = "";
-    public $defaultTab = "Задача";
-    public $tabs = ["Задача", "Команды", "Создание команды"];
+    public string $currentTab = "";
+    public string $defaultTab = "Задача";
+    public array $tabs = ["Задача", "Команды", "Создание команды"];
 
-    public function switchTab($tabName)
+    public ?bool $canCreateTeam = null;
+
+    public function switchTab(string $tabName): void
     {
         $this->currentTab = $tabName;
     }
 
-    public function getTaskTags($taskId)
+    #[Computed(persist: true, seconds: 300)]
+    public function taskTags(string $taskId): array
     {
         return Tags::getTags($taskId);
     }
 
-    public function mount(Flow $flow, Task $task)
+    public function mount(Flow $flow, Task $task): void
     {
-        $this->taskId = $task["id"];
         $this->flow = $flow;
         $this->task = $task;
         $this->teams = Teams::getTeamsByTask($task["id"]);
-        $this->canCreateTeam = Teams::canCreateTeam($this->taskId, Auth::id());
+        $this->canCreateTeam = Teams::canCreateTeam($task["id"], Auth::id());
 
-        // TODO: handle constraints
+        if (! $this->canCreateTeam) {
+            unset($this->tabs[count($this->tabs) - 1]);
+        }
+
         if (
             $this->currentTab === "" ||
-            ! in_array($this->currentTab, $this->tabs) ||
-            ($this->currentTab === "Создание команды" && ! $this->canCreateTeam)
+            ! in_array($this->currentTab, $this->tabs)
         ) {
             $this->currentTab = $this->defaultTab;
         }
@@ -52,23 +55,18 @@ new #[Title("Задача")] class extends Component {
 ?>
 
 <div>
-    <x-page.button type="back" href="{{ route('tasks.index') }}" wire:navigate>
+    <x-page.button href="{{ route('tasks.index') }}" arrow="back">
         Назад
     </x-page.button>
 
     <div class="mt-8">
-        <livewire:components.tabs
-            :tabs="$tabs"
-            :currentTab="$currentTab"
-            :defaultTab="$defaultTab"
-            :constraints="['Задача' => true, 'Команды' => true, 'Создание команды' => $canCreateTeam]"
-        />
+        <livewire:components.tabs :tabs="$tabs" :currentTab="$currentTab" />
     </div>
 
     <div
         class="flex flex-col gap-2 overflow-hidden border border-t-0 border-gray-300 bg-sevsu-white px-6 py-4"
     >
-        @if ($currentTab === 'Задача')
+        @if ($currentTab === "Задача")
             <section>
                 <x-page.heading>Информация о задаче</x-page.heading>
                 <x-description-list.root>
@@ -83,7 +81,7 @@ new #[Title("Задача")] class extends Component {
                     <x-description-list.item term="Тэги">
                         <x-slot:description>
                             <x-card.tags
-                                :tags="$this->getTaskTags($this->task['id'])"
+                                :tags="$this->taskTags($this->task['id'])"
                             />
                         </x-slot>
                     </x-description-list.item>
@@ -112,10 +110,21 @@ new #[Title("Задача")] class extends Component {
                         :description="$this->task['max_projects']"
                     />
                 </x-description-list.root>
+
+                @if ($canCreateTeam)
+                    <x-button
+                        href="{{ route('tasks.show', ['flow' => $flow['id'], 'task' => $task['id'], 'currentTab' => 'Создание команды']) }}"
+                        element="link"
+                    >
+                        Создать команду
+                    </x-button>
+                @endif
             </section>
-        @elseif ($currentTab === 'Команды')
+        @elseif ($currentTab === "Команды")
             <section>
-                <x-page.heading>Команды, выбравшие данную задачу</x-page.heading>
+                <x-page.heading>
+                    Команды, выбравшие данную задачу
+                </x-page.heading>
                 <div>
                     @if (count($this->teams) === 0)
                         <h2 class="text-md py-6">
@@ -131,7 +140,7 @@ new #[Title("Задача")] class extends Component {
                     @endif
                 </div>
             </section>
-        @elseif ($currentTab === 'Создание команды')
+        @elseif ($currentTab === "Создание команды")
             <section>
                 <x-page.heading>Форма создания команды</x-page.heading>
                 <livewire:components.team-form :task="$task" :flow="$flow" />
