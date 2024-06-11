@@ -3,22 +3,16 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ModelRoleResource\Pages;
-use App\Filament\Resources\ModelRoleResource\RelationManagers;
 use App\Models\ModelRole;
 use App\Models\Role;
 use App\Models\User;
-use Filament\Forms;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ModelRoleResource extends Resource
 {
@@ -40,10 +34,10 @@ class ModelRoleResource extends Resource
                     ->searchable()
                     ->options(function () {
                         return User::select('id', 'first_name', 'second_name', 'last_name')
-                                    ->get()
-                                    ->mapWithKeys(function ($user) {
-                                        return [$user->id => $user->second_name . ' ' . $user->first_name . ' ' . $user->last_name];
-                                    });
+                            ->get()
+                            ->mapWithKeys(function ($user) {
+                                return [$user->id => $user->second_name.' '.$user->first_name.' '.$user->last_name];
+                            });
                     })
                     ->required()
                     ->label('ФИО'),
@@ -53,12 +47,14 @@ class ModelRoleResource extends Resource
                         $userId = $get('model_id');
                         if ($userId) {
                             $assignedRoles = ModelRole::where('model_id', $userId)
-                                                ->pluck('role_id')
-                                                ->toArray();
+                                ->pluck('role_id')
+                                ->toArray();
                             $unassignedRoles = Role::whereNotIn('uuid', $assignedRoles)
-                                                ->pluck('name', 'uuid');
+                                ->pluck('name', 'uuid');
+
                             return $unassignedRoles;
                         }
+
                         return [];
                     })
                     ->required()

@@ -3,17 +3,13 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserTeamResource\Pages;
-use App\Filament\Resources\UserTeamResource\RelationManagers;
 use App\Models\Group;
 use App\Models\Team;
 use App\Models\User;
 use App\Models\UserTeam;
-use Filament\Forms;
 use Filament\Forms\Components\Checkbox;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
-use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\CheckboxColumn;
@@ -21,7 +17,6 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class UserTeamResource extends Resource
 {
@@ -31,9 +26,9 @@ class UserTeamResource extends Resource
 
     protected static ?string $navigationGroup = 'Таблицы';
 
-    protected static ?string $navigationLabel = 'Пользователи';
+    protected static ?string $navigationLabel = 'Пользователи - Команды';
 
-    protected static ?string $pluralLabel = 'Пользователи';
+    protected static ?string $pluralLabel = 'Пользователи - Команды';
 
     public static function form(Form $form): Form
     {
@@ -46,10 +41,10 @@ class UserTeamResource extends Resource
                     ->searchable()
                     ->options(function () {
                         return User::select('id', 'first_name', 'second_name', 'last_name')
-                                    ->get()
-                                    ->mapWithKeys(function ($user) {
-                                        return [$user->id => $user->second_name . ' ' . $user->first_name . ' ' . $user->last_name];
-                                    });
+                            ->get()
+                            ->mapWithKeys(function ($user) {
+                                return [$user->id => $user->second_name.' '.$user->first_name.' '.$user->last_name];
+                            });
                     })
                     ->required()
                     ->label('ФИО'),
@@ -75,12 +70,12 @@ class UserTeamResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->label('Отчетство'),
-                TextColumn::make('users.group.group_name')
-                    ->label('Группа'),
                 TextColumn::make('teams.team_name')
                     ->searchable()
                     ->sortable()
                     ->label('Команда'),
+                TextColumn::make('users.group.group_name')
+                    ->label('Группа'),
                 CheckboxColumn::make('is_moderator')
                     ->default(0)
                     ->label('Модератор'),
@@ -96,38 +91,42 @@ class UserTeamResource extends Resource
                     ->indicateUsing(function (array $data) {
                         if ($data['team_id']) {
                             $team = Team::find($data['team_id']);
+
                             return $team->team_name;
                         }
-                        return;
+
                     })
                     ->query(function (Builder $query, array $data) {
                         if ($data['team_id']) {
                             return $query->where('team_id', $data['team_id']);
                         }
+
                         return $query;
                     }),
-                    Filter::make('group_id')
-                        ->form([
-                            Select::make('group_id')
-                                ->searchable()
-                                ->options(Group::pluck('group_name', 'id'))
-                                ->label('Группа'),
-                        ])
-                        ->indicateUsing(function (array $data) {
-                            if ($data['group_id']) {
-                                $group = Group::find($data['group_id']);
-                                return $group->group_name;
-                            }
-                            return;
-                        })
-                        ->query(function (Builder $query, array $data) {
-                            if ($data['group_id']) {
-                                return $query->whereHas('users', function (Builder $query) use ($data) {
-                                    $query->where('group_id', $data['group_id']);
-                                });
-                            }
-                            return $query;
-                        }),
+                Filter::make('group_id')
+                    ->form([
+                        Select::make('group_id')
+                            ->searchable()
+                            ->options(Group::pluck('group_name', 'id'))
+                            ->label('Группа'),
+                    ])
+                    ->indicateUsing(function (array $data) {
+                        if ($data['group_id']) {
+                            $group = Group::find($data['group_id']);
+
+                            return $group->group_name;
+                        }
+
+                    })
+                    ->query(function (Builder $query, array $data) {
+                        if ($data['group_id']) {
+                            return $query->whereHas('users', function (Builder $query) use ($data) {
+                                $query->where('group_id', $data['group_id']);
+                            });
+                        }
+
+                        return $query;
+                    }),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

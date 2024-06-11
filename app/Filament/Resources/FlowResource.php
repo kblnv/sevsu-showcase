@@ -6,6 +6,7 @@ use App\Filament\Resources\FlowResource\Pages;
 use App\Models\Flow;
 use Carbon\Carbon;
 use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -13,10 +14,9 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\CheckboxColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
-use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\Indicator;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
 class FlowResource extends Resource
@@ -88,12 +88,12 @@ class FlowResource extends Resource
                         $indicators = [];
 
                         if (isset($data['take_before'])) {
-                            $indicators[] = Indicator::make('Начало командообразования: ' . Carbon::parse($data['take_before'])->locale('ru')->isoFormat('D MMMM YYYY'))
+                            $indicators[] = Indicator::make('Начало командообразования: '.Carbon::parse($data['take_before'])->locale('ru')->isoFormat('D MMMM YYYY'))
                                 ->removeField('take_before');
                         }
 
                         if (isset($data['finish_before'])) {
-                            $indicators[] = Indicator::make('Конец командообразования: ' . Carbon::parse($data['finish_before'])->locale('ru')->isoFormat('D MMMM YYYY'))
+                            $indicators[] = Indicator::make('Конец командообразования: '.Carbon::parse($data['finish_before'])->locale('ru')->isoFormat('D MMMM YYYY'))
                                 ->removeField('finish_before');
                         }
 

@@ -12,9 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('groups_flows', function (Blueprint $table) {
+            $table->uuid('id')->primary();
             $table->uuid('flow_id');
             $table->unsignedBigInteger('group_id');
-            $table->primary(['flow_id', 'group_id']);
+            $table->unique(['flow_id', 'group_id']);
             $table->foreign('flow_id')->references('id')->on('flows')->cascadeOnDelete();
             $table->foreign('group_id')->references('id')->on('groups')->cascadeOnDelete();
         });
