@@ -123,7 +123,7 @@ class TeamService implements TeamContract
             ->update(['password' => Hash::make($password)]);
     }
 
-    public function isModerator(string $teamId, string $userId): bool
+    public function isModerator(string $teamId, string $userId): ?bool
     {
         return UserTeam::where([
             ['team_id', $teamId],

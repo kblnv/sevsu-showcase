@@ -20,6 +20,8 @@ new #[Title("Задача")] class extends Component {
     public string $defaultTab = "Задача";
     public array $tabs = ["Задача", "Команды", "Создание команды"];
 
+    public ?bool $canCreateTeam = null;
+
     public function switchTab(string $tabName): void
     {
         $this->currentTab = $tabName;
@@ -36,9 +38,9 @@ new #[Title("Задача")] class extends Component {
         $this->flow = $flow;
         $this->task = $task;
         $this->teams = Teams::getTeamsByTask($task["id"]);
-        $canCreateTeam = Teams::canCreateTeam($task["id"], Auth::id());
+        $this->canCreateTeam = Teams::canCreateTeam($task["id"], Auth::id());
 
-        if (! $canCreateTeam) {
+        if (! $this->canCreateTeam) {
             unset($this->tabs[count($this->tabs) - 1]);
         }
 
@@ -53,7 +55,7 @@ new #[Title("Задача")] class extends Component {
 ?>
 
 <div>
-    <x-page.button type="back" href="{{ route('tasks.index') }}" wire:navigate>
+    <x-page.button href="{{ route('tasks.index') }}" arrow="back">
         Назад
     </x-page.button>
 
@@ -108,6 +110,15 @@ new #[Title("Задача")] class extends Component {
                         :description="$this->task['max_projects']"
                     />
                 </x-description-list.root>
+
+                @if ($canCreateTeam)
+                    <x-button
+                        href="{{ route('tasks.show', ['flow' => $flow['id'], 'task' => $task['id'], 'currentTab' => 'Создание команды']) }}"
+                        element="link"
+                    >
+                        Создать команду
+                    </x-button>
+                @endif
             </section>
         @elseif ($currentTab === "Команды")
             <section>
