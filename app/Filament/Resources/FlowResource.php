@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\FlowResource\Pages;
 use App\Models\Flow;
+use Carbon\Carbon;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\TextInput;
@@ -13,6 +14,10 @@ use Filament\Tables;
 use Filament\Tables\Columns\CheckboxColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Filament\Forms\Components\DatePicker;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\Indicator;
+use Illuminate\Database\Eloquent\Builder;
 
 class FlowResource extends Resource
 {
@@ -72,7 +77,39 @@ class FlowResource extends Resource
                     ->label('Можно создавать свои команды'),
             ])
             ->filters([
-                //
+                Filter::make('take_before')
+                    ->form([
+                        DatePicker::make('take_before')
+                            ->label('Начало командооборазования'),
+                        DatePicker::make('finish_before')
+                            ->label('Конец командооборазования'),
+                    ])
+                    ->indicateUsing(function (array $data) {
+                        $indicators = [];
+
+                        if (isset($data['take_before'])) {
+                            $indicators[] = Indicator::make('Начало командообразования: ' . Carbon::parse($data['take_before'])->locale('ru')->isoFormat('D MMMM YYYY'))
+                                ->removeField('take_before');
+                        }
+
+                        if (isset($data['finish_before'])) {
+                            $indicators[] = Indicator::make('Конец командообразования: ' . Carbon::parse($data['finish_before'])->locale('ru')->isoFormat('D MMMM YYYY'))
+                                ->removeField('finish_before');
+                        }
+
+                        return $indicators;
+                    })
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['take_before'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('take_before', '>=', $date),
+                            )
+                            ->when(
+                                $data['finish_before'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('finish_before', '<=', $date),
+                            );
+                    }),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
