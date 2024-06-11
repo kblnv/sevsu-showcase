@@ -1,6 +1,6 @@
-@props(["arrow" => "next", "href" => ""])
+@props(["arrow" => "next", "href" => "", "element" => "link"])
 
-<x-button href="{{ $href }}" element="link" {{ $attributes }}>
+<x-button href="{{ $href }}" element="{{ $element }}" {{ $attributes }}>
     <div class="flex items-center justify-center gap-2">
         @if ($arrow === "next")
             <span

@@ -1,21 +1,22 @@
 <?php
 
+use App\Facades\Teams;
 use App\Models\Flow;
 use App\Models\Task;
 use App\Models\Team;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Title;
-use Livewire\Attributes\Url;
 
 new #[Title("Задача")] class extends Component {
     public ?Team $team = null;
     public ?Task $task = null;
     public ?Flow $flow = null;
+    public ?array $members = null;
+    public ?array $vacancies = null;
 
-    #[Url]
-    public string $currentTab = "";
-    public string $defaultTab = "Команда";
-    public array $tabs = ["Команда", "Участники"];
+    public ?bool $canCreateTeam = null;
+    public ?bool $isModerator = null;
 
     public function switchTab(string $tabName): void
     {
@@ -27,57 +28,111 @@ new #[Title("Задача")] class extends Component {
         $this->team = $team;
         $this->task = Task::find($team["task_id"]);
         $this->flow = Flow::find($this->task["flow_id"]);
+        $this->members = Teams::getMembersByTeam($team["id"]);
+        $this->vacancies = Teams::getTeamVacancies($team["id"]);
 
-        if (
-            $this->currentTab === "" ||
-            ! in_array($this->currentTab, $this->tabs)
-        ) {
-            $this->currentTab = $this->defaultTab;
-        }
+        $this->canCreateTeam = Teams::canCreateTeam(
+            $this->task["id"],
+            Auth::id(),
+        );
+
+        $this->isModerator = Teams::isModerator($team["id"], Auth::id());
     }
 };
 ?>
 
 <div>
-    <x-page.button href="{{ route('tasks.index') }}" arrow="back" wire:navigate>
+    <x-page.button href="{{ route('teams.index') }}" arrow="back">
         Назад
     </x-page.button>
 
-    <div class="mt-8">
-        <livewire:components.tabs :tabs="$tabs" :currentTab="$currentTab" />
-    </div>
-
     <div
-        class="flex flex-col gap-2 overflow-hidden border border-t-0 border-gray-300 bg-sevsu-white px-6 py-4"
+        class="mt-8 flex flex-col gap-2 overflow-hidden border border-gray-300 bg-sevsu-white px-6 py-4"
     >
-        @if ($currentTab === "Команда")
-            <section>
-                <x-page.heading>Информация о команде</x-page.heading>
-                <x-description-list.root>
+        <section>
+            <x-page.heading>Информация о команде</x-page.heading>
+            <x-description-list.root>
+                <x-description-list.item
+                    term="Название команды"
+                    :description="$team['team_name']"
+                />
+                @if ($team["team_description"] != "")
                     <x-description-list.item
-                        term="Название команды"
-                        :description="$team['team_name']"
+                        term="Описание команды"
+                        :description="$team['team_description']"
                     />
-                    @if ($team["description"])
-                        <x-description-list.item
-                            term="Описание команды"
-                            :description="$team['description']"
-                        />
-                    @endif
+                @endif
 
-                    <x-description-list.item
-                        term="Задача"
-                        :link="route('tasks.show', ['flow' => $flow['id'], 'task' => $task['id']])"
-                        :description="$task['task_name']"
-                    />
-                </x-description-list.root>
+                <x-description-list.item
+                    term="Задача"
+                    :link="route('tasks.show', ['flow' => $flow['id'], 'task' => $task['id']])"
+                    :description="$task['task_name']"
+                />
+            </x-description-list.root>
 
+            @if ($canCreateTeam)
                 <x-button>Вступить в команду</x-button>
-            </section>
-        @elseif ($currentTab === "Участники")
-            <section>
-                <x-page.heading>Участники команды</x-page.heading>
-            </section>
-        @endif
+            @endif
+        </section>
+        <section class="mt-6">
+            <x-page.heading>Участники команды</x-page.heading>
+            <div
+                class="mt-6 overflow-x-auto rounded-lg border border-gray-300 text-sm shadow-sm shadow-gray-300"
+                x-cloak
+            >
+                <table class="min-w-full divide-y-2 divide-gray-300 bg-white">
+                    <thead>
+                        <tr>
+                            <td class="px-4 py-2 font-myriad-bold">№</td>
+                            <td class="px-4 py-2 font-myriad-bold">ФИО</td>
+                            <td class="px-4 py-2 font-myriad-bold">Вакансия</td>
+                            <td class="px-4 py-2 font-myriad-bold">Роль</td>
+                        </tr>
+                    </thead>
+
+                    <tbody class="divide-y divide-gray-300">
+                        @foreach ($members as $key => $member)
+                            @php($fullName = "{$member["second_name"]} {$member["first_name"]} {$member["last_name"]}")
+                            @if ($key % 2 === 0)
+                                <x-team.member
+                                    :index="$loop->index + 1"
+                                    :fullName="$fullName"
+                                    :vacancy="$member['vacancy_name']"
+                                    :isModerator="$member['is_moderator']"
+                                />
+                            @else
+                                <x-team.member
+                                    class="bg-gray-50"
+                                    :index="$loop->index + 1"
+                                    :fullName="$fullName"
+                                    :vacancy="$member['vacancy_name']"
+                                    :isModerator="$member['is_moderator']"
+                                />
+                            @endif
+                        @endforeach
+                    </tbody>
+                </table>
+                <div class="border-t border-gray-300 px-4 py-2">
+                    Участников:
+                    {{ count($members) }}/{{ $this->flow["max_team_size"] }}
+                </div>
+            </div>
+        </section>
+        <section class="mt-6">
+            <x-page.heading>Вакансии</x-page.heading>
+            <div class="mt-6">
+                <ul
+                    class="overflow-hidden rounded border border-gray-300 shadow-sm shadow-gray-300"
+                >
+                    @foreach ($vacancies as $vacancy)
+                        <li
+                            class="border-b border-gray-200 bg-white px-4 py-2 transition-all duration-300 ease-in-out last:border-none hover:bg-sky-100 hover:text-sky-900"
+                        >
+                            {{ $vacancy["vacancy_name"] }}
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        </section>
     </div>
 </div>
