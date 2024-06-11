@@ -12,9 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users_teams', function (Blueprint $table) {
+            $table->uuid('id')->primary();
             $table->uuid('user_id');
             $table->uuid('team_id');
-            $table->primary(['user_id', 'team_id']);
+            $table->unique(['user_id', 'team_id']);
             $table->boolean('is_moderator')->default(0);
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->foreign('team_id')->references('id')->on('teams')->cascadeOnDelete();
