@@ -87,20 +87,22 @@ new #[Title("Задача")] class extends Component {
             </div>
         </section>
         <section class="mt-6">
-            <x-page.heading>Вакансии</x-page.heading>
-            <div class="mt-6">
-                <ul
-                    class="overflow-hidden rounded border border-gray-300 shadow-sm shadow-gray-300"
-                >
-                    @foreach ($vacancies as $vacancy)
-                        <li
-                            class="border-b border-gray-200 bg-white px-4 py-2 transition-all duration-300 ease-in-out last:border-none hover:bg-sky-100 hover:text-sky-900"
-                        >
-                            {{ $vacancy["vacancy_name"] }}
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
+            @if ($vacancies != [])
+                <x-page.heading>Вакансии</x-page.heading>
+                <div class="mt-6">
+                    <ul
+                        class="overflow-hidden rounded border border-gray-300 shadow-sm shadow-gray-300"
+                    >
+                        @foreach ($vacancies as $vacancy)
+                            <li
+                                class="border-b border-gray-200 bg-white px-4 py-2 transition-all duration-300 ease-in-out last:border-none hover:bg-sky-100 hover:text-sky-900"
+                            >
+                                {{ $vacancy["vacancy_name"] }}
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
         </section>
     </div>
 </div>
