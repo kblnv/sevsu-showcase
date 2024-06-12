@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 
 return new class extends Migration
 {
@@ -74,7 +75,7 @@ return new class extends Migration
         });
 
         Schema::create($tableNames['model_has_roles'], function (Blueprint $table) use ($tableNames, $columnNames, $pivotRole, $teams) {
-            $table->uuid('id')->primary()->unique()->default(0);
+            $table->uuid('id')->primary()->unique()->default((string) Str::uuid());
             $table->uuid($pivotRole);
 
             $table->string('model_type');
