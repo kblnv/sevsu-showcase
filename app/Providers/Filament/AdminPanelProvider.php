@@ -31,6 +31,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->font('resources/css/fonts/Myriad Pro')
             ->brandLogo(asset('images/logo/sevsu-logo-main.svg'))
+            ->brandLogoHeight('3rem')
             ->navigationGroups([
                 'Главная страница',
                 'Таблицы',
