@@ -8,4 +8,6 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateModelRole extends CreateRecord
 {
     protected static string $resource = ModelRoleResource::class;
+
+    protected static ?string $title = 'Присвоить Роль';
 }

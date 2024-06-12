@@ -10,6 +10,8 @@ class EditFlowGroups extends EditRecord
 {
     protected static string $resource = FlowGroupsResource::class;
 
+    protected static ?string $title = 'Редактировать Дисциплину';
+
     protected function getHeaderActions(): array
     {
         return [

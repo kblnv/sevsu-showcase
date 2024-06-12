@@ -8,4 +8,6 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateUserTeam extends CreateRecord
 {
     protected static string $resource = UserTeamResource::class;
+
+    protected static ?string $title = 'Добавить Пользователя';
 }
