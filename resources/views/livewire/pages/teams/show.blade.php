@@ -80,59 +80,29 @@ new #[Title("Задача")] class extends Component {
                 class="mt-6 overflow-x-auto rounded-lg border border-gray-300 text-sm shadow-sm shadow-gray-300"
                 x-cloak
             >
-                <table class="min-w-full divide-y-2 divide-gray-300 bg-white">
-                    <thead>
-                        <tr>
-                            <td class="px-4 py-2 font-myriad-bold">№</td>
-                            <td class="px-4 py-2 font-myriad-bold">ФИО</td>
-                            <td class="px-4 py-2 font-myriad-bold">Вакансия</td>
-                            <td class="px-4 py-2 font-myriad-bold">Роль</td>
-                        </tr>
-                    </thead>
-
-                    <tbody class="divide-y divide-gray-300">
-                        @foreach ($members as $key => $member)
-                            @php($fullName = "{$member["second_name"]} {$member["first_name"]} {$member["last_name"]}")
-                            @if ($key % 2 === 0)
-                                <x-team.member
-                                    :index="$loop->index + 1"
-                                    :fullName="$fullName"
-                                    :vacancy="$member['vacancy_name']"
-                                    :isModerator="$member['is_moderator']"
-                                />
-                            @else
-                                <x-team.member
-                                    class="bg-gray-50"
-                                    :index="$loop->index + 1"
-                                    :fullName="$fullName"
-                                    :vacancy="$member['vacancy_name']"
-                                    :isModerator="$member['is_moderator']"
-                                />
-                            @endif
-                        @endforeach
-                    </tbody>
-                </table>
-                <div class="border-t border-gray-300 px-4 py-2">
-                    Участников:
-                    {{ count($members) }}/{{ $this->flow["max_team_size"] }}
-                </div>
+            <x-team.table
+                :members="$members"
+                :maxTeamMembers="$this->flow['max_team_size']"
+            />
             </div>
         </section>
         <section class="mt-6">
-            <x-page.heading>Вакансии</x-page.heading>
-            <div class="mt-6">
-                <ul
-                    class="overflow-hidden rounded border border-gray-300 shadow-sm shadow-gray-300"
-                >
-                    @foreach ($vacancies as $vacancy)
-                        <li
-                            class="border-b border-gray-200 bg-white px-4 py-2 transition-all duration-300 ease-in-out last:border-none hover:bg-sky-100 hover:text-sky-900"
-                        >
-                            {{ $vacancy["vacancy_name"] }}
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
+            @if ($vacancies != [])
+                <x-page.heading>Вакансии</x-page.heading>
+                <div class="mt-6">
+                    <ul
+                        class="overflow-hidden rounded border border-gray-300 shadow-sm shadow-gray-300"
+                    >
+                        @foreach ($vacancies as $vacancy)
+                            <li
+                                class="border-b border-gray-200 bg-white px-4 py-2 transition-all duration-300 ease-in-out last:border-none hover:bg-sky-100 hover:text-sky-900"
+                            >
+                                {{ $vacancy["vacancy_name"] }}
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
         </section>
     </div>
 </div>
