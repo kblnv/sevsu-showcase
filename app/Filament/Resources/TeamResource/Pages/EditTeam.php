@@ -10,7 +10,7 @@ class EditTeam extends EditRecord
 {
     protected static string $resource = TeamResource::class;
 
-    protected static ?string $title = 'Изменить Команду';
+    protected static ?string $title = 'Редактировать Команду';
 
     protected function getHeaderActions(): array
     {

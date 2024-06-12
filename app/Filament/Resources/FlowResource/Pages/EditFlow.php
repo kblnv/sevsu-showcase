@@ -10,7 +10,7 @@ class EditFlow extends EditRecord
 {
     protected static string $resource = FlowResource::class;
 
-    protected static ?string $title = 'Изменить дисциплины';
+    protected static ?string $title = 'Редактировать Дисциплину';
 
     protected function getHeaderActions(): array
     {

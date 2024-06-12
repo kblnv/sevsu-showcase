@@ -8,4 +8,6 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateFlowGroups extends CreateRecord
 {
     protected static string $resource = FlowGroupsResource::class;
+
+    protected static ?string $title = 'Добавить Дисциплину';
 }

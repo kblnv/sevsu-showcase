@@ -10,7 +10,7 @@ class EditTag extends EditRecord
 {
     protected static string $resource = TagResource::class;
 
-    protected static ?string $title = 'Изменить Тэг';
+    protected static ?string $title = 'Редактировать Тэг';
 
     protected function getHeaderActions(): array
     {
