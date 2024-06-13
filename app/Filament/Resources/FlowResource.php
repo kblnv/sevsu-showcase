@@ -51,7 +51,7 @@ class FlowResource extends Resource
                     ->label('Начало командооборазования'),
                 DateTimePicker::make('finish_before')
                     ->required()
-                    ->label('Конец командооборазования'), // Добавить валидацию
+                    ->label('Конец командооборазования'),
                 Checkbox::make('can_create_task')
                     ->default(0)
                     ->label('Можно создавать свои команды'),
