@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Exports\TaskExporter;
+use App\Filament\Imports\TaskImporter;
 use App\Filament\Resources\TaskResource\Pages;
 use App\Models\Flow;
 use App\Models\Tag;
@@ -12,6 +14,8 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\ExportAction;
+use Filament\Tables\Actions\ImportAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -49,6 +53,10 @@ class TaskResource extends Resource
                     ->searchable()
                     ->options(Flow::pluck('flow_name', 'id'))
                     ->required()
+                    ->rules('gt:0')
+                    ->validationMessages([
+                        'gt' => 'Значение должно быть больше 0.',
+                    ])
                     ->label('Дисциплина'),
                 Select::make('tags')
                     ->multiple()
@@ -70,6 +78,12 @@ class TaskResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->headerActions([
+                ImportAction::make()
+                    ->importer(TaskImporter::class),
+                ExportAction::make()
+                    ->exporter(TaskExporter::class),
+            ])
             ->columns([
                 TextColumn::make('task_name')
                     ->searchable()
