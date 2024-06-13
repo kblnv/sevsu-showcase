@@ -21,17 +21,25 @@ interface TeamContract
 
     public function isFlowHasTeam(string $flowId, string $teamName): bool;
 
-    public function hasUserTeam(string $flowId, string $userId): bool;
+    public function isUserHasTeam(string $flowId, string $userId): bool;
 
     public function canCreateTeam(string $taskId, string $userId): bool;
 
     public function getTeam(string $teamId): ?Team;
 
+    public function addMember(string $userId, string $teamId): void;
+
     public function deleteMember(string $userId, string $teamId): void;
 
     public function getTeamVacancies(string $teamId): array;
 
-    public function updateTeam(string $teamId, string $teamName, string $teamDescription): void;
+    public function updateTeam(string $flowId, string $teamId, string $teamName, string $teamDescription): void;
+
+    public function deleteTeam(string $teamId): void;
+
+    public function createVacancy(string $vacancyName, string $teamId, ?string $userId = null): void;
+
+    public function deleteVacancy(string $vacancyId): void;
 
     public function setVacancy(string $vacancyId, string $userId): void;
 
