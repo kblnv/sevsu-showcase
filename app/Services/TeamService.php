@@ -91,6 +91,50 @@ class TeamService implements TeamContract
             ->first();
     }
 
+    public function createTeam(string $teamName, string $taskId, ?string $teamDescription = null, ?string $password = null): void
+    {
+        $team = Team::create([
+            'team_name' => $teamName,
+            'team_description' => $teamDescription,
+            'password' => Hash::make($password),
+            'task_id' => $taskId,
+        ]);
+
+        UserTeam::create([
+            'team_id' => $team->id,
+            'user_id' => Auth::id(),
+            'is_moderator' => 1,
+        ]);
+    }
+
+    public function updateTeam(string $flowId, string $teamId, string $teamName, string $teamDescription): void
+    {
+        $uniqueTeam = $this->isFlowHasTeam($flowId, $teamName);
+
+        if (!$uniqueTeam) {
+            Team::where('id', $teamId)
+                ->update([
+                    'team_name' => $teamName,
+                    'team_description' => $teamDescription,
+                ]);
+        }
+    }
+
+    public function deleteTeam(string $teamId): void
+    {
+        $team = Team::find($teamId);
+
+        $team?->delete();
+    }
+
+    public function addMember(string $userId, string $teamId): void
+    {
+        UserTeam::createOrFirst([
+            'user_id' => $userId,
+            'team_id' => $teamId,
+        ]);
+    }
+
     public function deleteMember(string $userId, string $teamId): void
     {
         $member = UserTeam::where([
@@ -102,25 +146,41 @@ class TeamService implements TeamContract
         $member?->delete();
     }
 
+    public function createVacancy(string $vacancyName, string $teamId, ?string $userId = null): void
+    {
+        Vacancy::createOrFirst([
+            'vacancy_name' => $vacancyName,
+            'team_id' => $teamId,
+            'user_id' => $userId,
+        ]);
+    }
+
+    public function deleteVacancy(string $vacancyId): void
+    {
+        $vacancy = Vacancy::find($vacancyId);
+
+        $vacancy?->delete();
+    }
+
     public function setVacancy(string $vacancyId, string $userId): void
     {
         Vacancy::where('id', $vacancyId)
             ->update(['user_id' => $userId]);
     }
 
-    public function updateTeam(string $teamId, string $teamName, string $teamDescription): void
-    {
-        Team::where('id', $teamId)
-            ->update([
-                'team_name' => $teamName,
-                'team_description' => $teamDescription,
-            ]);
-    }
-
     public function setPassword(string $teamId, string $password): void
     {
         Team::where('id', $teamId)
             ->update(['password' => Hash::make($password)]);
+    }
+
+    public function setModerator(string $teamId, string $userId, bool $isModerator = true): void
+    {
+        UserTeam::where([
+            ['user_id', $userId],
+            ['team_id', $teamId],
+        ])
+            ->update(['is_moderator' => $isModerator]);
     }
 
     public function isModerator(string $teamId, string $userId): ?bool
@@ -183,7 +243,7 @@ class TeamService implements TeamContract
             ->exists();
     }
 
-    public function hasUserTeam(string $flowId, string $userId): bool
+    public function isUserHasTeam(string $flowId, string $userId): bool
     {
         return Team::join('tasks', 'teams.task_id', 'tasks.id')
             ->where('tasks.flow_id', $flowId)
@@ -192,34 +252,14 @@ class TeamService implements TeamContract
             ->exists();
     }
 
-    public function createTeam(string $teamName, string $taskId, ?string $teamDescription = null, ?string $password = null): void
-    {
-        $userId = Auth::id();
-
-        if ($this->canCreateTeam($taskId, $userId)) {
-            $team = Team::create([
-                'team_name' => $teamName,
-                'team_description' => $teamDescription,
-                'password' => Hash::make($password),
-                'task_id' => $taskId,
-            ]);
-
-            UserTeam::create([
-                'team_id' => $team->id,
-                'user_id' => $userId,
-                'is_moderator' => 1,
-            ]);
-        }
-    }
-
     public function canCreateTeam(string $taskId, string $userId): bool
     {
         $flow = Flows::getFlowByTask($taskId);
 
-        $userHasTeam = $this->hasUserTeam($flow->id, $userId);
+        $userHasTeam = $this->isUserHasTeam($flow->id, $userId);
 
         $remainingPlaces = Tasks::getRemainingTeamsCount($taskId);
 
-        return (! $userHasTeam) && ($remainingPlaces > 0);
+        return (!$userHasTeam) && ($remainingPlaces > 0);
     }
 }
