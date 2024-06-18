@@ -20,6 +20,7 @@ new #[Title("Задача")] class extends Component {
 
     public bool $modalTeamChange = false;
     public bool $modalAddVacancy = false;
+    public bool $modalEnterTeam = false;
 
     public function showModalTeamChange() {
         $this->modalTeamChange = true;
@@ -35,6 +36,14 @@ new #[Title("Задача")] class extends Component {
 
     public function closeModalAddVacancy() {
         $this->modalAddVacancy = false;
+    }
+
+    public function showModalEnterTeam() {
+        $this->modalEnterTeam = true;
+    }
+
+    public function closeModalEnterTeam() {
+        $this->modalEnterTeam = false;
     }
 
     public function switchTab(string $tabName): void
@@ -103,9 +112,6 @@ new #[Title("Задача")] class extends Component {
                 @endif
             </x-description-list.root>
 
-            @if ($canCreateTeam)
-                <x-button>Вступить в команду</x-button>
-            @endif
         </section>
         <section class="mt-6">
             <x-page.heading>Участники команды</x-page.heading>
@@ -172,6 +178,24 @@ new #[Title("Задача")] class extends Component {
                 </div>
             </div>
         </div>
+        @endif
+        @if ($canCreateTeam)
+            <x-button class="mt-6" wire:click="showModalEnterTeam">Вступить в команду</x-button>
+        @endif
+        @if ($modalEnterTeam)
+            <div class="fixed inset-0 z-50 flex items-center justify-center">
+                <div class="fixed inset-0 bg-black opacity-50"></div>
+                <div class="relative bg-white rounded-lg shadow-lg w-full max-w-md p-6">
+                    <h2 class="text-xl font-semibold mb-4">Вступить в команду {{ $team['team_name'] }}</h2>
+                    <x-input
+                        placeholder="Введите пароль"
+                    />
+                    <div class="flex justify-end space-x-4 mt-4">
+                        <button class="text-gray-600 hover:text-gray-800" wire:click="closeModalEnterTeam">Отмена</button>
+                        <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded" wire:click="closeModalEnterTeam">Вступить</button>
+                    </div>
+                </div>
+            </div>
         @endif
     </div>
 </div>
