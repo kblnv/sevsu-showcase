@@ -2,18 +2,27 @@
 
 use Livewire\Volt\Component;
 use App\Facades\Teams;
+use App\Models\Team;
 use App\Models\Flow;
 use App\Models\Task;
 use Livewire\Attributes\Reactive;
 
 new class extends Component {
-    public string $teamName = "";
-    public string $teamDescription = "";
-    public string $password = "";
-
     #[Reactive]
+    public ?Team $team = null;
     public ?Task $task = null;
     public ?Flow $flow = null;
+    public ?bool $isChanging = false;
+
+    public string $teamName = '';
+    public string $teamDescription = '';
+    public string $password = '';
+
+    public function mount() {
+        $this->teamName = $this->team?->team_name ?? '';
+        $this->teamDescription = $this->team?->team_description ?? '';
+        $this->password = $this->team?->password ?? '';
+    }
 
     public function rules(): array
     {
@@ -104,9 +113,11 @@ new class extends Component {
         </label>
         <x-input id="password" type="password" wire:model="password" />
     </div>
-    <div class="mt-4">
-        <x-button type="submit" element="button" variant="blue">
-            Создать команду
-        </x-button>
-    </div>
+    @if (!$isChanging)
+        <div class="mt-4">
+            <x-button type="submit" element="button" variant="blue">
+                Создать команду
+            </x-button>
+        </div>
+    @endif
 </form>

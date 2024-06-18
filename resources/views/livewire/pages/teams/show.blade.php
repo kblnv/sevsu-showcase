@@ -18,6 +18,16 @@ new #[Title("Задача")] class extends Component {
     public ?bool $canCreateTeam = null;
     public ?bool $isModerator = null;
 
+    public bool $modalTeamChange = false;
+
+    public function showModalTeamChange() {
+        $this->modalTeamChange = true;
+    }
+
+    public function closeModalTeamChange() {
+        $this->modalTeamChange = false;
+    }
+
     public function switchTab(string $tabName): void
     {
         $this->currentTab = $tabName;
@@ -30,7 +40,7 @@ new #[Title("Задача")] class extends Component {
         $this->flow = Flow::find($this->task["flow_id"]);
         $this->members = Teams::getMembersByTeam($team["id"]);
         $this->vacancies = Teams::getTeamVacancies($team["id"]);
-
+        
         $this->canCreateTeam = Teams::canCreateTeam(
             $this->task["id"],
             Auth::id(),
@@ -50,7 +60,14 @@ new #[Title("Задача")] class extends Component {
         class="mt-8 flex flex-col gap-2 overflow-hidden border border-gray-300 bg-sevsu-white px-6 py-4"
     >
         <section>
-            <x-page.heading>Информация о команде</x-page.heading>
+            <div class="flex justify-between items-end">
+                <x-page.heading class="mr-auto">Информация о команде</x-page.heading>
+                @if ($isModerator)
+                    <x-button element="button" variant="blue" wire:click="showModalTeamChange">
+                        Изменить
+                    </x-button>
+                @endif
+            </div>
             <x-description-list.root>
                 <x-description-list.item
                     term="Название команды"
@@ -68,6 +85,13 @@ new #[Title("Задача")] class extends Component {
                     :link="route('tasks.show', ['flow' => $flow['id'], 'task' => $task['id']])"
                     :description="$task['task_name']"
                 />
+
+                @if ($isModerator)
+                    <x-description-list.item
+                        term="Пароль"
+                        :description="$team['password']"
+                    />
+                @endif
             </x-description-list.root>
 
             @if ($canCreateTeam)
@@ -86,23 +110,40 @@ new #[Title("Задача")] class extends Component {
             />
             </div>
         </section>
-        <section class="mt-6">
-            @if ($vacancies != [])
+        @if ($isModerator)
+            <section class="mt-6">                
                 <x-page.heading>Вакансии</x-page.heading>
-                <div class="mt-6">
-                    <ul
-                        class="overflow-hidden rounded border border-gray-300 shadow-sm shadow-gray-300"
-                    >
-                        @foreach ($vacancies as $vacancy)
-                            <li
-                                class="border-b border-gray-200 bg-white px-4 py-2 transition-all duration-300 ease-in-out last:border-none hover:bg-sky-100 hover:text-sky-900"
-                            >
-                                {{ $vacancy["vacancy_name"] }}
-                            </li>
-                        @endforeach
-                    </ul>
+                    @if ($vacancies != [])
+                    <div class="mt-6">
+                        <ul
+                            class="overflow-hidden rounded border border-gray-300 shadow-sm shadow-gray-300"
+                        >
+                            @foreach ($vacancies as $vacancy)
+                                <li
+                                    class="border-b border-gray-200 bg-white px-4 py-2 transition-all duration-300 ease-in-out last:border-none hover:bg-sky-100 hover:text-sky-900"
+                                >
+                                    {{ $vacancy["vacancy_name"] }}
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
+                    <div>Вакансий нет</div>
+            </section>
+        @endif
+
+        @if ($modalTeamChange)
+        <div class="fixed inset-0 z-50 flex items-center justify-center">
+            <div class="fixed inset-0 bg-black opacity-50"></div>
+            <div class="relative bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-lg font-semibold mb-4">Изменение данных о команде</h2>
+                <livewire:components.team-form :isChanging="true" :team="$team"/>
+                <div class="mt-6 flex justify-end">
+                    <button class="text-gray-600 hover:text-gray-800 mr-4" wire:click="closeModalTeamChange">Отмена</button>
+                    <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded" wire:click="closeModalTeamChange">Сохранить</button>
                 </div>
-            @endif
-        </section>
+            </div>
+        </div>
+        @endif
     </div>
 </div>
