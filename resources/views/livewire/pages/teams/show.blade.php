@@ -19,6 +19,7 @@ new #[Title("Задача")] class extends Component {
     public ?bool $isModerator = null;
 
     public bool $modalTeamChange = false;
+    public bool $modalAddVacancy = false;
 
     public function showModalTeamChange() {
         $this->modalTeamChange = true;
@@ -26,6 +27,14 @@ new #[Title("Задача")] class extends Component {
 
     public function closeModalTeamChange() {
         $this->modalTeamChange = false;
+    }
+
+    public function showModalAddVacancy() {
+        $this->modalAddVacancy = true;
+    }
+
+    public function closeModalAddVacancy() {
+        $this->modalAddVacancy = false;
     }
 
     public function switchTab(string $tabName): void
@@ -128,18 +137,37 @@ new #[Title("Задача")] class extends Component {
                         </ul>
                     </div>
                     @endif
-                    <div>Вакансий нет</div>
+                    <div class="mt-6">У данной команды нет вакансий</div>
+                    <x-button element="button" variant="blue" wire:click="showModalAddVacancy" class="mt-6">
+                        Добавить 
+                    </x-button>
+                    @if ($modalAddVacancy)
+                    <div class="fixed inset-0 z-50 flex items-center justify-center">
+                        <div class="fixed inset-0 bg-black opacity-50"></div>
+                        <div class="relative bg-white rounded-lg shadow-lg w-full max-w-md p-6">
+                            <h2 class="text-xl font-semibold mb-4">Добавление новой вакансии</h2>
+                            <x-input
+                                class="mb-4"
+                                placeholder="Название новой вакансии"
+                            />
+                            <div class="flex justify-end space-x-4">
+                                <button class="text-gray-600 hover:text-gray-800" wire:click="closeModalAddVacancy">Отмена</button>
+                                <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded" wire:click="closeModalAddVacancy">Сохранить</button>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
             </section>
         @endif
 
         @if ($modalTeamChange)
         <div class="fixed inset-0 z-50 flex items-center justify-center">
             <div class="fixed inset-0 bg-black opacity-50"></div>
-            <div class="relative bg-white rounded-lg shadow-lg p-6">
-                <h2 class="text-lg font-semibold mb-4">Изменение данных о команде</h2>
-                <livewire:components.team-form :isChanging="true" :team="$team"/>
-                <div class="mt-6 flex justify-end">
-                    <button class="text-gray-600 hover:text-gray-800 mr-4" wire:click="closeModalTeamChange">Отмена</button>
+            <div class="relative bg-white rounded-lg shadow-lg w-full max-w-md p-6">
+                <h2 class="text-xl font-semibold mb-4">Изменение данных о команде</h2>
+                <livewire:components.team-form :isChanging="true" :team="$team" />
+                <div class="flex justify-end space-x-4 mt-4">
+                    <button class="text-gray-600 hover:text-gray-800" wire:click="closeModalTeamChange">Отмена</button>
                     <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded" wire:click="closeModalTeamChange">Сохранить</button>
                 </div>
             </div>
