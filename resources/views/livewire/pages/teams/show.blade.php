@@ -119,10 +119,7 @@ new #[Title("Задача")] class extends Component {
                 class="mt-6 overflow-x-auto rounded-lg border border-gray-300 text-sm shadow-sm shadow-gray-300"
                 x-cloak
             >
-            <x-team.table
-                :members="$members"
-                :maxTeamMembers="$this->flow['max_team_size']"
-            />
+                <livewire:components.table :members="$members" :maxTeamMembers="$this->flow['max_team_size']" :isModerator="$isModerator" :vacancies="$vacancies" />
             </div>
         </section>
         @if ($isModerator)
