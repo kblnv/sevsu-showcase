@@ -43,6 +43,8 @@ interface TeamContract
 
     public function setVacancy(string $vacancyId, string $userId): void;
 
+    public function unsetVacancy(string $teamId, string $userId): void;
+
     public function setPassword(string $teamId, string $password): void;
 
     public function isModerator(string $teamId, string $userId): ?bool;
