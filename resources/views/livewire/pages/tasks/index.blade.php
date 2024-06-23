@@ -14,6 +14,8 @@ use Illuminate\Pagination\LengthAwarePaginator;
 new #[Title("Банк задач")] class extends Component {
     use WithCustomPagination;
 
+    public $randomArray;
+
     #[Url]
     public string $selectedFlow = "";
 
@@ -47,6 +49,7 @@ new #[Title("Банк задач")] class extends Component {
         ) {
             $this->selectedFlow = $this->flows()->first()->flow_name ?? "";
         }
+        $this->randomArray = session('randomArray', []);     
     }
 };
 ?>
@@ -55,25 +58,37 @@ new #[Title("Банк задач")] class extends Component {
     @if ($selectedFlow == "")
         <x-page.heading>Вы не прикреплены ни к одной дисциплине</x-page.heading>
     @else
-        <x-select
-            id="flow"
-            label="Выберите дисциплину для отображения:"
-            wire:model.live="selectedFlow"
-            wire:change="setPage(1)"
-        >
-            <option value="" disabled>Дисциплина</option>
-            @foreach ($this->flows as $flow)
-                @if ($flow->flow_name == $selectedFlow)
-                    <option value="{{ $flow->flow_name }}" selected>
-                        {{ $flow->flow_name }}
-                    </option>
-                @else
-                    <option value="{{ $flow->flow_name }}">
-                        {{ $flow->flow_name }}
-                    </option>
-                @endif
-            @endforeach
-        </x-select>
+    <div class="flex justify-between">
+        <div>
+            <x-select
+                id="flow"
+                label="Выберите дисциплину для отображения:"
+                wire:model.live="selectedFlow"
+                wire:change="setPage(1)"
+            >
+                <option value="" disabled>Дисциплина</option>
+                @foreach ($this->flows as $flow)
+                    @if ($flow->flow_name == $selectedFlow)
+                        <option value="{{ $flow->flow_name }}" selected>
+                            {{ $flow->flow_name }}
+                        </option>
+                    @else
+                        <option value="{{ $flow->flow_name }}">
+                            {{ $flow->flow_name }}
+                        </option>
+                    @endif
+                @endforeach
+            </x-select>
+        </div>
+        <div class="bg-gray-100 p-4 rounded shadow-md">
+            <h1 class="text-2xl font-bold mb-4">Массив дня:</h1>
+            <div class="flex flex-wrap">
+                @foreach ($randomArray as $item)
+                    <span class="mr-2">{{ $item }}</span>
+                @endforeach
+            </div>
+        </div>
+    </div>
 
         @if ($this->currentTasks->count() == 0)
             <x-page.heading class="mt-8">
