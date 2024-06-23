@@ -12,6 +12,10 @@ class TaskImporter extends Importer
 {
     protected static ?string $model = Task::class;
 
+    private static bool $importFailure = false;
+
+    private static int $failureCounter = 0;
+
     public static function getColumns(): array
     {
         return [
@@ -41,6 +45,9 @@ class TaskImporter extends Importer
         $flow = Flow::where('flow_name', $this->data['flow_name'])->first();
 
         if (! $flow) {
+            TaskImporter::$importFailure = true;
+            TaskImporter::$failureCounter++;
+
             return null;
         }
 
@@ -57,10 +64,13 @@ class TaskImporter extends Importer
 
     public static function getCompletedNotificationBody(Import $import): string
     {
-        $body = 'Импортирование задач выполнено и '.number_format($import->successful_rows).' '.str('задач').' импортировано.';
 
-        if ($failedRowsCount = $import->getFailedRowsCount()) {
-            $body .= ' '.number_format($failedRowsCount).' '.str('задач').' не удалось импортировать.';
+        $body = 'Импортирование задач завершено. '.number_format($import->getFailedRowsCount()).' '.str('задач').' импортировано.';
+
+        if (TaskImporter::$importFailure) {
+            $body .= ' '.number_format(TaskImporter::$failureCounter).' '.str('задач').' не удалось импортировать.';
+            TaskImporter::$importFailure = false;
+            TaskImporter::$failureCounter = 0;
         }
 
         return $body;
