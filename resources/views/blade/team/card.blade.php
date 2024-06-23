@@ -20,7 +20,7 @@
 
         @if ($team["team_description"] != "")
             <x-card.text class="mt-4">
-                {{ Str::limit($team["team_description"], 1024) }}
+                {!! Str::limit($team["team_description"], 1024) !!}
             </x-card.text>
         @endif
     </x-card.body>
