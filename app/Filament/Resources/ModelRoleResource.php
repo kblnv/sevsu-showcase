@@ -13,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Gate;
 
 class ModelRoleResource extends Resource
 {
@@ -111,5 +112,10 @@ class ModelRoleResource extends Resource
             'create' => Pages\CreateModelRole::route('/create'),
             // 'edit' => Pages\EditModelRole::route('/{record}/edit'),
         ];
+    }
+
+    public static function canViewAny(): bool
+    {
+        return Gate::allows('admin-resource');
     }
 }

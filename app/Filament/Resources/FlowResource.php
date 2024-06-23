@@ -18,6 +18,8 @@ use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\Indicator;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Gate;
 
 class FlowResource extends Resource
 {
@@ -135,5 +137,23 @@ class FlowResource extends Resource
             'create' => Pages\CreateFlow::route('/create'),
             'edit' => Pages\EditFlow::route('/{record}/edit'),
         ];
+    }
+
+    public static function canCreate(): bool
+    {
+        if (! Gate::allows('admin-resource')) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public static function canEdit(Model $record): bool
+    {
+        if (! Gate::allows('admin-resource')) {
+            return false;
+        }
+
+        return true;
     }
 }
