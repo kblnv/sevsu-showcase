@@ -168,6 +168,16 @@ class TeamService implements TeamContract
             ->update(['user_id' => $userId]);
     }
 
+    public function unsetVacancy(string $teamId, string $userId): void
+    {
+        Vacancy::where([
+            ['team_id', $teamId],
+            ['user_id', $userId],
+        ])
+            ->update(['user_id' => null]);
+    }
+
+
     public function setPassword(string $teamId, string $password): void
     {
         Team::where('id', $teamId)
