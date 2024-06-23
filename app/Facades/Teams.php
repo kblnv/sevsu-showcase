@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static array getTeamVacancies(string $teamId)
  * @method static void updateTeam(string $teamId, string $teamName, string $teamDescription)
  * @method static void setVacancy(string $vacancyId, string $userId)
+ * @method static void unsetVacancy(string $teamId, string $userId)
  * @method static void setPassword(string $teamId, string $password)
  * @method static bool isModerator(string $teamId, string $userId)
  */
