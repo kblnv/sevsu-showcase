@@ -24,18 +24,31 @@ new class extends Component {
         $this->password = $this->team?->password ?? '';
     }
 
-    public function rules(): array
+    public function handleTeamChange() {
+        $this->validate([
+            'teamDescription' => 'nullable|string|min:5',
+        ]); 
+        Teams::updateTeam($this->flow['id'], $this->team['id'], $this->teamName, $this->teamDescription, $this->isChanging);
+        Teams::setPassword($this->team['id'], $this->password);
+        $this->js('window.location.reload()');
+    }
+
+    public function createTeam()
     {
-        return [
-            "teamName" => [
-                "required",
-                "string",
-                "min:5",
-                "unique_team_flow:" . $this->flow["id"],
-            ],
-            "teamDescription" => "nullable|string|min:10",
-            "password" => "nullable",
-        ];
+        $this->validate([
+                'teamName' => 'required|string|min:5|unique_team_flow:' . $this->flow['id'],
+                'teamDescription' => 'nullable|string|min:10',
+                'password' => 'nullable',
+            ]);
+
+        Teams::createTeam(
+            $this->teamName,
+            $this->task["id"],
+            $this->teamDescription,
+            $this->password,
+        );
+
+        return $this->redirectRoute("my-teams.index");
     }
 
     public function messages(): array
@@ -51,19 +64,6 @@ new class extends Component {
         ];
     }
 
-    public function createTeam()
-    {
-        $this->validate();
-
-        Teams::createTeam(
-            $this->teamName,
-            $this->task["id"],
-            $this->teamDescription,
-            $this->password,
-        );
-
-        return $this->redirectRoute("my-teams.index");
-    }
 }; ?>
 
 <form class="flex flex-col gap-4 py-6" wire:submit="createTeam">
@@ -75,7 +75,7 @@ new class extends Component {
             Название команды *
         </label>
         <x-input
-            class="{{ $errors->has('teamName') ? 'border-red-700' : '' }}"
+            class="{{ $errors->has('teamName')  ? 'border-red-700' : '' }}"
             id="team-name"
             wire:model="teamName"
         />
@@ -111,7 +111,7 @@ new class extends Component {
         >
             Пароль
         </label>
-        <x-input id="password" type="password" wire:model="password" />
+        <x-input id="password" type="password" wire:model.live="password" />
     </div>
     @if (!$isChanging)
         <div class="mt-4">
@@ -119,5 +119,7 @@ new class extends Component {
                 Создать команду
             </x-button>
         </div>
+        @else
+            <button class="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded" wire:click="handleTeamChange">Сохранить</button> 
     @endif
 </form>

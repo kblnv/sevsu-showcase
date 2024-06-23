@@ -2,17 +2,21 @@
 
 use Livewire\Attributes\Reactive;
 use Livewire\Volt\Component;
+use App\Models\Team;
+use App\Facades\Teams;
 
 new class extends Component {
     #[Reactive]
     public array $members =[];
     public int $maxTeamMembers;
+    public ?Team $team = null;
 
     public ?bool $isModerator = null;
     public ?array $vacancies = null;
 
     public bool $modalEditUser = false;
     public ?array $selectedMember = null;
+    public string $selectedVacancy = "";
 
     public function showModalEditUser($member) {
         if ($this->isModerator)
@@ -23,6 +27,21 @@ new class extends Component {
     public function closeModalEditUser() {
         $this->modalEditUser = false;
         $this->selectedMember = null;
+    }
+
+    public function handleEditMember() {
+        if ($this->selectedMember && $this->selectedVacancy) {
+            Teams::setVacancy($this->selectedVacancy, $this->selectedMember['id']);
+        }
+        else {
+            Teams::unsetVacancy($this->team['id'], $this->selectedMember['id']);
+        }
+        $this->js('window.location.reload()'); 
+    }
+
+    public function handleDeleteMember() {
+        Teams::deleteMember($this->selectedMember['id'], $this->team['id']);
+        $this->js('window.location.reload()'); 
     }
 }; ?>
 
@@ -78,19 +97,19 @@ new class extends Component {
 
             <h2 class="text-xl font-semibold mb-4">Изменить вакансию</h2>
             <select id="vacancy" wire:model="selectedVacancy" class="border border-gray-300 rounded px-3 py-2 bg-white w-full focus:outline-none text-lg">
-                <option value="">Нет вакансии</option>
+                <option value="NULL">Нет вакансии</option>
                 @foreach ($vacancies as $vacancy)
-                    <option value="{{ $vacancy['vacancy_name'] }}">{{ $vacancy['vacancy_name'] }}</option>
+                    <option value="{{ $vacancy['id'] }}">{{ $vacancy['vacancy_name'] }}</option>
                 @endforeach
             </select>
             
             @if (!$selectedMember['is_moderator'])
-                <button class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded mt-6">Удалить из команды</button>
+                <button class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded mt-6" wire:click="handleDeleteMember">Удалить из команды</button>
             @endif
     
             <div class="flex justify-end space-x-4 mt-4">
                 <button class="text-gray-600 hover:text-gray-800" wire:click="closeModalEditUser">Отмена</button>
-                <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded" wire:click="closeModalEditUser">Сохранить</button>
+                <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded" wire:click="handleEditMember">Сохранить</button>
             </div>
         </div>
     </div>

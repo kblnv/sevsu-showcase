@@ -7,6 +7,7 @@ use App\Models\Team;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Title;
+use Illuminate\Support\Facades\Hash;
 
 new #[Title("Задача")] class extends Component {
     public ?Team $team = null;
@@ -21,6 +22,10 @@ new #[Title("Задача")] class extends Component {
     public bool $modalTeamChange = false;
     public bool $modalAddVacancy = false;
     public bool $modalEnterTeam = false;
+
+    public ?string $passwordError = null;
+    public string $password = "";
+    public string $nameOfVacancy = "";
 
     public function showModalTeamChange() {
         $this->modalTeamChange = true;
@@ -44,6 +49,23 @@ new #[Title("Задача")] class extends Component {
 
     public function closeModalEnterTeam() {
         $this->modalEnterTeam = false;
+    }
+
+    public function handleAddVacancy() {
+        Teams::createVacancy($this->nameOfVacancy, $this->team['id']);
+        $this->js('window.location.reload()'); 
+    }
+
+    public function handleEnterTeam() {
+        $this->passwordError = null; 
+
+        $hashedPassword = Hash::make($this->password);
+        if (Hash::check($hashedPassword, $this->team['password'])) {
+            Teams::addMember(Auth::id(), $this->team['id']);
+            $this->js('window.location.reload()');
+        } else {
+            $this->passwordError = "Неправильный пароль";
+        }
     }
 
     public function switchTab(string $tabName): void
@@ -103,13 +125,6 @@ new #[Title("Задача")] class extends Component {
                     :link="route('tasks.show', ['flow' => $flow['id'], 'task' => $task['id']])"
                     :description="$task['task_name']"
                 />
-
-                @if ($isModerator)
-                    <x-description-list.item
-                        term="Пароль"
-                        :description="$team['password']"
-                    />
-                @endif
             </x-description-list.root>
 
         </section>
@@ -119,7 +134,7 @@ new #[Title("Задача")] class extends Component {
                 class="mt-6 overflow-x-auto rounded-lg border border-gray-300 text-sm shadow-sm shadow-gray-300"
                 x-cloak
             >
-                <livewire:components.table :members="$members" :maxTeamMembers="$this->flow['max_team_size']" :isModerator="$isModerator" :vacancies="$vacancies" />
+                <livewire:components.table :team="$team" :members="$members" :maxTeamMembers="$this->flow['max_team_size']" :isModerator="$isModerator" :vacancies="$vacancies" />
             </div>
         </section>
         @if ($isModerator)
@@ -140,7 +155,9 @@ new #[Title("Задача")] class extends Component {
                         </ul>
                     </div>
                     @endif
-                    <div class="mt-6">У данной команды нет вакансий</div>
+                    @if ($vacancies == [])
+                        <div class="mt-6">У данной команды нет вакансий</div>
+                    @endif
                     <x-button element="button" variant="blue" wire:click="showModalAddVacancy" class="mt-6">
                         Добавить 
                     </x-button>
@@ -150,12 +167,13 @@ new #[Title("Задача")] class extends Component {
                         <div class="relative bg-white rounded-lg shadow-lg w-full max-w-md p-6">
                             <h2 class="text-xl font-semibold mb-4">Добавление новой вакансии</h2>
                             <x-input
+                                wire:model="nameOfVacancy"
                                 class="mb-4"
                                 placeholder="Название новой вакансии"
                             />
                             <div class="flex justify-end space-x-4">
                                 <button class="text-gray-600 hover:text-gray-800" wire:click="closeModalAddVacancy">Отмена</button>
-                                <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded" wire:click="closeModalAddVacancy">Сохранить</button>
+                                <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded" wire:click="handleAddVacancy">Сохранить</button>
                             </div>
                         </div>
                     </div>
@@ -168,10 +186,9 @@ new #[Title("Задача")] class extends Component {
             <div class="fixed inset-0 bg-black opacity-50"></div>
             <div class="relative bg-white rounded-lg shadow-lg w-full max-w-md p-6">
                 <h2 class="text-xl font-semibold mb-4">Изменение данных о команде</h2>
-                <livewire:components.team-form :isChanging="true" :team="$team" />
-                <div class="flex justify-end space-x-4 mt-4">
+                <livewire:components.team-form :isChanging="true" :team="$team" :flow="$flow" :task="$task"/>
+                <div class="flex justify-center">
                     <button class="text-gray-600 hover:text-gray-800" wire:click="closeModalTeamChange">Отмена</button>
-                    <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded" wire:click="closeModalTeamChange">Сохранить</button>
                 </div>
             </div>
         </div>
@@ -184,12 +201,18 @@ new #[Title("Задача")] class extends Component {
                 <div class="fixed inset-0 bg-black opacity-50"></div>
                 <div class="relative bg-white rounded-lg shadow-lg w-full max-w-md p-6">
                     <h2 class="text-xl font-semibold mb-4">Вступить в команду {{ $team['team_name'] }}</h2>
-                    <x-input
-                        placeholder="Введите пароль"
-                    />
+                    <div class="relative">
+                        <x-input
+                            placeholder="Введите пароль"
+                            wire:model="password"
+                        />
+                        @if ($passwordError)
+                            <div class="text-red-500 text-sm mt-1">{{ $passwordError }}</div>
+                        @endif
+                    </div>
                     <div class="flex justify-end space-x-4 mt-4">
                         <button class="text-gray-600 hover:text-gray-800" wire:click="closeModalEnterTeam">Отмена</button>
-                        <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded" wire:click="closeModalEnterTeam">Вступить</button>
+                        <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded" wire:click="handleEnterTeam">Вступить</button>
                     </div>
                 </div>
             </div>
