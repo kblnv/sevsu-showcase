@@ -15,13 +15,13 @@ new class extends Component {
     public ?bool $isChanging = false;
 
     public string $teamName = '';
-    public string $teamDescription = '';
+    public ?string $teamDescription = null; // Updated type to string
+
     public string $password = '';
 
     public function mount() {
         $this->teamName = $this->team?->team_name ?? '';
         $this->teamDescription = $this->team?->team_description ?? '';
-        $this->password = $this->team?->password ?? '';
     }
 
     public function handleTeamChange() {
@@ -93,10 +93,29 @@ new class extends Component {
         >
             Описание команды
         </label>
-        <x-textarea
-            class="{{ $errors->has('teamDescription') ? 'border-red-700' : '' }}"
-            wire:model="teamDescription"
-        ></x-textarea>
+        <div id="toolbar" wire:ignore>
+            <button class="ql-bold">Жирный</button>
+            <button class="ql-italic">Курсив</button>
+            <button class="ql-underline">Подчеркнутый</button>
+            <button class="ql-link">Вставить ссылку</button>
+        </div>
+        <div id="editor" wire:ignore wire:model.debounce.500ms="teamDescription" x-data x-init="
+            let quill = new Quill('#editor', {
+                theme: 'snow',
+                placeholder: 'Введите описание команды',
+                modules: {
+                    toolbar: '#toolbar'
+                }
+            });
+
+            let editorContainer = document.getElementsByClassName('ql-editor')[0];
+
+            quill.on('text-change', function() {
+                $wire.set('teamDescription', editorContainer.innerHTML);
+            });
+            "  class="h-48 overflow-y-auto">
+        </div>
+            
         <div>
             @error("teamDescription")
                 <span class="error text-red-700">{{ $message }}</span>
@@ -119,7 +138,7 @@ new class extends Component {
                 Создать команду
             </x-button>
         </div>
-        @else
-            <button class="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded" wire:click="handleTeamChange">Сохранить</button> 
+    @else
+        <button class="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded" wire:click="handleTeamChange">Сохранить</button> 
     @endif
 </form>

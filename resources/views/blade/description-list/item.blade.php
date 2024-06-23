@@ -9,10 +9,10 @@
                 href="{{ $link }}"
                 wire:navigate
             >
-                {{ $description }}
+                {!! $description !!}
             </a>
         @else
-            {{ $description }}
+            {!! $description !!}
         @endif
     </dd>
 </div>
